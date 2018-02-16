@@ -1,0 +1,131 @@
+<DOCTYPE <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Anime Watch List</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+</head>
+<body>
+  <div class="container">
+    <h3>Add Show</h3>
+    <div class="input-field row">
+      <input placeholder="Show Name" id="show-name" type="text" class="validate">
+      <label for="show-name">Show Name</label>
+    </div>
+    <div class="input-field row">
+      <input placeholder="Total Episodes" id="total-episodes" type="text" class="validate">
+      <label for="total-episodes">Total Episodes</label>
+    </div>
+    <div class="input-field row browser-default">
+      <select>
+        <option value="" disabled selected>Month</option>
+        <option value="1">January</option>
+        <option value="2">February</option>
+        <option value="3">March</option>
+        <option value="4">April</option>
+        <option value="5">May</option>
+        <option value="6">June</option>
+        <option value="7">July</option>
+        <option value="8">August</option>
+        <option value="9">September</option>
+        <option value="10">October</option>
+        <option value="11">November</option>
+        <option value="12">December</option>
+      </select>
+      <label>Month of Air Date</label>
+    </div>
+    <div class="input-field row">
+      <input placeholder="Day" id="day" type="text" class="validate">
+      <label for="day">Day of Air Date</label>
+    </div>
+    <div class="input-field row">
+        <input placeholder="Time" id="Time" type="text" class="validate">
+        <label for="Time">Time of Air Date</label>
+    </div>
+    <button class="btn" type="submit">Submit</button>
+  </div>
+
+  <div class="grid-container">
+    <div class="monday">
+      <h4>Monday</h4>
+      <div id="monday" class="card">
+
+      </div>
+    </div>
+    <div class="tuesday">
+      <h4>Tuesday</h4>
+    </div>
+    <div class="wednesday">
+      <h4>Wednesday</h4>
+    </div>
+    <div class="thursday">
+      <h4>Thursday</h4>
+    </div>
+    <div class="friday">
+      <h4>Friday</h4>
+    </div>
+    <div class="saturday">
+      <h4>Saturday</h4>
+    </div>
+    <div class="sunday">
+      <h4>Sunday</h4>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+  <script src="main.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.10.0/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase-firestore.js"></script>
+  <script>
+    const currentDate = new Date();
+
+    var config = {
+      apiKey: "AIzaSyBZ2Se4cy0I0DSlcWBoj2FrB3DCxkmSHYo",
+      authDomain: "animewatchlist-3d4f5.firebaseapp.com",
+      databaseURL: "https://animewatchlist-3d4f5.firebaseio.com",
+      projectId: "animewatchlist-3d4f5",
+      storageBucket: "animewatchlist-3d4f5.appspot.com",
+      messagingSenderId: "63655969703"
+    };
+    firebase.initializeApp(config);
+    var db = firebase.firestore();
+
+    const monday = document.getElementById("monday");
+    var show;
+    db.collection("Monday").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            console.log(`${doc.id} => ${doc.data()}`);
+            show = doc.data();
+            var div = document.createElement("div");
+            var h5 = document.createElement("h5");
+            var h6 = document.createElement("h6");
+            var title = document.createTextNode(show.Title);
+            var episodes = document.createTextNode("Total episodes: " + show.Episodes);
+
+            var dateString = show.Month + " " + show.Day + ", " + show.Year + " " + show.Time;
+            var episodesOut = getNumberOfEpisodesOut(dateString, currentDate);
+
+            var h62 = document.createElement("h6");
+            var episodesText = document.createTextNode("Episodes out: " + episodesOut);
+
+            h62.appendChild(episodesText);
+            h5.appendChild(title);
+            h6.appendChild(episodes);
+            div.appendChild(h5);
+            div.appendChild(h6);
+            div.appendChild(h62);
+            monday.appendChild(div);
+        });
+    });
+
+    function getNumberOfEpisodesOut(airDateString, currentDate) {
+      const airDate = new Date(airDateString);
+      return Math.floor((currentDate.getTime() - airDate.getTime()) / 604800000) + 1;
+    }
+  </script>
+</body>
+</html>
