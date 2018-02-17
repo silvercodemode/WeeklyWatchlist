@@ -20,7 +20,7 @@
       <label for="total-episodes">Total Episodes</label>
     </div>
     <div class="input-field row browser-default">
-      <select>
+      <select id="month-select">
         <option value="" disabled selected>Month</option>
         <option value="1">January</option>
         <option value="2">February</option>
@@ -37,41 +37,62 @@
       </select>
       <label>Month of Air Date</label>
     </div>
+    <div class="input-field row browser-default">
+      <select id="weekday-select">
+        <option value="" disabled selected>Day of Week</option>
+        <option value="1">Monday</option>
+        <option value="2">Tuesday</option>
+        <option value="3">Wednesday</option>
+        <option value="4">Thursday</option>
+        <option value="5">Friday</option>
+        <option value="6">Saturday</option>
+        <option value="7">Sunday</option>
+      </select>
+      <label>Day of Week</label>
+    </div>
     <div class="input-field row">
       <input placeholder="Day" id="day" type="text" class="validate">
       <label for="day">Day of Air Date</label>
     </div>
     <div class="input-field row">
-        <input placeholder="Time" id="Time" type="text" class="validate">
-        <label for="Time">Time of Air Date</label>
+        <input placeholder="Time" id="time" type="text" class="validate">
+        <label for="time">Time of Air Date</label>
     </div>
-    <button class="btn" type="submit">Submit</button>
+    <div class="input-field row">
+      <input placeholder="Year" id="year" type="text" class="validate">
+      <label for="year">Year of Air Date</label>
+  </div>
+    <button class="btn" onclick="submitNewShow()">Submit</button>
   </div>
 
   <div class="grid-container">
     <div class="monday">
       <h4>Monday</h4>
-      <div id="monday" class="card">
-
-      </div>
+      <div id="monday" class="card"></div>
     </div>
     <div class="tuesday">
       <h4>Tuesday</h4>
+      <div id="tuesday" class="card"></div>
     </div>
     <div class="wednesday">
       <h4>Wednesday</h4>
+      <div id="wednesday" class="card"></div>
     </div>
     <div class="thursday">
       <h4>Thursday</h4>
+      <div id="thursday" class="card"></div>
     </div>
     <div class="friday">
       <h4>Friday</h4>
+      <div id="friday" class="card"></div>
     </div>
     <div class="saturday">
       <h4>Saturday</h4>
+      <div id="saturday" class="card"></div>
     </div>
     <div class="sunday">
       <h4>Sunday</h4>
+      <div id="sunday" class="card"></div>
     </div>
   </div>
 
@@ -95,11 +116,28 @@
     var db = firebase.firestore();
 
     const monday = document.getElementById("monday");
-    var show;
+    const tuesday = document.getElementById("tuesday");
+    const wednesday = document.getElementById("wednesday");
+    const thursday = document.getElementById("thursday");
+    const friday = document.getElementById("friday");
+    const saturday = document.getElementById("saturday");
+    const sunday = document.getElementById("sunday");
+
+    const weekdays =
+    [[monday, "Monday"],
+    [tuesday, "Tuesday"],
+    [wednesday, "Wednesday"],
+    [thursday, "Thursday"],
+    [friday, "Friday"],
+    [saturday, "Saturday"],
+    [sunday, "Sunday"]];
+    
+    weekdays.forEach(day => getShowsForDayAndShow(day[0], day[1]));
+    /*
     db.collection("Monday").get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             console.log(`${doc.id} => ${doc.data()}`);
-            show = doc.data();
+            var show = doc.data();
             var div = document.createElement("div");
             var h5 = document.createElement("h5");
             var h6 = document.createElement("h6");
@@ -121,10 +159,105 @@
             monday.appendChild(div);
         });
     });
+    */
 
     function getNumberOfEpisodesOut(airDateString, currentDate) {
       const airDate = new Date(airDateString);
       return Math.floor((currentDate.getTime() - airDate.getTime()) / 604800000) + 1;
+    }
+
+    function submitNewShow() {
+      alert("submitted");
+      const nameElement = document.getElementById("show-name");
+      const totalEpisodesElement = document.getElementById("total-episodes");
+      const monthSelectElement = document.getElementById("month-select");
+      const weekdaySelectElement = document.getElementById("weekday-select");
+      const dayElement = document.getElementById("day");
+      const timeElement = document.getElementById("time");
+      const yearElement = document.getElementById("year");
+
+      const name = nameElement.value;
+      const totalEpisodes = totalEpisodesElement.value;
+      const month = monthSelectElement.options[monthSelectElement.selectedIndex].value;
+      const weekday = weekdaySelectElement.options[weekdaySelectElement.selectedIndex].value;
+      console.log("weekday is: " + weekday);
+      const day = dayElement.value;
+      const time = timeElement.value;
+      const year = yearElement.value;
+      
+      const newShowObject = {
+        Title: name,
+        Episodes: totalEpisodes,
+        Month: month,
+        Weekday: weekday,
+        Day: day,
+        Time: time,
+        Year: year
+      };
+
+      switch (weekday) {
+        case "1":
+          storeShowInFirestore(newShowObject, "Monday");
+          break;
+        case "2":
+          storeShowInFirestore(newShowObject, "Tuesday");
+          break;
+        case "3":
+          storeShowInFirestore(newShowObject, "Wednesday");
+          break;
+        case "4":
+          storeShowInFirestore(newShowObject, "Thursday");
+          break;
+        case "5":
+          storeShowInFirestore(newShowObject, "Friday");
+          break;
+        case "6":
+          storeShowInFirestore(newShowObject, "Saturday");
+          break;
+        case "7":
+          storeShowInFirestore(newShowObject, "Sunday");
+      }
+
+      window.location.reload();
+    }
+
+    function storeShowInFirestore(showObject, weekday) {
+      console.log("in firestore func weekday is: " + weekday);
+      db.collection(weekday).doc(showObject.Title).set(showObject)
+      .then(function() {
+          console.log("Document successfully written!");
+      })
+      .catch(function(error) {
+          console.error("Error writing document: ", error);
+      });
+    }
+
+    function getShowsForDayAndShow(element, weekday) {
+      db.collection(weekday).get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            console.log(`${doc.id} => ${doc.data()}`);
+            var show = doc.data();
+            var div = document.createElement("div");
+            var h5 = document.createElement("h5");
+            var h6 = document.createElement("h6");
+            var title = document.createTextNode(show.Title);
+            var episodes = document.createTextNode("Total episodes: " + show.Episodes);
+
+            var dateString = show.Month + " " + show.Day + ", " + show.Year + " " + show.Time;
+            var episodesOut = getNumberOfEpisodesOut(dateString, currentDate);
+
+            var h62 = document.createElement("h6");
+            var episodesText = document.createTextNode("Episodes out: " + episodesOut);
+
+            h62.appendChild(episodesText);
+            h5.appendChild(title);
+            h6.appendChild(episodes);
+            div.appendChild(h5);
+            div.appendChild(h6);
+            div.appendChild(h62);
+            element.appendChild(div);
+        });
+      });
     }
   </script>
 </body>
