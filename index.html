@@ -104,7 +104,7 @@
   <script>
     const currentDate = new Date();
 
-    var config = {
+    let config = {
       apiKey: "AIzaSyBZ2Se4cy0I0DSlcWBoj2FrB3DCxkmSHYo",
       authDomain: "animewatchlist-3d4f5.firebaseapp.com",
       databaseURL: "https://animewatchlist-3d4f5.firebaseio.com",
@@ -113,7 +113,7 @@
       messagingSenderId: "63655969703"
     };
     firebase.initializeApp(config);
-    var db = firebase.firestore();
+    let db = firebase.firestore();
 
     const monday = document.getElementById("monday");
     const tuesday = document.getElementById("tuesday");
@@ -133,33 +133,6 @@
     [sunday, "Sunday"]];
     
     weekdays.forEach(day => getShowsForDayAndShow(day[0], day[1]));
-    /*
-    db.collection("Monday").get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            console.log(`${doc.id} => ${doc.data()}`);
-            var show = doc.data();
-            var div = document.createElement("div");
-            var h5 = document.createElement("h5");
-            var h6 = document.createElement("h6");
-            var title = document.createTextNode(show.Title);
-            var episodes = document.createTextNode("Total episodes: " + show.Episodes);
-
-            var dateString = show.Month + " " + show.Day + ", " + show.Year + " " + show.Time;
-            var episodesOut = getNumberOfEpisodesOut(dateString, currentDate);
-
-            var h62 = document.createElement("h6");
-            var episodesText = document.createTextNode("Episodes out: " + episodesOut);
-
-            h62.appendChild(episodesText);
-            h5.appendChild(title);
-            h6.appendChild(episodes);
-            div.appendChild(h5);
-            div.appendChild(h6);
-            div.appendChild(h62);
-            monday.appendChild(div);
-        });
-    });
-    */
 
     function getNumberOfEpisodesOut(airDateString, currentDate) {
       const airDate = new Date(airDateString);
@@ -236,28 +209,51 @@
       db.collection(weekday).get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             console.log(`${doc.id} => ${doc.data()}`);
-            var show = doc.data();
-            var div = document.createElement("div");
-            var h5 = document.createElement("h5");
-            var h6 = document.createElement("h6");
-            var title = document.createTextNode(show.Title);
-            var episodes = document.createTextNode("Total episodes: " + show.Episodes);
+            let show = doc.data();
+            let div = document.createElement("div");
+            let h5 = document.createElement("h5");
+            let h6 = document.createElement("h6");
+            let title = document.createTextNode(show.Title);
+            let episodes = document.createTextNode("Total episodes: " + show.Episodes);
 
-            var dateString = show.Month + " " + show.Day + ", " + show.Year + " " + show.Time;
-            var episodesOut = getNumberOfEpisodesOut(dateString, currentDate);
+            let dateString = show.Month + " " + show.Day + ", " + show.Year + " " + show.Time;
+            let episodesOut = getNumberOfEpisodesOut(dateString, currentDate);
 
-            var h62 = document.createElement("h6");
-            var episodesText = document.createTextNode("Episodes out: " + episodesOut);
+            let h62 = document.createElement("h6");
+            let episodesText = document.createTextNode("Episodes out: " + episodesOut);
 
             h62.appendChild(episodesText);
             h5.appendChild(title);
             h6.appendChild(episodes);
+
             div.appendChild(h5);
             div.appendChild(h6);
             div.appendChild(h62);
+
+            let removeButton = document.createElement("button");
+            removeButton.classList.add("btn");
+            removeButton.classList.add("red");
+            removeButton.innerHTML = "Remove";
+            removeButton.addEventListener("click", () => {
+              db.collection(weekday).doc(show.Title).delete().then(function() {
+                alert(weekday + " " + show.Title + " deleted");
+              }).catch(function(error) {
+                alert(error);
+              });
+              window.location.reload();
+            });
+
+            div.appendChild(removeButton);
+            //div.classList.add("card");
+            div.classList.add("showBox");
+
             element.appendChild(div);
         });
       });
+    }
+
+    function removeShow() {
+
     }
   </script>
 </body>

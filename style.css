@@ -4,3 +4,7 @@
   justify-content: space-evenly;
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
+
+.showBox {
+  padding: 5% 5% 5% 5%; 
+}
