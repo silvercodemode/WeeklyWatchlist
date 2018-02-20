@@ -9,61 +9,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
 </head>
 <body>
-  <div class="container">
-    <h3>Add Show</h3>
-    <div class="input-field row">
-      <input placeholder="Show Name" id="show-name" type="text" class="validate">
-      <label for="show-name">Show Name</label>
-    </div>
-    <div class="input-field row">
-      <input placeholder="Total Episodes" id="total-episodes" type="text" class="validate">
-      <label for="total-episodes">Total Episodes</label>
-    </div>
-    <div class="input-field row browser-default">
-      <select id="month-select">
-        <option value="" disabled selected>Month</option>
-        <option value="1">January</option>
-        <option value="2">February</option>
-        <option value="3">March</option>
-        <option value="4">April</option>
-        <option value="5">May</option>
-        <option value="6">June</option>
-        <option value="7">July</option>
-        <option value="8">August</option>
-        <option value="9">September</option>
-        <option value="10">October</option>
-        <option value="11">November</option>
-        <option value="12">December</option>
-      </select>
-      <label>Month of Air Date</label>
-    </div>
-    <div class="input-field row browser-default">
-      <select id="weekday-select">
-        <option value="" disabled selected>Day of Week</option>
-        <option value="1">Monday</option>
-        <option value="2">Tuesday</option>
-        <option value="3">Wednesday</option>
-        <option value="4">Thursday</option>
-        <option value="5">Friday</option>
-        <option value="6">Saturday</option>
-        <option value="7">Sunday</option>
-      </select>
-      <label>Day of Week</label>
-    </div>
-    <div class="input-field row">
-      <input placeholder="Day" id="day" type="text" class="validate">
-      <label for="day">Day of Air Date</label>
-    </div>
-    <div class="input-field row">
-        <input placeholder="Time" id="time" type="text" class="validate">
-        <label for="time">Time of Air Date</label>
-    </div>
-    <div class="input-field row">
-      <input placeholder="Year" id="year" type="text" class="validate">
-      <label for="year">Year of Air Date</label>
-  </div>
-    <button class="btn" onclick="submitNewShow()">Submit</button>
-  </div>
 
   <div class="grid-container">
     <div class="monday">
@@ -93,6 +38,68 @@
     <div class="sunday">
       <h4>Sunday</h4>
       <div id="sunday" class="card"></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col s4"></div>
+      <div class="col s4">
+        <h4 id="add-show">Add Show</h4>
+        <div class="input-field row">
+          <input placeholder="Show Name" id="show-name" type="text" class="validate">
+          <label for="show-name">Show Name</label>
+        </div>
+        <div class="input-field row">
+          <input placeholder="Total Episodes" id="total-episodes" type="text" class="validate">
+          <label for="total-episodes">Total Episodes</label>
+        </div>
+        <div class="input-field row browser-default">
+          <select id="month-select">
+            <option value="" disabled selected>Month</option>
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+          <label>Month of Air Date</label>
+        </div>
+        <div class="input-field row browser-default">
+          <select id="weekday-select">
+            <option value="" disabled selected>Day of Week</option>
+            <option value="1">Monday</option>
+            <option value="2">Tuesday</option>
+            <option value="3">Wednesday</option>
+            <option value="4">Thursday</option>
+            <option value="5">Friday</option>
+            <option value="6">Saturday</option>
+            <option value="7">Sunday</option>
+          </select>
+          <label>Day of Week</label>
+        </div>
+        <div class="input-field row">
+          <input placeholder="Day" id="day" type="text" class="validate">
+          <label for="day">Day of Air Date</label>
+        </div>
+        <div class="input-field row">
+            <input placeholder="Time" id="time" type="text" class="validate">
+            <label for="time">Time of Air Date</label>
+        </div>
+        <div class="input-field row">
+          <input placeholder="Year" id="year" type="text" class="validate">
+          <label for="year">Year of Air Date</label>
+        </div>
+        <button class="btn" onclick="submitNewShow()">Submit</button>
+      </div>
+      <div class="col s4"></div>
     </div>
   </div>
 
@@ -160,6 +167,7 @@
       
       const newShowObject = {
         Title: name,
+        EpisodesWatched: 0,
         Episodes: totalEpisodes,
         Month: month,
         Weekday: weekday,
@@ -211,24 +219,54 @@
             console.log(`${doc.id} => ${doc.data()}`);
             let show = doc.data();
             let div = document.createElement("div");
-            let h5 = document.createElement("h5");
-            let h6 = document.createElement("h6");
-            let title = document.createTextNode(show.Title);
-            let episodes = document.createTextNode("Total episodes: " + show.Episodes);
 
+            let titleElement = document.createElement("h5");
+            let title = document.createTextNode(show.Title);
+            titleElement.appendChild(title);
+
+            let totalEpisodesElement = document.createElement("h6");
+            let episodes = document.createTextNode("Total episodes: " + show.Episodes);
+            totalEpisodesElement.appendChild(episodes);
+
+            let availableEpisodesElement = document.createElement("h6");
             let dateString = show.Month + " " + show.Day + ", " + show.Year + " " + show.Time;
             let episodesOut = getNumberOfEpisodesOut(dateString, currentDate);
-
-            let h62 = document.createElement("h6");
             let episodesText = document.createTextNode("Episodes out: " + episodesOut);
+            availableEpisodesElement.appendChild(episodesText);
 
-            h62.appendChild(episodesText);
-            h5.appendChild(title);
-            h6.appendChild(episodes);
-
-            div.appendChild(h5);
-            div.appendChild(h6);
-            div.appendChild(h62);
+            let watchedEpisodesElement = document.createElement("h6");
+            let watchedEpisodesText = document.createTextNode("Episodes watched: " + show.EpisodesWatched);
+            let addEpisodeButton = document.createElement("button");
+            addEpisodeButton.innerHTML = "+";
+            addEpisodeButton.addEventListener("click", () => {
+              db.collection(weekday).doc(show.Title).update({
+                EpisodesWatched: show.EpisodesWatched + 1
+              })
+              .then(function() {
+                  console.log("Document successfully updated!");
+                  window.location.reload();
+              })
+              .catch(function(error) {
+                  console.error("Error updating document: ", error);
+              });
+            });
+            let subtractEpisodeButton = document.createElement("button");
+            subtractEpisodeButton.innerHTML = "-";
+            subtractEpisodeButton.addEventListener("click", () => {
+              db.collection(weekday).doc(show.Title).update({
+                EpisodesWatched: show.EpisodesWatched - 1
+              })
+              .then(function() {
+                  console.log("Document successfully updated!");
+                  window.location.reload();
+              })
+              .catch(function(error) {
+                  console.error("Error updating document: ", error);
+              });
+            });
+            watchedEpisodesElement.appendChild(watchedEpisodesText);
+            watchedEpisodesElement.appendChild(addEpisodeButton);
+            watchedEpisodesElement.appendChild(subtractEpisodeButton);
 
             let removeButton = document.createElement("button");
             removeButton.classList.add("btn");
@@ -236,14 +274,19 @@
             removeButton.innerHTML = "Remove";
             removeButton.addEventListener("click", () => {
               db.collection(weekday).doc(show.Title).delete().then(function() {
-                alert(weekday + " " + show.Title + " deleted");
+                alert(show.Title + " deleted");
+                window.location.reload();
               }).catch(function(error) {
                 alert(error);
               });
-              window.location.reload();
             });
 
+            div.appendChild(titleElement);
+            div.appendChild(totalEpisodesElement);
+            div.appendChild(availableEpisodesElement);
+            div.appendChild(watchedEpisodesElement);
             div.appendChild(removeButton);
+
             //div.classList.add("card");
             div.classList.add("showBox");
 
