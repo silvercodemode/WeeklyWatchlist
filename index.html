@@ -141,9 +141,13 @@
     
     weekdays.forEach(day => getShowsForDayAndShow(day[0], day[1]));
 
-    function getNumberOfEpisodesOut(airDateString, currentDate) {
+    function getNumberOfEpisodesOut(airDateString, currentDate, totalEpisodes) {
       const airDate = new Date(airDateString);
-      return Math.floor((currentDate.getTime() - airDate.getTime()) / 604800000) + 1;
+      let episodes = Math.floor((currentDate.getTime() - airDate.getTime()) / 604800000) + 1;
+      if (episodes < totalEpisodes) {
+        return episodes;
+      }
+      return totalEpisodes;
     }
 
     function submitNewShow() {
@@ -230,7 +234,7 @@
 
             let availableEpisodesElement = document.createElement("h6");
             let dateString = show.Month + " " + show.Day + ", " + show.Year + " " + show.Time;
-            let episodesOut = getNumberOfEpisodesOut(dateString, currentDate);
+            let episodesOut = getNumberOfEpisodesOut(dateString, currentDate, show.Episodes);
             let episodesText = document.createTextNode("Episodes out: " + episodesOut);
             availableEpisodesElement.appendChild(episodesText);
 
