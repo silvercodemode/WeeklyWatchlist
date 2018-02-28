@@ -13,31 +13,31 @@
   <div class="grid-container">
     <div class="monday">
       <h4>Monday</h4>
-      <div id="monday" class="card"></div>
+      <div id="monday"></div>
     </div>
     <div class="tuesday">
       <h4>Tuesday</h4>
-      <div id="tuesday" class="card"></div>
+      <div id="tuesday"></div>
     </div>
     <div class="wednesday">
       <h4>Wednesday</h4>
-      <div id="wednesday" class="card"></div>
+      <div id="wednesday"></div>
     </div>
     <div class="thursday">
       <h4>Thursday</h4>
-      <div id="thursday" class="card"></div>
+      <div id="thursday"></div>
     </div>
     <div class="friday">
       <h4>Friday</h4>
-      <div id="friday" class="card"></div>
+      <div id="friday"></div>
     </div>
     <div class="saturday">
       <h4>Saturday</h4>
-      <div id="saturday" class="card"></div>
+      <div id="saturday"></div>
     </div>
     <div class="sunday">
       <h4>Sunday</h4>
-      <div id="sunday" class="card"></div>
+      <div id="sunday"></div>
     </div>
   </div>
 
@@ -161,13 +161,19 @@
       const yearElement = document.getElementById("year");
 
       const name = nameElement.value;
+      nameElement.value = "";
       const totalEpisodes = totalEpisodesElement.value;
+      totalEpisodesElement.value = "";
       const month = monthSelectElement.options[monthSelectElement.selectedIndex].value;
+      //monthSelectElement.value = "";
       const weekday = weekdaySelectElement.options[weekdaySelectElement.selectedIndex].value;
-      console.log("weekday is: " + weekday);
+      //weekdayElement.value = "";
       const day = dayElement.value;
+      dayElement.value = "";
       const time = timeElement.value;
+      timeElement.value = "";
       const year = yearElement.value;
+      yearElement.value = "";
       
       const newShowObject = {
         Title: name,
@@ -183,27 +189,35 @@
       switch (weekday) {
         case "1":
           storeShowInFirestore(newShowObject, "Monday");
+          clearElement(monday);
+          getShowsForDayAndShow(monday, "Monday");
           break;
         case "2":
           storeShowInFirestore(newShowObject, "Tuesday");
+          getShowsForDayAndShow(tuesday, "Tuesday");
           break;
         case "3":
           storeShowInFirestore(newShowObject, "Wednesday");
+          getShowsForDayAndShow(wednesday, "Wednesday");
           break;
         case "4":
           storeShowInFirestore(newShowObject, "Thursday");
+          getShowsForDayAndShow(thursday, "Thursday");
           break;
         case "5":
           storeShowInFirestore(newShowObject, "Friday");
+          getShowsForDayAndShow(friday, "Friday");
           break;
         case "6":
           storeShowInFirestore(newShowObject, "Saturday");
+          getShowsForDayAndShow(saturday, "Saturday");
           break;
         case "7":
           storeShowInFirestore(newShowObject, "Sunday");
+          getShowsForDayAndShow(sunday, "Sunday");
       }
 
-      window.location.reload();
+      //window.location.reload();
     }
 
     function storeShowInFirestore(showObject, weekday) {
@@ -223,23 +237,33 @@
             console.log(`${doc.id} => ${doc.data()}`);
             let show = doc.data();
             let div = document.createElement("div");
+            div.classList.add("container");
 
             let titleElement = document.createElement("h5");
             let title = document.createTextNode(show.Title);
             titleElement.appendChild(title);
+            titleElement.classList.add("row");
 
             let totalEpisodesElement = document.createElement("h6");
             let episodes = document.createTextNode("Total episodes: " + show.Episodes);
             totalEpisodesElement.appendChild(episodes);
+            totalEpisodesElement.classList.add("row");
 
             let availableEpisodesElement = document.createElement("h6");
             let dateString = show.Month + " " + show.Day + ", " + show.Year + " " + show.Time;
             let episodesOut = getNumberOfEpisodesOut(dateString, currentDate, show.Episodes);
             let episodesText = document.createTextNode("Episodes out: " + episodesOut);
             availableEpisodesElement.appendChild(episodesText);
+            availableEpisodesElement.classList.add("row");
 
             let watchedEpisodesElement = document.createElement("h6");
             let watchedEpisodesText = document.createTextNode("Episodes watched: " + show.EpisodesWatched);
+            watchedEpisodesElement.appendChild(watchedEpisodesText);
+            watchedEpisodesElement.classList.add("row");
+
+            let buttonContainer = document.createElement("div");
+            buttonContainer.classList.add("row");
+
             let addEpisodeButton = document.createElement("button");
             addEpisodeButton.innerHTML = "+";
             addEpisodeButton.addEventListener("click", () => {
@@ -247,13 +271,15 @@
                 EpisodesWatched: show.EpisodesWatched + 1
               })
               .then(function() {
-                  console.log("Document successfully updated!");
-                  window.location.reload();
+                clearElement(element);
+                getShowsForDayAndShow(element, weekday);
               })
               .catch(function(error) {
-                  console.error("Error updating document: ", error);
+                console.error("Error updating document: ", error);
               });
             });
+            addEpisodeButton.classList.add("col");
+
             let subtractEpisodeButton = document.createElement("button");
             subtractEpisodeButton.innerHTML = "-";
             subtractEpisodeButton.addEventListener("click", () => {
@@ -261,25 +287,29 @@
                 EpisodesWatched: show.EpisodesWatched - 1
               })
               .then(function() {
-                  console.log("Document successfully updated!");
-                  window.location.reload();
+                clearElement(element);
+                getShowsForDayAndShow(element, weekday);
               })
               .catch(function(error) {
-                  console.error("Error updating document: ", error);
+                console.error("Error updating document: ", error);
               });
             });
-            watchedEpisodesElement.appendChild(watchedEpisodesText);
-            watchedEpisodesElement.appendChild(addEpisodeButton);
-            watchedEpisodesElement.appendChild(subtractEpisodeButton);
+            subtractEpisodeButton.classList.add("col");
+
+            buttonContainer.appendChild(addEpisodeButton);
+            buttonContainer.appendChild(subtractEpisodeButton);
 
             let removeButton = document.createElement("button");
             removeButton.classList.add("btn");
             removeButton.classList.add("red");
+            removeButton.classList.add("row");
             removeButton.innerHTML = "Remove";
             removeButton.addEventListener("click", () => {
               db.collection(weekday).doc(show.Title).delete().then(function() {
-                alert(show.Title + " deleted");
-                window.location.reload();
+                //alert(show.Title + " deleted");
+                reloadDay = document.getElementById(weekday.toLowerCase());
+                clearElement(reloadDay);
+                getShowsForDayAndShow(reloadDay, weekday);
               }).catch(function(error) {
                 alert(error);
               });
@@ -289,9 +319,10 @@
             div.appendChild(totalEpisodesElement);
             div.appendChild(availableEpisodesElement);
             div.appendChild(watchedEpisodesElement);
+            div.appendChild(buttonContainer);
             div.appendChild(removeButton);
 
-            //div.classList.add("card");
+            div.classList.add("card");
             div.classList.add("showBox");
 
             element.appendChild(div);
@@ -299,8 +330,10 @@
       });
     }
 
-    function removeShow() {
-
+    function clearElement(element) {
+      while (element.firstChild) {
+        element.removeChild(element.firstChild);
+      }
     }
   </script>
 </body>
