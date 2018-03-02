@@ -5,10 +5,21 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Anime Watch List</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+  <link rel="icon" type="image/png" href="list.png" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
 </head>
 <body>
+
+  <nav>
+    <div class="nav-wrapper light-green darken-4">
+      <a href="#" class="brand-logo header">Watchlist</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="">Sign Up</a></li>
+        <li><a href="">Profile</a></li>
+      </ul>
+    </div>
+  </nav>
 
   <div class="grid-container">
     <div class="monday">
@@ -245,24 +256,25 @@
             titleElement.classList.add("row");
 
             let totalEpisodesElement = document.createElement("h6");
-            let episodes = document.createTextNode("Total episodes: " + show.Episodes);
+            let episodes = document.createTextNode("Episodes: " + show.Episodes);
             totalEpisodesElement.appendChild(episodes);
             totalEpisodesElement.classList.add("row");
 
             let availableEpisodesElement = document.createElement("h6");
             let dateString = show.Month + " " + show.Day + ", " + show.Year + " " + show.Time;
             let episodesOut = getNumberOfEpisodesOut(dateString, currentDate, show.Episodes);
-            let episodesText = document.createTextNode("Episodes out: " + episodesOut);
+            let episodesText = document.createTextNode("Released: " + episodesOut);
             availableEpisodesElement.appendChild(episodesText);
             availableEpisodesElement.classList.add("row");
 
             let watchedEpisodesElement = document.createElement("h6");
-            let watchedEpisodesText = document.createTextNode("Episodes watched: " + show.EpisodesWatched);
+            let watchedEpisodesText = document.createTextNode("Watched: " + show.EpisodesWatched);
             watchedEpisodesElement.appendChild(watchedEpisodesText);
             watchedEpisodesElement.classList.add("row");
 
             let buttonContainer = document.createElement("div");
             buttonContainer.classList.add("row");
+            buttonContainer.classList.add("center-align");
 
             let addEpisodeButton = document.createElement("button");
             addEpisodeButton.innerHTML = "+";
@@ -279,6 +291,7 @@
               });
             });
             addEpisodeButton.classList.add("col");
+            addEpisodeButton.classList.add("center-align");
 
             let subtractEpisodeButton = document.createElement("button");
             subtractEpisodeButton.innerHTML = "-";
@@ -295,6 +308,7 @@
               });
             });
             subtractEpisodeButton.classList.add("col");
+            subtractEpisodeButton.classList.add("center-align");
 
             buttonContainer.appendChild(addEpisodeButton);
             buttonContainer.appendChild(subtractEpisodeButton);

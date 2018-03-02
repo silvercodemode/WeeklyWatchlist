@@ -1,6 +1,6 @@
 .grid-container {
   display: grid;
-  grid-template-columns: auto auto auto auto auto auto auto;
+  grid-template-columns: 13% 13% 13% 13% 13% 13% 13%;
   justify-content: space-evenly;
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
@@ -11,4 +11,19 @@
 
 #add-show {
   text-align: center;
+}
+
+h5 {
+  font-size: 18px;
+  text-align: center;
+}
+
+h6 {
+  font-size: 14px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.header {
+  margin-left: 10px;
 }
