@@ -1,29 +1,58 @@
-.grid-container {
-  display: grid;
-  grid-template-columns: 13% 13% 13% 13% 13% 13% 13%;
-  justify-content: space-evenly;
+body {
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
-.showBox {
-  padding: 5% 5% 5% 5%; 
+.watchlist-grid-container {
+  display: grid;
+  grid-template-columns: minmax(100px, 13%) minmax(100px, 13%) minmax(100px, 13%) minmax(100px, 13%) minmax(100px, 13%) minmax(100px, 13%) minmax(100px, 13%);
+  justify-content: space-evenly;
 }
 
-#add-show {
-  text-align: center;
+.watchlist-grid-item {
+  justify-self: center;
 }
 
-h5 {
-  font-size: 18px;
-  text-align: center;
+.add-show-outer {
+  display: grid;
+  grid-template-columns: 1fr minmax(30%, 100px) 1fr;
+  justify-self: center;
+  grid-row-gap: .75em;
 }
 
-h6 {
-  font-size: 14px;
-  padding-left: 5px;
-  padding-right: 5px;
+.add-show-outer h4 {
+  margin-bottom: 0;
 }
 
-.header {
-  margin-left: 10px;
+#submit-button-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.add-show-inner {
+  display: grid;
+  grid-template-columns: minmax(110px, 50%) minmax(110px, 50%);
+  grid-column-gap: 10%;
+  grid-row-gap: .5em;
+  justify-content: space-between;
+  justify-self: center;
+  font-size: .8em;
+}
+
+.add-show-inner input {
+  width: 100%;
+}
+
+.add-show-inner select {
+  width: 100%;
+}
+
+.add-show-item {
+  justify-self: center;
+}
+
+.show-element {
+  display: grid;
+  grid-row-gap: .1em;
+  border: solid black .05em;
+  padding: .5em;
 }

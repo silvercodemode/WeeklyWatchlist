@@ -6,349 +6,136 @@
   <title>Anime Watch List</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/png" href="list.png" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
   <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
 </head>
 <body>
 
   <nav>
-    <div class="nav-wrapper light-green darken-4">
-      <a href="#" class="brand-logo header">Watchlist</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
+    <div class="">
+      <a href="#" class="">Watchlist</a>
+      <ul id="" class="">
         <li><a href="">Sign Up</a></li>
         <li><a href="">Profile</a></li>
       </ul>
     </div>
   </nav>
 
-  <div class="grid-container">
-    <div class="monday">
+  <div class="watchlist-grid-container">
+    <div class="watchlist-grid-item">
       <h4>Monday</h4>
-      <div id="monday"></div>
+      <div id="Monday"></div>
     </div>
-    <div class="tuesday">
+    <div class="watchlist-grid-item">
       <h4>Tuesday</h4>
-      <div id="tuesday"></div>
+      <div id="Tuesday"></div>
     </div>
-    <div class="wednesday">
+    <div class="watchlist-grid-item">
       <h4>Wednesday</h4>
-      <div id="wednesday"></div>
+      <div id="Wednesday"></div>
     </div>
-    <div class="thursday">
+    <div class="watchlist-grid-item">
       <h4>Thursday</h4>
-      <div id="thursday"></div>
+      <div id="Thursday"></div>
     </div>
-    <div class="friday">
+    <div class="watchlist-grid-item">
       <h4>Friday</h4>
-      <div id="friday"></div>
+      <div id="Friday"></div>
     </div>
-    <div class="saturday">
+    <div class="watchlist-grid-item">
       <h4>Saturday</h4>
-      <div id="saturday"></div>
+      <div id="Saturday"></div>
     </div>
-    <div class="sunday">
+    <div class="watchlist-grid-item">
       <h4>Sunday</h4>
-      <div id="sunday"></div>
+      <div id="Sunday"></div>
     </div>
   </div>
 
-  <div class="container">
-    <div class="row">
-      <div class="col s4"></div>
-      <div class="col s4">
-        <h4 id="add-show">Add Show</h4>
-        <div class="input-field row">
-          <input placeholder="Show Name" id="show-name" type="text" class="validate">
-          <label for="show-name">Show Name</label>
-        </div>
-        <div class="input-field row">
-          <input placeholder="Total Episodes" id="total-episodes" type="text" class="validate">
-          <label for="total-episodes">Total Episodes</label>
-        </div>
-        <div class="input-field row browser-default">
-          <select id="month-select">
-            <option value="" disabled selected>Month</option>
-            <option value="1">January</option>
-            <option value="2">February</option>
-            <option value="3">March</option>
-            <option value="4">April</option>
-            <option value="5">May</option>
-            <option value="6">June</option>
-            <option value="7">July</option>
-            <option value="8">August</option>
-            <option value="9">September</option>
-            <option value="10">October</option>
-            <option value="11">November</option>
-            <option value="12">December</option>
-          </select>
-          <label>Month of Air Date</label>
-        </div>
-        <div class="input-field row browser-default">
-          <select id="weekday-select">
-            <option value="" disabled selected>Day of Week</option>
-            <option value="1">Monday</option>
-            <option value="2">Tuesday</option>
-            <option value="3">Wednesday</option>
-            <option value="4">Thursday</option>
-            <option value="5">Friday</option>
-            <option value="6">Saturday</option>
-            <option value="7">Sunday</option>
-          </select>
-          <label>Day of Week</label>
-        </div>
-        <div class="input-field row">
-          <input placeholder="Day" id="day" type="text" class="validate">
-          <label for="day">Day of Air Date</label>
-        </div>
-        <div class="input-field row">
-            <input placeholder="Time" id="time" type="text" class="validate">
-            <label for="time">Time of Air Date</label>
-        </div>
-        <div class="input-field row">
-          <input placeholder="Year" id="year" type="text" class="validate">
-          <label for="year">Year of Air Date</label>
-        </div>
-        <button class="btn" onclick="submitNewShow()">Submit</button>
+  <div class="add-show-outer">
+
+    <div id="left-space1"></div>
+    <h4 id="add-show" class="add-show-item">Add Show</h4>
+    <div id="right-space2"></div>
+
+    <div id="left-space2"></div>
+    <div class="add-show-inner">
+      <div>
+        <label for="show-name">Show Name</label>
       </div>
-      <div class="col s4"></div>
+      <div class="">
+        <input placeholder="Show Name" id="show-name" type="text" class="">
+      </div>
+      <div>
+        <label for="total-episodes">Total Episodes</label>
+      </div>
+      <div class="">
+        <input placeholder="Total Episodes" id="total-episodes" type="text" class="">
+      </div>
+      <div>
+        <label>Start Month</label>
+      </div>
+      <div class="">
+        <select id="month-select">
+          <option value="" disabled selected>Month</option>
+          <option value="January">January</option>
+          <option value="February">February</option>
+          <option value="March">March</option>
+          <option value="April">April</option>
+          <option value="May">May</option>
+          <option value="June">June</option>
+          <option value="July">July</option>
+          <option value="August">August</option>
+          <option value="September">September</option>
+          <option value="October">October</option>
+          <option value="November">November</option>
+          <option value="December">December</option>
+        </select>
+      </div>
+      <div>
+        <label>Day of Week</label>
+      </div>
+      <div class="">
+        <select id="weekday-select">
+          <option value="" disabled selected>Day of Week</option>
+          <option value="Monday">Monday</option>
+          <option value="Tuesday">Tuesday</option>
+          <option value="Wednesday">Wednesday</option>
+          <option value="Thursday">Thursday</option>
+          <option value="Friday">Friday</option>
+          <option value="Saturday">Saturday</option>
+          <option value="Sunday">Sunday</option>
+        </select>
+      </div>
+      <div>
+        <label for="day">Day of Air Date</label>
+      </div>
+      <div class="">
+        <input placeholder="Day" id="day" type="text" class="">
+      </div>
+      <div>
+        <label for="time">Time of Air Date</label>
+      </div>
+      <div class="">
+        <input placeholder="Time" id="time" type="text" class="">
+      </div>
+      <div>
+        <label for="year">Year of Air Date</label>    
+      </div>
+      <div class="">
+        <input placeholder="Year" id="year" type="text" class="">
+      </div>
     </div>
+    <div id="right-space2"></div>
+
+    <div id="left-space3"></div>
+    <div id="submit-button-wrapper">
+      <button class="" onclick="submitNewShow()">Submit</button>
+    </div>
+    <div id="right-space3"></div>
   </div>
 
-  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-  <script src="main.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.10.0/firebase.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase-firestore.js"></script>
-  <script>
-    const currentDate = new Date();
-
-    let config = {
-      apiKey: "AIzaSyBZ2Se4cy0I0DSlcWBoj2FrB3DCxkmSHYo",
-      authDomain: "animewatchlist-3d4f5.firebaseapp.com",
-      databaseURL: "https://animewatchlist-3d4f5.firebaseio.com",
-      projectId: "animewatchlist-3d4f5",
-      storageBucket: "animewatchlist-3d4f5.appspot.com",
-      messagingSenderId: "63655969703"
-    };
-    firebase.initializeApp(config);
-    let db = firebase.firestore();
-
-    const monday = document.getElementById("monday");
-    const tuesday = document.getElementById("tuesday");
-    const wednesday = document.getElementById("wednesday");
-    const thursday = document.getElementById("thursday");
-    const friday = document.getElementById("friday");
-    const saturday = document.getElementById("saturday");
-    const sunday = document.getElementById("sunday");
-
-    const weekdays =
-    [[monday, "Monday"],
-    [tuesday, "Tuesday"],
-    [wednesday, "Wednesday"],
-    [thursday, "Thursday"],
-    [friday, "Friday"],
-    [saturday, "Saturday"],
-    [sunday, "Sunday"]];
-    
-    weekdays.forEach(day => getShowsForDayAndShow(day[0], day[1]));
-
-    function getNumberOfEpisodesOut(airDateString, currentDate, totalEpisodes) {
-      const airDate = new Date(airDateString);
-      let episodes = Math.floor((currentDate.getTime() - airDate.getTime()) / 604800000) + 1;
-      if (episodes < totalEpisodes) {
-        return episodes;
-      }
-      return totalEpisodes;
-    }
-
-    function submitNewShow() {
-      alert("submitted");
-      const nameElement = document.getElementById("show-name");
-      const totalEpisodesElement = document.getElementById("total-episodes");
-      const monthSelectElement = document.getElementById("month-select");
-      const weekdaySelectElement = document.getElementById("weekday-select");
-      const dayElement = document.getElementById("day");
-      const timeElement = document.getElementById("time");
-      const yearElement = document.getElementById("year");
-
-      const name = nameElement.value;
-      nameElement.value = "";
-      const totalEpisodes = totalEpisodesElement.value;
-      totalEpisodesElement.value = "";
-      const month = monthSelectElement.options[monthSelectElement.selectedIndex].value;
-      //monthSelectElement.value = "";
-      const weekday = weekdaySelectElement.options[weekdaySelectElement.selectedIndex].value;
-      //weekdayElement.value = "";
-      const day = dayElement.value;
-      dayElement.value = "";
-      const time = timeElement.value;
-      timeElement.value = "";
-      const year = yearElement.value;
-      yearElement.value = "";
-      
-      const newShowObject = {
-        Title: name,
-        EpisodesWatched: 0,
-        Episodes: totalEpisodes,
-        Month: month,
-        Weekday: weekday,
-        Day: day,
-        Time: time,
-        Year: year
-      };
-
-      switch (weekday) {
-        case "1":
-          storeShowInFirestore(newShowObject, "Monday");
-          clearElement(monday);
-          getShowsForDayAndShow(monday, "Monday");
-          break;
-        case "2":
-          storeShowInFirestore(newShowObject, "Tuesday");
-          getShowsForDayAndShow(tuesday, "Tuesday");
-          break;
-        case "3":
-          storeShowInFirestore(newShowObject, "Wednesday");
-          getShowsForDayAndShow(wednesday, "Wednesday");
-          break;
-        case "4":
-          storeShowInFirestore(newShowObject, "Thursday");
-          getShowsForDayAndShow(thursday, "Thursday");
-          break;
-        case "5":
-          storeShowInFirestore(newShowObject, "Friday");
-          getShowsForDayAndShow(friday, "Friday");
-          break;
-        case "6":
-          storeShowInFirestore(newShowObject, "Saturday");
-          getShowsForDayAndShow(saturday, "Saturday");
-          break;
-        case "7":
-          storeShowInFirestore(newShowObject, "Sunday");
-          getShowsForDayAndShow(sunday, "Sunday");
-      }
-
-      //window.location.reload();
-    }
-
-    function storeShowInFirestore(showObject, weekday) {
-      console.log("in firestore func weekday is: " + weekday);
-      db.collection(weekday).doc(showObject.Title).set(showObject)
-      .then(function() {
-          console.log("Document successfully written!");
-      })
-      .catch(function(error) {
-          console.error("Error writing document: ", error);
-      });
-    }
-
-    function getShowsForDayAndShow(element, weekday) {
-      db.collection(weekday).get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            console.log(`${doc.id} => ${doc.data()}`);
-            let show = doc.data();
-            let div = document.createElement("div");
-            div.classList.add("container");
-
-            let titleElement = document.createElement("h5");
-            let title = document.createTextNode(show.Title);
-            titleElement.appendChild(title);
-            titleElement.classList.add("row");
-
-            let totalEpisodesElement = document.createElement("h6");
-            let episodes = document.createTextNode("Episodes: " + show.Episodes);
-            totalEpisodesElement.appendChild(episodes);
-            totalEpisodesElement.classList.add("row");
-
-            let availableEpisodesElement = document.createElement("h6");
-            let dateString = show.Month + " " + show.Day + ", " + show.Year + " " + show.Time;
-            let episodesOut = getNumberOfEpisodesOut(dateString, currentDate, show.Episodes);
-            let episodesText = document.createTextNode("Released: " + episodesOut);
-            availableEpisodesElement.appendChild(episodesText);
-            availableEpisodesElement.classList.add("row");
-
-            let watchedEpisodesElement = document.createElement("h6");
-            let watchedEpisodesText = document.createTextNode("Watched: " + show.EpisodesWatched);
-            watchedEpisodesElement.appendChild(watchedEpisodesText);
-            watchedEpisodesElement.classList.add("row");
-
-            let buttonContainer = document.createElement("div");
-            buttonContainer.classList.add("row");
-            buttonContainer.classList.add("center-align");
-
-            let addEpisodeButton = document.createElement("button");
-            addEpisodeButton.innerHTML = "+";
-            addEpisodeButton.addEventListener("click", () => {
-              db.collection(weekday).doc(show.Title).update({
-                EpisodesWatched: show.EpisodesWatched + 1
-              })
-              .then(function() {
-                clearElement(element);
-                getShowsForDayAndShow(element, weekday);
-              })
-              .catch(function(error) {
-                console.error("Error updating document: ", error);
-              });
-            });
-            addEpisodeButton.classList.add("col");
-            addEpisodeButton.classList.add("center-align");
-
-            let subtractEpisodeButton = document.createElement("button");
-            subtractEpisodeButton.innerHTML = "-";
-            subtractEpisodeButton.addEventListener("click", () => {
-              db.collection(weekday).doc(show.Title).update({
-                EpisodesWatched: show.EpisodesWatched - 1
-              })
-              .then(function() {
-                clearElement(element);
-                getShowsForDayAndShow(element, weekday);
-              })
-              .catch(function(error) {
-                console.error("Error updating document: ", error);
-              });
-            });
-            subtractEpisodeButton.classList.add("col");
-            subtractEpisodeButton.classList.add("center-align");
-
-            buttonContainer.appendChild(addEpisodeButton);
-            buttonContainer.appendChild(subtractEpisodeButton);
-
-            let removeButton = document.createElement("button");
-            removeButton.classList.add("btn");
-            removeButton.classList.add("red");
-            removeButton.classList.add("row");
-            removeButton.innerHTML = "Remove";
-            removeButton.addEventListener("click", () => {
-              db.collection(weekday).doc(show.Title).delete().then(function() {
-                //alert(show.Title + " deleted");
-                reloadDay = document.getElementById(weekday.toLowerCase());
-                clearElement(reloadDay);
-                getShowsForDayAndShow(reloadDay, weekday);
-              }).catch(function(error) {
-                alert(error);
-              });
-            });
-
-            div.appendChild(titleElement);
-            div.appendChild(totalEpisodesElement);
-            div.appendChild(availableEpisodesElement);
-            div.appendChild(watchedEpisodesElement);
-            div.appendChild(buttonContainer);
-            div.appendChild(removeButton);
-
-            div.classList.add("card");
-            div.classList.add("showBox");
-
-            element.appendChild(div);
-        });
-      });
-    }
-
-    function clearElement(element) {
-      while (element.firstChild) {
-        element.removeChild(element.firstChild);
-      }
-    }
-  </script>
+  <script src="main.js"></script>
 </body>
 </html>
