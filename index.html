@@ -10,51 +10,47 @@
 </head>
 <body>
 
-  <nav>
-    <div class="">
-      <a href="#" class="">Watchlist</a>
-      <ul id="" class="">
-        <li><a href="">Sign Up</a></li>
-        <li><a href="">Profile</a></li>
-      </ul>
-    </div>
+  <nav class="topnav">
+    <h2>Watchlist</h2>
+    <a href="#">Sign Up</a>
+    <a href="#">Login</a>
   </nav>
 
   <div class="watchlist-grid-container">
     <div class="watchlist-grid-item">
       <h4>Monday</h4>
-      <div id="Monday"></div>
+      <div id="Monday" class="watchlist-day-col"></div>
     </div>
     <div class="watchlist-grid-item">
       <h4>Tuesday</h4>
-      <div id="Tuesday"></div>
+      <div id="Tuesday" class="watchlist-day-col"></div>
     </div>
     <div class="watchlist-grid-item">
       <h4>Wednesday</h4>
-      <div id="Wednesday"></div>
+      <div id="Wednesday" class="watchlist-day-col"></div>
     </div>
     <div class="watchlist-grid-item">
       <h4>Thursday</h4>
-      <div id="Thursday"></div>
+      <div id="Thursday" class="watchlist-day-col"></div>
     </div>
     <div class="watchlist-grid-item">
       <h4>Friday</h4>
-      <div id="Friday"></div>
+      <div id="Friday" class="watchlist-day-col"></div>
     </div>
     <div class="watchlist-grid-item">
       <h4>Saturday</h4>
-      <div id="Saturday"></div>
+      <div id="Saturday" class="watchlist-day-col"></div>
     </div>
     <div class="watchlist-grid-item">
       <h4>Sunday</h4>
-      <div id="Sunday"></div>
+      <div id="Sunday" class="watchlist-day-col"></div>
     </div>
   </div>
 
   <div class="add-show-outer">
 
     <div id="left-space1"></div>
-    <h4 id="add-show" class="add-show-item">Add Show</h4>
+    <h4 id="add-show" class="add-show-header">Add Show</h4>
     <div id="right-space2"></div>
 
     <div id="left-space2"></div>
@@ -72,7 +68,13 @@
         <input placeholder="Total Episodes" id="total-episodes" type="text" class="">
       </div>
       <div>
-        <label>Start Month</label>
+        <label for="year">Release Year</label>    
+      </div>
+      <div class="">
+        <input placeholder="Year" id="year" type="text" class="">
+      </div>
+      <div>
+        <label>Release Month</label>
       </div>
       <div class="">
         <select id="month-select">
@@ -92,6 +94,12 @@
         </select>
       </div>
       <div>
+        <label for="day">Release Day</label>
+      </div>
+      <div class="">
+        <input placeholder="Day" id="day" type="text" class="">
+      </div>
+      <div>
         <label>Day of Week</label>
       </div>
       <div class="">
@@ -107,29 +115,17 @@
         </select>
       </div>
       <div>
-        <label for="day">Day of Air Date</label>
-      </div>
-      <div class="">
-        <input placeholder="Day" id="day" type="text" class="">
-      </div>
-      <div>
-        <label for="time">Time of Air Date</label>
+        <label for="time">Air Time</label>
       </div>
       <div class="">
         <input placeholder="Time" id="time" type="text" class="">
-      </div>
-      <div>
-        <label for="year">Year of Air Date</label>    
-      </div>
-      <div class="">
-        <input placeholder="Year" id="year" type="text" class="">
       </div>
     </div>
     <div id="right-space2"></div>
 
     <div id="left-space3"></div>
     <div id="submit-button-wrapper">
-      <button class="" onclick="submitNewShow()">Submit</button>
+      <button class="submit-button" onclick="submitNewShow()">Submit</button>
     </div>
     <div id="right-space3"></div>
   </div>

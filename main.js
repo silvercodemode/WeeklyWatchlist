@@ -20,6 +20,8 @@ const friday = document.getElementById("Friday");
 const saturday = document.getElementById("Saturday");
 const sunday = document.getElementById("Sunday");
 
+//check login cookie
+
 //call code to display users watchlist
 displayUsersWatchlist("AnimeGirlsBestGirls");
 
@@ -141,17 +143,19 @@ function createShowElement(show, username) {
     availableEpisodesElement.appendChild(episodesText);
 
     let watchedEpisodesElement = document.createElement("h6");
+    watchedEpisodesElement.classList.add("watched");
     let episodesWatched = show.EpisodesWatched;
     let watchedEpisodesText = document.createTextNode("Watched: " + episodesWatched);
     watchedEpisodesElement.appendChild(watchedEpisodesText);
 
     let buttonContainer = document.createElement("div");
+    buttonContainer.classList.add("button-container");
 
     let addEpisodeButton = document.createElement("button");
     addEpisodeButton.innerHTML = "+";
     addEpisodeButton.addEventListener("click", () => {
         db.collection(username).doc(show.Title).update({
-            EpisodesWatched: show.EpisodesWatched + 1
+            EpisodesWatched: episodesWatched + 1
         })
         .then(function() {
             clearElement(watchedEpisodesElement);
@@ -168,7 +172,7 @@ function createShowElement(show, username) {
     subtractEpisodeButton.innerHTML = "-";
     subtractEpisodeButton.addEventListener("click", () => {
         db.collection(username).doc(show.Title).update({
-            EpisodesWatched: show.EpisodesWatched - 1
+            EpisodesWatched: episodesWatched - 1
         })
         .then(function() {
             clearElement(watchedEpisodesElement);
@@ -185,6 +189,7 @@ function createShowElement(show, username) {
     buttonContainer.appendChild(subtractEpisodeButton);
 
     let removeButton = document.createElement("button");
+    removeButton.classList.add("remove-button");
     removeButton.innerHTML = "Remove";
     removeButton.addEventListener("click", () => {
         db.collection(username).doc(show.Title).delete().then(function() {
