@@ -126,6 +126,7 @@ body {
 }
 
 .add-show-inner {
+  color: #00ade2;
   display: grid;
   grid-template-columns: minmax(110px, 50%) minmax(110px, 50%);
   grid-column-gap: 10%;
@@ -135,8 +136,30 @@ body {
   font-size: .8em;
 }
 
+::placeholder {
+  color: #05c4ff;
+}
+
 .add-show-inner input {
   width: 100%;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: 1px solid #00ade2;
+  padding: .5em .5em .5em .5em;
+  color: #00ade2;
+}
+
+.add-show-inner input:active {
+  border: 1px solid #05c4ff;
+  outline: none;
+  padding: .5em .5em .5em .5em;
+}
+
+.add-show-inner input:focus {
+  border: 1px solid #05c4ff;
+  outline: none;
+  padding: .5em .5em .5em .5em;
 }
 
 .add-show-inner select {
@@ -170,4 +193,21 @@ body {
 .submit-button:hover {
   background-color: #05c4ff;
   cursor: pointer;
+}
+
+.blue-select {
+  background-color: #00ade2;
+  
+  border-radius: .25em;
+}
+
+.blue-select select {
+  margin-top: .1em;
+  color: white;
+  background: transparent;
+  border: none;
+}
+
+.blue-select select:focus {
+  outline: none;
 }
