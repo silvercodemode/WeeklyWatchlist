@@ -1,5 +1,3 @@
-const currentDate = new Date();
-
 let config = {
     apiKey: "AIzaSyBZ2Se4cy0I0DSlcWBoj2FrB3DCxkmSHYo",
     authDomain: "animewatchlist-3d4f5.firebaseapp.com",
@@ -11,6 +9,8 @@ let config = {
 
 firebase.initializeApp(config);
 let db = firebase.firestore();
+
+const currentDate = new Date();
 
 const monday = document.getElementById("Monday");
 const tuesday = document.getElementById("Tuesday");
