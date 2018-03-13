@@ -39,6 +39,8 @@ firebase.auth().onAuthStateChanged(function(user) {
     clearElement(friday);
     clearElement(saturday);
     clearElement(sunday);
+    clearElement(menuSection);
+    
     if (user) {
       email = user.email;
       alert(email);
