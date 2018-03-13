@@ -32,6 +32,13 @@ let email;
 //check login status
 //call code to display users watchlist
 firebase.auth().onAuthStateChanged(function(user) {
+    clearElement(monday);
+    clearElement(tuesday);
+    clearElement(wednesday);
+    clearElement(thursday);
+    clearElement(friday);
+    clearElement(saturday);
+    clearElement(sunday);
     if (user) {
       email = user.email;
       alert(email);
