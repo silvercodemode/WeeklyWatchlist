@@ -41,6 +41,17 @@ firebase.auth().onAuthStateChanged(function(user) {
     clearElement(sunday);
     clearElement(document.getElementById("menu-section"));
 
+    deleteElement(document.getElementById("login"));
+    deleteElement(document.getElementById("sign-up"));
+
+    const signOutButton = document.createElement("a");
+    const signOutText = document.createTextNode("Sign Out");
+    signOutButton.appendChild(signOutText);
+
+    const navbar = document.getElementById("nav");
+
+    navbar.appendChild(signOutButton);
+
     if (user) {
       email = user.email;
       alert(email);
@@ -238,6 +249,10 @@ function clearElement(element) {
     while (element.firstChild) {
         element.removeChild(element.firstChild);
     }
+}
+
+function deleteElement(element) {
+    element.parentNode.removeChild(element);
 }
 
 function createSignUpBox() {
