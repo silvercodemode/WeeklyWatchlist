@@ -26,28 +26,20 @@ const signUp = document.getElementById("sign-up");
 const login = document.getElementById("login");
 
 signUp.addEventListener("click", createSignUpBox);
+login.addEventListener("click", createLoginBox);
 
-//check login cookie
-
+let email;
+//check login status
 //call code to display users watchlist
-//displayUsersWatchlist("AnimeGirlsBestGirls");
 firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
-      // User is signed in.
-      var displayName = user.displayName;
-      var email = user.email;
-      var emailVerified = user.emailVerified;
-      var photoURL = user.photoURL;
-      var isAnonymous = user.isAnonymous;
-      var uid = user.uid;
-      var providerData = user.providerData;
+      email = user.email;
       alert(email);
-      // ...
+      displayUsersWatchlist(email);
     } else {
-      // User is signed out.
-      // ...
+
     }
-  });
+});
 
 function getNumberOfEpisodesOut(airDateString, currentDate, totalEpisodes) {
     const airDate = new Date(airDateString);
@@ -97,7 +89,7 @@ function submitNewShow() {
         Year: year
     };
 
-    const username = "AnimeGirlsBestGirls";
+    const username = email;
     storeShowInUsersWatchlist(newShowObject, username);
     appendShowElement(newShowObject, username);
 }

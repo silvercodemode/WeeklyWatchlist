@@ -237,6 +237,10 @@ body {
   margin-right: .5em;
 }
 
+.login-x-button {
+  background-color: red;
+}
+
 .sign-up-box button {
   background-color: #144f0f;
   color: #f2f2f2;
