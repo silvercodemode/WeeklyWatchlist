@@ -31,6 +31,23 @@ signUp.addEventListener("click", createSignUpBox);
 
 //call code to display users watchlist
 //displayUsersWatchlist("AnimeGirlsBestGirls");
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      // User is signed in.
+      var displayName = user.displayName;
+      var email = user.email;
+      var emailVerified = user.emailVerified;
+      var photoURL = user.photoURL;
+      var isAnonymous = user.isAnonymous;
+      var uid = user.uid;
+      var providerData = user.providerData;
+      alert(email);
+      // ...
+    } else {
+      // User is signed out.
+      // ...
+    }
+  });
 
 function getNumberOfEpisodesOut(airDateString, currentDate, totalEpisodes) {
     const airDate = new Date(airDateString);
@@ -223,30 +240,89 @@ function clearElement(element) {
 }
 
 function createSignUpBox() {
+    clearElement(menuSection);
+
+    const signUpHeader = document.createElement("h3");
+    let headerText = document.createTextNode("Sign Up");
+    signUpHeader.appendChild(headerText);
+
     const signUpBox = document.createElement("div");
-    const usernameInput = document.createElement("input");
     const emailInput = document.createElement("input");
     const passwordInput = document.createElement("input");
     const submitButton = document.createElement("button");
+    const xButton = document.createElement("button");
 
-    usernameInput.placeholder = "Username";
     emailInput.placeholder = "Email";
     passwordInput.placeholder = "Password";
+
     submitButton.innerHTML = "Submit";
     submitButton.addEventListener("click", function() {
         createNewUser(emailInput.value, passwordInput.value);
     });
 
-    signUpBox.appendChild(usernameInput);
+    xButton.innerHTML = "x";
+    xButton.addEventListener("click", function() {
+        clearElement(menuSection);
+    })
+
+    signUpBox.appendChild(signUpHeader);
     signUpBox.appendChild(emailInput);
     signUpBox.appendChild(passwordInput);
     signUpBox.appendChild(submitButton);
+    signUpBox.appendChild(xButton);
+
+    signUpBox.classList.add("sign-up-box");
+
+    menuSection.appendChild(signUpBox);
+}
+
+function createLoginBox() {
+    clearElement(menuSection);
+
+    const signUpHeader = document.createElement("h3");
+    let headerText = document.createTextNode("Login");
+    signUpHeader.appendChild(headerText);
+
+    const signUpBox = document.createElement("div");
+    const emailInput = document.createElement("input");
+    const passwordInput = document.createElement("input");
+    const submitButton = document.createElement("button");
+    const xButton = document.createElement("button");
+
+    emailInput.placeholder = "Email";
+    passwordInput.placeholder = "Password";
+
+    submitButton.innerHTML = "Submit";
+    submitButton.addEventListener("click", function() {
+        loginUser(emailInput.value, passwordInput.value);
+    });
+
+    xButton.innerHTML = "x";
+    xButton.addEventListener("click", function() {
+        clearElement(menuSection);
+    })
+
+    signUpBox.appendChild(signUpHeader);
+    signUpBox.appendChild(emailInput);
+    signUpBox.appendChild(passwordInput);
+    signUpBox.appendChild(submitButton);
+    signUpBox.appendChild(xButton);
+
+    signUpBox.classList.add("sign-up-box");
 
     menuSection.appendChild(signUpBox);
 }
 
 function createNewUser(email, password) {
     firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+        let errorCode = error.code;
+        let errorMessage = error.message;
+        alert(errorMessage);
+    });
+}
+
+function loginUser(email, password) {
+    firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
         let errorCode = error.code;
         let errorMessage = error.message;
         alert(errorMessage);

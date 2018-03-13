@@ -211,3 +211,37 @@ body {
 .blue-select select:focus {
   outline: none;
 }
+
+.sign-up-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
+  background-color: #f2f2f2;
+  padding: 1em 0 1em 0;
+}
+
+.sign-up-box ::placeholder {
+  text-align: center;
+  color: black;
+}
+
+.sign-up-box h3 {
+  color: #144f0f;
+  margin: 0 .5em 0 .5em;
+}
+
+.sign-up-box input {
+  text-align: center;
+  margin-left: .5em;
+  margin-right: .5em;
+}
+
+.sign-up-box button {
+  background-color: #144f0f;
+  color: #f2f2f2;
+  border: none;
+  padding: 1em 1em 1em 1em;
+  margin-left: .5em;
+  margin-right: .5em;
+}
