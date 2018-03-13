@@ -20,10 +20,17 @@ const friday = document.getElementById("Friday");
 const saturday = document.getElementById("Saturday");
 const sunday = document.getElementById("Sunday");
 
+const menuSection = document.getElementById("menu-section");
+
+const signUp = document.getElementById("sign-up");
+const login = document.getElementById("login");
+
+signUp.addEventListener("click", createSignUpBox);
+
 //check login cookie
 
 //call code to display users watchlist
-displayUsersWatchlist("AnimeGirlsBestGirls");
+//displayUsersWatchlist("AnimeGirlsBestGirls");
 
 function getNumberOfEpisodesOut(airDateString, currentDate, totalEpisodes) {
     const airDate = new Date(airDateString);
@@ -213,4 +220,35 @@ function clearElement(element) {
     while (element.firstChild) {
         element.removeChild(element.firstChild);
     }
+}
+
+function createSignUpBox() {
+    const signUpBox = document.createElement("div");
+    const usernameInput = document.createElement("input");
+    const emailInput = document.createElement("input");
+    const passwordInput = document.createElement("input");
+    const submitButton = document.createElement("button");
+
+    usernameInput.placeholder = "Username";
+    emailInput.placeholder = "Email";
+    passwordInput.placeholder = "Password";
+    submitButton.innerHTML = "Submit";
+    submitButton.addEventListener("click", function() {
+        createNewUser(emailInput.value, passwordInput.value);
+    });
+
+    signUpBox.appendChild(usernameInput);
+    signUpBox.appendChild(emailInput);
+    signUpBox.appendChild(passwordInput);
+    signUpBox.appendChild(submitButton);
+
+    menuSection.appendChild(signUpBox);
+}
+
+function createNewUser(email, password) {
+    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+        let errorCode = error.code;
+        let errorMessage = error.message;
+        alert(errorMessage);
+    });
 }
