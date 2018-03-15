@@ -23,6 +23,7 @@ body {
   text-align: center;
   padding: 15px 15px;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .topnav a:hover {

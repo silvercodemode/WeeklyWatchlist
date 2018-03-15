@@ -337,11 +337,12 @@ function loginUser(email, password) {
 }
 
 function signOutUser() {
+    console.log("sign out user called");
     firebase.auth().signOut().then(function() {
         setNavToLoggedOut();
         alert("Signed out");
     }).catch(function(error) {
-    // An error happened.
+        console.log(error);
     });
 }
 
