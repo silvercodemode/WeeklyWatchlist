@@ -31,6 +31,7 @@ login.addEventListener("click", createLoginBox);
 let email;
 //check login status
 //call code to display users watchlist
+
 firebase.auth().onAuthStateChanged(function(user) {
     clearElement(monday);
     clearElement(tuesday);
@@ -53,11 +54,11 @@ firebase.auth().onAuthStateChanged(function(user) {
     navbar.appendChild(signOutButton);
 
     if (user) {
-      email = user.email;
-      alert(email);
-      displayUsersWatchlist(email);
+        email = user.email;
+        alert(email);
+        displayUsersWatchlist(email);
     } else {
-
+        setNavToLoggedOut();
     }
 });
 
@@ -343,4 +344,50 @@ function loginUser(email, password) {
         let errorMessage = error.message;
         alert(errorMessage);
     });
+}
+
+function signOutUser() {
+    firebase.auth().signOut().then(function() {
+        setNavToLoggedOut();
+        alert("Signed out");
+    }).catch(function(error) {
+    // An error happened.
+    });
+}
+
+function setNavToLoggedIn() {
+    const nav = document.getElementById("nav");
+    clearElement(nav);
+
+    const header = document.createElement("h2");
+    const headerText = document.createTextNode("Weekly Watchlist");
+    header.appendChild(header);
+
+    const signOut = document.createElement("a");
+    const signOutText = document.createTextNode("Sign Out");
+    signOut.appendChild(signOutText);
+    signOut.addEventListener("click", signOutUser);
+}
+
+function setNavToLoggedOut() {
+    const nav = document.getElementById("nav");
+    clearElement(nav);
+
+    const header = document.createElement("h2");
+    const headerText = document.createTextNode("Weekly Watchlist");
+    header.appendChild(header);
+
+    const signUp = document.createElement("a");
+    const signUpText = document.createTextNode("Sign Up");
+    signUp.appendChild(signUpText);
+    signUp.addEventListener("click", createSignUpBox);
+
+    const login = document.createElement("a");
+    const loginText = document.createTextNode("Login");
+    login.appendChild(loginText);
+    login.addEventListener("click", createLoginBox);
+
+    nav.appendChild(header);
+    nav.appendChild(signUp);
+    nav.appendChild(login);
 }
