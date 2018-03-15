@@ -352,12 +352,15 @@ function setNavToLoggedIn() {
 
     const header = document.createElement("h2");
     const headerText = document.createTextNode("Weekly Watchlist");
-    header.appendChild(header);
+    header.appendChild(headerText);
 
     const signOut = document.createElement("a");
     const signOutText = document.createTextNode("Sign Out");
     signOut.appendChild(signOutText);
     signOut.addEventListener("click", signOutUser);
+
+    nav.appendChild(header);
+    nav.appendChild(signOut);
 }
 
 function setNavToLoggedOut() {
@@ -366,7 +369,7 @@ function setNavToLoggedOut() {
 
     const header = document.createElement("h2");
     const headerText = document.createTextNode("Weekly Watchlist");
-    header.appendChild(header);
+    header.appendChild(headerText);
 
     const signUp = document.createElement("a");
     const signUpText = document.createTextNode("Sign Up");
