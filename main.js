@@ -77,8 +77,10 @@ function submitNewShow() {
     totalEpisodesElement.value = "";
 
     const month = monthSelectElement.options[monthSelectElement.selectedIndex].value;
+    monthSelectElement.options.selectedIndex = 0;
 
     const weekday = weekdaySelectElement.options[weekdaySelectElement.selectedIndex].value;
+    weekdaySelectElement.options.selectedIndex = 0;
 
     const day = dayElement.value;
     dayElement.value = "";
