@@ -29,9 +29,14 @@ signUp.addEventListener("click", createSignUpBox);
 login.addEventListener("click", createLoginBox);
 
 let email;
-//check login status
-//call code to display users watchlist
 
+//check login status
+let loggedIn = firebase.auth().currentUser;
+if (!loggedIn) {
+    addHelpText();
+}
+
+//call code to display users watchlist
 firebase.auth().onAuthStateChanged(function(user) {
     clearElement(monday);
     clearElement(tuesday);
@@ -43,11 +48,14 @@ firebase.auth().onAuthStateChanged(function(user) {
     clearElement(document.getElementById("menu-section"));
 
     if (user) {
+        loggedIn = user;
         email = user.email;
         alert(email);
         setNavToLoggedIn();
+        clearElement(document.getElementById("helper-text-box"));
         displayUsersWatchlist(email);
     } else {
+        loggedIn = false;
         setNavToLoggedOut();
     }
 });
@@ -56,7 +64,7 @@ function getNumberOfEpisodesOut(airDateString, currentDate, totalEpisodes) {
     const airDate = new Date(airDateString);
     let episodes = Math.floor((currentDate.getTime() - airDate.getTime()) / 604800000) + 1;
     if (episodes < totalEpisodes) {
-    return episodes;
+        return episodes;
     }
     return totalEpisodes;
 }
@@ -103,7 +111,9 @@ function submitNewShow() {
     };
 
     const username = email;
-    storeShowInUsersWatchlist(newShowObject, username);
+    if (loggedIn) {
+        storeShowInUsersWatchlist(newShowObject, username);
+    }
     appendShowElement(newShowObject, username);
 }
 
@@ -163,6 +173,7 @@ function createShowElement(show, username) {
 
     let totalEpisodesElement = document.createElement("h6");
     let episodes = document.createTextNode("Episodes: " + show.Episodes);
+    let totalEpisodes = show.Episodes;
     totalEpisodesElement.appendChild(episodes);
 
     let availableEpisodesElement = document.createElement("h6");
@@ -183,35 +194,55 @@ function createShowElement(show, username) {
     let addEpisodeButton = document.createElement("button");
     addEpisodeButton.innerHTML = "+";
     addEpisodeButton.addEventListener("click", () => {
-        db.collection(username).doc(show.Title).update({
-            EpisodesWatched: episodesWatched + 1
-        })
-        .then(function() {
+        if (episodesWatched >= totalEpisodes) {
+            episodesWatched = totalEpisodes - 1;
+        }
+        if (loggedIn) {
+            db.collection(username).doc(show.Title).update({
+                EpisodesWatched: episodesWatched + 1
+            })
+            .then(function() {
+                clearElement(watchedEpisodesElement);
+                episodesWatched++;
+                let newText = document.createTextNode("Watched: " + episodesWatched);
+                watchedEpisodesElement.appendChild(newText);
+            })
+            .catch(function(error) {
+                console.error("Error updating document: ", error);
+            });
+        } else {
             clearElement(watchedEpisodesElement);
             episodesWatched++;
             let newText = document.createTextNode("Watched: " + episodesWatched);
             watchedEpisodesElement.appendChild(newText);
-        })
-        .catch(function(error) {
-            console.error("Error updating document: ", error);
-        });
+        }
     });
 
     let subtractEpisodeButton = document.createElement("button");
     subtractEpisodeButton.innerHTML = "-";
     subtractEpisodeButton.addEventListener("click", () => {
-        db.collection(username).doc(show.Title).update({
-            EpisodesWatched: episodesWatched - 1
-        })
-        .then(function() {
+        if (episodesWatched <= 0) {
+            episodesWatched = 1;
+        }
+        if (loggedIn) {
+            db.collection(username).doc(show.Title).update({
+                EpisodesWatched: episodesWatched - 1
+            })
+            .then(function() {
+                clearElement(watchedEpisodesElement);
+                episodesWatched--;
+                let newText = document.createTextNode("Watched: " + episodesWatched);
+                watchedEpisodesElement.appendChild(newText);
+            })
+            .catch(function(error) {
+                console.error("Error updating document: ", error);
+            });
+        } else {
             clearElement(watchedEpisodesElement);
             episodesWatched--;
             let newText = document.createTextNode("Watched: " + episodesWatched);
             watchedEpisodesElement.appendChild(newText);
-        })
-        .catch(function(error) {
-            console.error("Error updating document: ", error);
-        });
+        }
     });
 
     buttonContainer.appendChild(addEpisodeButton);
@@ -221,11 +252,15 @@ function createShowElement(show, username) {
     removeButton.classList.add("remove-button");
     removeButton.innerHTML = "Remove";
     removeButton.addEventListener("click", () => {
-        db.collection(username).doc(show.Title).delete().then(function() {
+        if (loggedIn) {
+            db.collection(username).doc(show.Title).delete().then(function() {
+                div.parentNode.removeChild(div);
+            }).catch(function(error) {
+                alert(error);
+            });
+        } else {
             div.parentNode.removeChild(div);
-        }).catch(function(error) {
-            alert(error);
-        });
+        }
     });
 
     div.appendChild(titleElement);
@@ -320,6 +355,22 @@ function createLoginBox() {
     signUpBox.classList.add("sign-up-box");
 
     menuSection.appendChild(signUpBox);
+}
+
+function addHelpText() {
+    const helpBox = document.getElementById("helper-text-box");
+
+    const wrapperDiv = document.createElement("div");
+
+    const helpTextH5 = document.createElement("h5");
+    const helpText = document.createTextNode("Fill out the \"Add Show\" section and click Submit to add to a sample watchlist.");
+    helpTextH52 = document.createElement("h5");
+    const helpText2 = document.createTextNode(" To create a permanant list click \"Sign Up\" to create an account and login then add shows once logged in.");
+    helpTextH5.appendChild(helpText);
+    helpTextH52.appendChild(helpText2);
+    wrapperDiv.appendChild(helpTextH5);
+    wrapperDiv.appendChild(helpTextH52);
+    helpBox.appendChild(wrapperDiv);
 }
 
 function createNewUser(email, password) {

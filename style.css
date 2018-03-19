@@ -250,3 +250,13 @@ body {
   margin-left: .5em;
   margin-right: .5em;
 }
+
+#helper-text-box div {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#helper-text-box h5 {
+  text-align: center;
+  margin: 0;
+}
