@@ -202,14 +202,15 @@ function createShowElement(show, username) {
                     EpisodesWatched: episodesWatched + 1
                 })
                 .then(function() {
-                    clearElement(watchedEpisodesElement);
-                    episodesWatched++;
-                    let newText = document.createTextNode("Watched: " + episodesWatched);
-                    watchedEpisodesElement.appendChild(newText);
+                    
                 })
                 .catch(function(error) {
                     console.error("Error updating document: ", error);
                 });
+                clearElement(watchedEpisodesElement);
+                episodesWatched++;
+                let newText = document.createTextNode("Watched: " + episodesWatched);
+                watchedEpisodesElement.appendChild(newText);
             } else {
                 clearElement(watchedEpisodesElement);
                 episodesWatched++;
@@ -230,14 +231,15 @@ function createShowElement(show, username) {
                     EpisodesWatched: episodesWatched - 1
                 })
                 .then(function() {
-                    clearElement(watchedEpisodesElement);
-                    episodesWatched--;
-                    let newText = document.createTextNode("Watched: " + episodesWatched);
-                    watchedEpisodesElement.appendChild(newText);
+                    
                 })
                 .catch(function(error) {
                     console.error("Error updating document: ", error);
                 });
+                clearElement(watchedEpisodesElement);
+                episodesWatched--;
+                let newText = document.createTextNode("Watched: " + episodesWatched);
+                watchedEpisodesElement.appendChild(newText);
             } else {
                 clearElement(watchedEpisodesElement);
                 episodesWatched--;
