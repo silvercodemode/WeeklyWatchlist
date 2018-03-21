@@ -194,7 +194,7 @@ function createShowElement(show, username) {
     let addEpisodeButton = document.createElement("button");
     addEpisodeButton.innerHTML = "+";
     addEpisodeButton.addEventListener("click", () => {
-        if (episodesWatched >= totalEpisodes) {
+        if (episodesWatched >= episodesOut) {
             episodesWatched = totalEpisodes - 1;
         }
         if (loggedIn) {
