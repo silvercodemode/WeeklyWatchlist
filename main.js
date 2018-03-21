@@ -399,7 +399,7 @@ function signOutUser() {
     console.log("sign out user called");
     firebase.auth().signOut().then(function() {
         setNavToLoggedOut();
-        alert("Signed out");
+        //alert("Signed out");
     }).catch(function(error) {
         console.log(error);
     });
