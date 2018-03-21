@@ -195,26 +195,27 @@ function createShowElement(show, username) {
     addEpisodeButton.innerHTML = "+";
     addEpisodeButton.addEventListener("click", () => {
         if (episodesWatched >= episodesOut) {
-            episodesWatched = totalEpisodes - 1;
-        }
-        if (loggedIn) {
-            db.collection(username).doc(show.Title).update({
-                EpisodesWatched: episodesWatched + 1
-            })
-            .then(function() {
+            //episodesWatched = totalEpisodes - 1;
+        } else {
+            if (loggedIn) {
+                db.collection(username).doc(show.Title).update({
+                    EpisodesWatched: episodesWatched + 1
+                })
+                .then(function() {
+                    clearElement(watchedEpisodesElement);
+                    episodesWatched++;
+                    let newText = document.createTextNode("Watched: " + episodesWatched);
+                    watchedEpisodesElement.appendChild(newText);
+                })
+                .catch(function(error) {
+                    console.error("Error updating document: ", error);
+                });
+            } else {
                 clearElement(watchedEpisodesElement);
                 episodesWatched++;
                 let newText = document.createTextNode("Watched: " + episodesWatched);
                 watchedEpisodesElement.appendChild(newText);
-            })
-            .catch(function(error) {
-                console.error("Error updating document: ", error);
-            });
-        } else {
-            clearElement(watchedEpisodesElement);
-            episodesWatched++;
-            let newText = document.createTextNode("Watched: " + episodesWatched);
-            watchedEpisodesElement.appendChild(newText);
+            }
         }
     });
 
@@ -222,26 +223,27 @@ function createShowElement(show, username) {
     subtractEpisodeButton.innerHTML = "-";
     subtractEpisodeButton.addEventListener("click", () => {
         if (episodesWatched <= 0) {
-            episodesWatched = 1;
-        }
-        if (loggedIn) {
-            db.collection(username).doc(show.Title).update({
-                EpisodesWatched: episodesWatched - 1
-            })
-            .then(function() {
+            //episodesWatched = 1;
+        } else {
+            if (loggedIn) {
+                db.collection(username).doc(show.Title).update({
+                    EpisodesWatched: episodesWatched - 1
+                })
+                .then(function() {
+                    clearElement(watchedEpisodesElement);
+                    episodesWatched--;
+                    let newText = document.createTextNode("Watched: " + episodesWatched);
+                    watchedEpisodesElement.appendChild(newText);
+                })
+                .catch(function(error) {
+                    console.error("Error updating document: ", error);
+                });
+            } else {
                 clearElement(watchedEpisodesElement);
                 episodesWatched--;
                 let newText = document.createTextNode("Watched: " + episodesWatched);
                 watchedEpisodesElement.appendChild(newText);
-            })
-            .catch(function(error) {
-                console.error("Error updating document: ", error);
-            });
-        } else {
-            clearElement(watchedEpisodesElement);
-            episodesWatched--;
-            let newText = document.createTextNode("Watched: " + episodesWatched);
-            watchedEpisodesElement.appendChild(newText);
+            }
         }
     });
 
