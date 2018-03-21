@@ -50,8 +50,8 @@ firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
         loggedIn = user;
         email = user.email;
-        alert(email);
-        setNavToLoggedIn();
+        //alert(email);
+        setNavToLoggedIn(email);
         clearElement(document.getElementById("helper-text-box"));
         displayUsersWatchlist(email);
     } else {
@@ -297,6 +297,7 @@ function createSignUpBox() {
     const signUpBox = document.createElement("div");
     const emailInput = document.createElement("input");
     const passwordInput = document.createElement("input");
+    passwordInput.setAttribute("type", "password");
     const submitButton = document.createElement("button");
     const xButton = document.createElement("button");
 
@@ -334,6 +335,7 @@ function createLoginBox() {
     const signUpBox = document.createElement("div");
     const emailInput = document.createElement("input");
     const passwordInput = document.createElement("input");
+    passwordInput.setAttribute("type", "password");
     const submitButton = document.createElement("button");
     const xButton = document.createElement("button");
 
@@ -403,12 +405,12 @@ function signOutUser() {
     });
 }
 
-function setNavToLoggedIn() {
+function setNavToLoggedIn(email) {
     const nav = document.getElementById("nav");
     clearElement(nav);
 
     const header = document.createElement("h2");
-    const headerText = document.createTextNode("Weekly Watchlist");
+    const headerText = document.createTextNode(`${email}'s Weekly Watchlist`);
     header.appendChild(headerText);
 
     const signOut = document.createElement("a");
