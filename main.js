@@ -137,11 +137,13 @@ function submitNewShow() {
         Year: year
     }
 
-    const username = email
-    if (firebase.auth().currentUser) {
-        storeShowInUsersWatchlist(newShowObject, username)
+    const user = firebase.auth().currentUser
+    if (user) {
+        storeShowInUsersWatchlist(newShowObject, user.email)
+        appendShowElement(newShowObject, user.email)
+    } else {
+        appendShowElement(newShowObject)
     }
-    appendShowElement(newShowObject, username)
 }
 
 //dom manipulation functions
@@ -221,7 +223,7 @@ function createLoginBox() {
     menuSection.appendChild(signUpBox)
 }
 
-function createShowElement(show, username) {
+function createShowElement(show, username = false) {
     let daySectionElement = document.getElementById(show.Weekday)
 
     let div = document.createElement("div")
@@ -255,7 +257,7 @@ function createShowElement(show, username) {
     addEpisodeButton.innerHTML = "+"
     addEpisodeButton.addEventListener("click", () => {
         if (episodesWatched < episodesOut) {
-            if (firebase.auth().currentUser) {
+            if (firebase.auth().currentUser && username) {
                 (async () => {
                     try {
                         await db.collection(username).doc(show.Title).update({
@@ -282,7 +284,7 @@ function createShowElement(show, username) {
     subtractEpisodeButton.innerHTML = "-"
     subtractEpisodeButton.addEventListener("click", () => {
         if (episodesWatched > 0) {
-            if (firebase.auth().currentUser) {
+            if (firebase.auth().currentUser && username) {
                 (async () => {
                     try {
                         await db.collection(username).doc(show.Title).update({
@@ -312,7 +314,7 @@ function createShowElement(show, username) {
     removeButton.classList.add("remove-button")
     removeButton.innerHTML = "Remove"
     removeButton.addEventListener("click", () => {
-        if (firebase.auth().currentUser) {
+        if (firebase.auth().currentUser && username) {
             (async () => {
                 try {
                     await db.collection(username).doc(show.Title).delete()
