@@ -26,13 +26,6 @@ const login = document.getElementById("login")
 signUp.addEventListener("click", createSignUpBox)
 login.addEventListener("click", createLoginBox)
 
-//check login status
-/*
-if (!firebase.auth().currentUser) {
-    addHelpText()
-}
-*/
-
 //set listener on login status
 firebase.auth().onAuthStateChanged(user => {
     clearElement(monday)
