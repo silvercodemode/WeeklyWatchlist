@@ -1,4 +1,4 @@
-let config = {
+const config = {
     apiKey: "AIzaSyBZ2Se4cy0I0DSlcWBoj2FrB3DCxkmSHYo",
     authDomain: "animewatchlist-3d4f5.firebaseapp.com",
     databaseURL: "https://animewatchlist-3d4f5.firebaseio.com",
@@ -130,13 +130,13 @@ function storeShowInUsersWatchlist(showObject, username) {
 async function storeShowInUsersWatchlist(showObject, username) {
     try {
         await db.collection(username).doc(showObject.Title).set(showObject)
-        console.log("Document successfully written! async")
+        console.log(`${showObject.Title} successfully saved!`)
     } catch (error) {
         console.error("Error writing document: ", error)
     }
 }
 
-
+/*
 function displayUsersWatchlist(username) {
     db.collection(username).get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -144,6 +144,18 @@ function displayUsersWatchlist(username) {
             appendShowElement(show, username)
         })
     })
+}
+*/
+async function displayUsersWatchlist(username) {
+    try {
+        const querySnapshot = await db.collection(username).get()
+        querySnapshot.forEach(doc => {
+            let show = doc.data()
+            appendShowElement(show, username)
+        })
+    } catch (error) {
+        console.error("Error accessing collection: ", error)
+    }
 }
 
 function appendShowElement(show, username) {
@@ -204,15 +216,11 @@ function createShowElement(show, username) {
     let addEpisodeButton = document.createElement("button")
     addEpisodeButton.innerHTML = "+"
     addEpisodeButton.addEventListener("click", () => {
-        if (episodesWatched >= episodesOut) {
-            //episodesWatched = totalEpisodes - 1
-        } else {
+        if (episodesWatched < episodesOut) {
             if (loggedIn) {
+                /*
                 db.collection(username).doc(show.Title).update({
                     EpisodesWatched: episodesWatched + 1
-                })
-                .then(function() {
-                    
                 })
                 .catch(function(error) {
                     console.error("Error updating document: ", error)
@@ -221,6 +229,20 @@ function createShowElement(show, username) {
                 episodesWatched++
                 let newText = document.createTextNode("Watched: " + episodesWatched)
                 watchedEpisodesElement.appendChild(newText)
+                */
+                (async () => {
+                    try {
+                        await db.collection(username).doc(show.Title).update({
+                            EpisodesWatched: episodesWatched + 1
+                        })
+                        clearElement(watchedEpisodesElement)
+                        episodesWatched++
+                        let newText = document.createTextNode("Watched: " + episodesWatched)
+                        watchedEpisodesElement.appendChild(newText)
+                    } catch (error) {
+                        console.error("Error updating document: ", error)
+                    }
+                })()
             } else {
                 clearElement(watchedEpisodesElement)
                 episodesWatched++
@@ -233,10 +255,9 @@ function createShowElement(show, username) {
     let subtractEpisodeButton = document.createElement("button")
     subtractEpisodeButton.innerHTML = "-"
     subtractEpisodeButton.addEventListener("click", () => {
-        if (episodesWatched <= 0) {
-            //episodesWatched = 1
-        } else {
+        if (episodesWatched > 0) {
             if (loggedIn) {
+                /*
                 db.collection(username).doc(show.Title).update({
                     EpisodesWatched: episodesWatched - 1
                 })
@@ -250,6 +271,20 @@ function createShowElement(show, username) {
                 episodesWatched--
                 let newText = document.createTextNode("Watched: " + episodesWatched)
                 watchedEpisodesElement.appendChild(newText)
+                */
+                (async () => {
+                    try {
+                        await db.collection(username).doc(show.Title).update({
+                            EpisodesWatched: episodesWatched - 1
+                        })
+                        clearElement(watchedEpisodesElement)
+                        episodesWatched--
+                        let newText = document.createTextNode("Watched: " + episodesWatched)
+                        watchedEpisodesElement.appendChild(newText)
+                    } catch (error) {
+                        console.error("Error updating document: ", error)
+                    }
+                })()
             } else {
                 clearElement(watchedEpisodesElement)
                 episodesWatched--
@@ -267,11 +302,22 @@ function createShowElement(show, username) {
     removeButton.innerHTML = "Remove"
     removeButton.addEventListener("click", () => {
         if (loggedIn) {
-            db.collection(username).doc(show.Title).delete().then(function() {
+            /*
+            db.collection(username).doc(show.Title).delete()
+            .then(function() {
                 div.parentNode.removeChild(div)
             }).catch(function(error) {
                 console.log(error)
             })
+            */
+            (async () => {
+                try {
+                    await db.collection(username).doc(show.Title).delete()
+                    div.parentNode.removeChild(div)
+                } catch (error) {
+                    console.log(error)
+                }
+            })()
         } else {
             div.parentNode.removeChild(div)
         }
@@ -389,6 +435,7 @@ function addHelpText() {
     helpBox.appendChild(wrapperDiv)
 }
 
+/*
 function createNewUser(email, password) {
     firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
         let errorCode = error.code
@@ -396,7 +443,16 @@ function createNewUser(email, password) {
         console.log(errorMessage)
     })
 }
+*/
+async function createNewUser(email, password) {
+    try {
+        await firebase.auth().createUserWithEmailAndPassword(email, password)
+    } catch (error) {
+        console.log(error.message)
+    }
+}
 
+/*
 function loginUser(email, password) {
     firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
         let errorCode = error.code
@@ -404,15 +460,33 @@ function loginUser(email, password) {
         console.log(errorMessage)
     })
 }
+*/
+async function loginUser(email, password) {
+    try {
+        await firebase.auth().signInWithEmailAndPassword(email, password)
+        console.log("Logged in successfully!")
+    } catch (error) {
+        console.log(error.message)
+    }
+}
 
+/*
 function signOutUser() {
-    //console.log("sign out user called")
     firebase.auth().signOut().then(function() {
         setNavToLoggedOut()
         console.log("Signed out")
     }).catch(function(error) {
         console.log(error)
     })
+}
+*/
+async function signOutUser() {
+    try {
+        await firebase.auth().signOut()
+        console.log("Signed out.")
+    } catch(error) {
+        console.log(error)
+    }
 }
 
 function setNavToLoggedIn(email) {
