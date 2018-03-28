@@ -8,7 +8,7 @@ const config = {
 }
 
 firebase.initializeApp(config)
-let db = firebase.firestore()
+const db = firebase.firestore()
 
 const currentDate = new Date()
 
@@ -19,25 +19,22 @@ const thursday = document.getElementById("Thursday")
 const friday = document.getElementById("Friday")
 const saturday = document.getElementById("Saturday")
 const sunday = document.getElementById("Sunday")
-
 const menuSection = document.getElementById("menu-section")
-
 const signUp = document.getElementById("sign-up")
 const login = document.getElementById("login")
 
 signUp.addEventListener("click", createSignUpBox)
 login.addEventListener("click", createLoginBox)
 
-let email
-
 //check login status
-let loggedIn = firebase.auth().currentUser
-if (!loggedIn) {
+/*
+if (!firebase.auth().currentUser) {
     addHelpText()
 }
+*/
 
-//call code to display users watchlist
-firebase.auth().onAuthStateChanged(function(user) {
+//set listener on login status
+firebase.auth().onAuthStateChanged(user => {
     clearElement(monday)
     clearElement(tuesday)
     clearElement(wednesday)
@@ -48,24 +45,62 @@ firebase.auth().onAuthStateChanged(function(user) {
     clearElement(document.getElementById("menu-section"))
 
     if (user) {
-        loggedIn = user
-        email = user.email
+        let email = user.email
         setNavToLoggedIn(email)
         clearElement(document.getElementById("helper-text-box"))
         displayUsersWatchlist(email)
     } else {
-        loggedIn = false
         setNavToLoggedOut()
+        addHelpText()
     }
 })
 
-function getNumberOfEpisodesOut(airDateString, currentDate, totalEpisodes) {
-    const airDate = new Date(airDateString)
-    let episodes = Math.floor((currentDate.getTime() - airDate.getTime()) / 604800000) + 1
-    if (episodes < totalEpisodes) {
-        return episodes
+//functions that call firebase
+async function createNewUser(email, password) {
+    try {
+        await firebase.auth().createUserWithEmailAndPassword(email, password)
+    } catch (error) {
+        console.log(error.message)
     }
-    return totalEpisodes
+}
+
+async function loginUser(email, password) {
+    try {
+        await firebase.auth().signInWithEmailAndPassword(email, password)
+        console.log("Logged in successfully!")
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
+async function signOutUser() {
+    try {
+        await firebase.auth().signOut()
+        console.log("Signed out.")
+    } catch(error) {
+        console.log(error)
+    }
+}
+
+async function storeShowInUsersWatchlist(showObject, username) {
+    try {
+        await db.collection(username).doc(showObject.Title).set(showObject)
+        console.log(`${showObject.Title} successfully saved!`)
+    } catch (error) {
+        console.error("Error writing document: ", error)
+    }
+}
+
+async function displayUsersWatchlist(username) {
+    try {
+        const querySnapshot = await db.collection(username).get()
+        querySnapshot.forEach(doc => {
+            let show = doc.data()
+            appendShowElement(show, username)
+        })
+    } catch (error) {
+        console.error("Error accessing collection: ", error)
+    }
 }
 
 function submitNewShow() {
@@ -110,239 +145,13 @@ function submitNewShow() {
     }
 
     const username = email
-    if (loggedIn) {
+    if (firebase.auth().currentUser) {
         storeShowInUsersWatchlist(newShowObject, username)
     }
     appendShowElement(newShowObject, username)
 }
 
-/*
-function storeShowInUsersWatchlist(showObject, username) {
-    db.collection(username).doc(showObject.Title).set(showObject)
-    .then(function() {
-        console.log("Document successfully written!")
-    })
-    .catch(function(error) {
-        console.error("Error writing document: ", error)
-    })
-}
-*/
-async function storeShowInUsersWatchlist(showObject, username) {
-    try {
-        await db.collection(username).doc(showObject.Title).set(showObject)
-        console.log(`${showObject.Title} successfully saved!`)
-    } catch (error) {
-        console.error("Error writing document: ", error)
-    }
-}
-
-/*
-function displayUsersWatchlist(username) {
-    db.collection(username).get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            let show = doc.data()
-            appendShowElement(show, username)
-        })
-    })
-}
-*/
-async function displayUsersWatchlist(username) {
-    try {
-        const querySnapshot = await db.collection(username).get()
-        querySnapshot.forEach(doc => {
-            let show = doc.data()
-            appendShowElement(show, username)
-        })
-    } catch (error) {
-        console.error("Error accessing collection: ", error)
-    }
-}
-
-function appendShowElement(show, username) {
-    switch (show.Weekday) {
-        case "Monday":
-            document.getElementById("Monday").appendChild(createShowElement(show, username))
-            break
-        case "Tuesday":
-            document.getElementById("Tuesday").appendChild(createShowElement(show, username))
-            break
-        case "Wednesday":
-            document.getElementById("Wednesday").appendChild(createShowElement(show, username))
-            break
-        case "Thursday":
-            document.getElementById("Thursday").appendChild(createShowElement(show, username))
-            break
-        case "Friday":
-            document.getElementById("Friday").appendChild(createShowElement(show, username))
-            break
-        case "Saturday":
-            document.getElementById("Saturday").appendChild(createShowElement(show, username))
-            break
-        case "Sunday":
-            document.getElementById("Sunday").appendChild(createShowElement(show, username))
-    }
-}
-
-function createShowElement(show, username) {
-    let daySectionElement = document.getElementById(show.Weekday)
-
-    let div = document.createElement("div")
-    div.classList.add("show-element")
-
-    let titleElement = document.createElement("h5")
-    let title = document.createTextNode(show.Title)
-    titleElement.appendChild(title)
-
-    let totalEpisodesElement = document.createElement("h6")
-    let episodes = document.createTextNode("Episodes: " + show.Episodes)
-    let totalEpisodes = show.Episodes
-    totalEpisodesElement.appendChild(episodes)
-
-    let availableEpisodesElement = document.createElement("h6")
-    let dateString = show.Month + " " + show.Day + ", " + show.Year + " " + show.Time
-    let episodesOut = getNumberOfEpisodesOut(dateString, currentDate, show.Episodes)
-    let episodesText = document.createTextNode("Released: " + episodesOut)
-    availableEpisodesElement.appendChild(episodesText)
-
-    let watchedEpisodesElement = document.createElement("h6")
-    watchedEpisodesElement.classList.add("watched")
-    let episodesWatched = show.EpisodesWatched
-    let watchedEpisodesText = document.createTextNode("Watched: " + episodesWatched)
-    watchedEpisodesElement.appendChild(watchedEpisodesText)
-
-    let buttonContainer = document.createElement("div")
-    buttonContainer.classList.add("button-container")
-
-    let addEpisodeButton = document.createElement("button")
-    addEpisodeButton.innerHTML = "+"
-    addEpisodeButton.addEventListener("click", () => {
-        if (episodesWatched < episodesOut) {
-            if (loggedIn) {
-                /*
-                db.collection(username).doc(show.Title).update({
-                    EpisodesWatched: episodesWatched + 1
-                })
-                .catch(function(error) {
-                    console.error("Error updating document: ", error)
-                })
-                clearElement(watchedEpisodesElement)
-                episodesWatched++
-                let newText = document.createTextNode("Watched: " + episodesWatched)
-                watchedEpisodesElement.appendChild(newText)
-                */
-                (async () => {
-                    try {
-                        await db.collection(username).doc(show.Title).update({
-                            EpisodesWatched: episodesWatched + 1
-                        })
-                        clearElement(watchedEpisodesElement)
-                        episodesWatched++
-                        let newText = document.createTextNode("Watched: " + episodesWatched)
-                        watchedEpisodesElement.appendChild(newText)
-                    } catch (error) {
-                        console.error("Error updating document: ", error)
-                    }
-                })()
-            } else {
-                clearElement(watchedEpisodesElement)
-                episodesWatched++
-                let newText = document.createTextNode("Watched: " + episodesWatched)
-                watchedEpisodesElement.appendChild(newText)
-            }
-        }
-    })
-
-    let subtractEpisodeButton = document.createElement("button")
-    subtractEpisodeButton.innerHTML = "-"
-    subtractEpisodeButton.addEventListener("click", () => {
-        if (episodesWatched > 0) {
-            if (loggedIn) {
-                /*
-                db.collection(username).doc(show.Title).update({
-                    EpisodesWatched: episodesWatched - 1
-                })
-                .then(function() {
-                    
-                })
-                .catch(function(error) {
-                    console.error("Error updating document: ", error)
-                })
-                clearElement(watchedEpisodesElement)
-                episodesWatched--
-                let newText = document.createTextNode("Watched: " + episodesWatched)
-                watchedEpisodesElement.appendChild(newText)
-                */
-                (async () => {
-                    try {
-                        await db.collection(username).doc(show.Title).update({
-                            EpisodesWatched: episodesWatched - 1
-                        })
-                        clearElement(watchedEpisodesElement)
-                        episodesWatched--
-                        let newText = document.createTextNode("Watched: " + episodesWatched)
-                        watchedEpisodesElement.appendChild(newText)
-                    } catch (error) {
-                        console.error("Error updating document: ", error)
-                    }
-                })()
-            } else {
-                clearElement(watchedEpisodesElement)
-                episodesWatched--
-                let newText = document.createTextNode("Watched: " + episodesWatched)
-                watchedEpisodesElement.appendChild(newText)
-            }
-        }
-    })
-
-    buttonContainer.appendChild(addEpisodeButton)
-    buttonContainer.appendChild(subtractEpisodeButton)
-
-    let removeButton = document.createElement("button")
-    removeButton.classList.add("remove-button")
-    removeButton.innerHTML = "Remove"
-    removeButton.addEventListener("click", () => {
-        if (loggedIn) {
-            /*
-            db.collection(username).doc(show.Title).delete()
-            .then(function() {
-                div.parentNode.removeChild(div)
-            }).catch(function(error) {
-                console.log(error)
-            })
-            */
-            (async () => {
-                try {
-                    await db.collection(username).doc(show.Title).delete()
-                    div.parentNode.removeChild(div)
-                } catch (error) {
-                    console.log(error)
-                }
-            })()
-        } else {
-            div.parentNode.removeChild(div)
-        }
-    })
-
-    div.appendChild(titleElement)
-    div.appendChild(totalEpisodesElement)
-    div.appendChild(availableEpisodesElement)
-    div.appendChild(watchedEpisodesElement)
-    div.appendChild(buttonContainer)
-    div.appendChild(removeButton)
-
-    return div
-}
-
-function clearElement(element) {
-    while (element.firstChild) {
-        element.removeChild(element.firstChild)
-    }
-}
-
-function deleteElement(element) {
-    element.parentNode.removeChild(element)
-}
-
+//dom manipulation functions
 function createSignUpBox() {
     clearElement(menuSection)
 
@@ -419,6 +228,146 @@ function createLoginBox() {
     menuSection.appendChild(signUpBox)
 }
 
+function createShowElement(show, username) {
+    let daySectionElement = document.getElementById(show.Weekday)
+
+    let div = document.createElement("div")
+    div.classList.add("show-element")
+
+    let titleElement = document.createElement("h5")
+    let title = document.createTextNode(show.Title)
+    titleElement.appendChild(title)
+
+    let totalEpisodesElement = document.createElement("h6")
+    let episodes = document.createTextNode("Episodes: " + show.Episodes)
+    let totalEpisodes = show.Episodes
+    totalEpisodesElement.appendChild(episodes)
+
+    let availableEpisodesElement = document.createElement("h6")
+    let dateString = show.Month + " " + show.Day + ", " + show.Year + " " + show.Time
+    let episodesOut = getNumberOfEpisodesOut(dateString, currentDate, show.Episodes)
+    let episodesText = document.createTextNode("Released: " + episodesOut)
+    availableEpisodesElement.appendChild(episodesText)
+
+    let watchedEpisodesElement = document.createElement("h6")
+    watchedEpisodesElement.classList.add("watched")
+    let episodesWatched = show.EpisodesWatched
+    let watchedEpisodesText = document.createTextNode("Watched: " + episodesWatched)
+    watchedEpisodesElement.appendChild(watchedEpisodesText)
+
+    let buttonContainer = document.createElement("div")
+    buttonContainer.classList.add("button-container")
+
+    let addEpisodeButton = document.createElement("button")
+    addEpisodeButton.innerHTML = "+"
+    addEpisodeButton.addEventListener("click", () => {
+        if (episodesWatched < episodesOut) {
+            if (firebase.auth().currentUser) {
+                (async () => {
+                    try {
+                        await db.collection(username).doc(show.Title).update({
+                            EpisodesWatched: episodesWatched + 1
+                        })
+                        clearElement(watchedEpisodesElement)
+                        episodesWatched++
+                        let newText = document.createTextNode("Watched: " + episodesWatched)
+                        watchedEpisodesElement.appendChild(newText)
+                    } catch (error) {
+                        console.error("Error updating document: ", error)
+                    }
+                })()
+            } else {
+                clearElement(watchedEpisodesElement)
+                episodesWatched++
+                let newText = document.createTextNode("Watched: " + episodesWatched)
+                watchedEpisodesElement.appendChild(newText)
+            }
+        }
+    })
+
+    let subtractEpisodeButton = document.createElement("button")
+    subtractEpisodeButton.innerHTML = "-"
+    subtractEpisodeButton.addEventListener("click", () => {
+        if (episodesWatched > 0) {
+            if (firebase.auth().currentUser) {
+                (async () => {
+                    try {
+                        await db.collection(username).doc(show.Title).update({
+                            EpisodesWatched: episodesWatched - 1
+                        })
+                        clearElement(watchedEpisodesElement)
+                        episodesWatched--
+                        let newText = document.createTextNode("Watched: " + episodesWatched)
+                        watchedEpisodesElement.appendChild(newText)
+                    } catch (error) {
+                        console.error("Error updating document: ", error)
+                    }
+                })()
+            } else {
+                clearElement(watchedEpisodesElement)
+                episodesWatched--
+                let newText = document.createTextNode("Watched: " + episodesWatched)
+                watchedEpisodesElement.appendChild(newText)
+            }
+        }
+    })
+
+    buttonContainer.appendChild(addEpisodeButton)
+    buttonContainer.appendChild(subtractEpisodeButton)
+
+    let removeButton = document.createElement("button")
+    removeButton.classList.add("remove-button")
+    removeButton.innerHTML = "Remove"
+    removeButton.addEventListener("click", () => {
+        if (firebase.auth().currentUser) {
+            (async () => {
+                try {
+                    await db.collection(username).doc(show.Title).delete()
+                    div.parentNode.removeChild(div)
+                } catch (error) {
+                    console.log(error)
+                }
+            })()
+        } else {
+            div.parentNode.removeChild(div)
+        }
+    })
+
+    div.appendChild(titleElement)
+    div.appendChild(totalEpisodesElement)
+    div.appendChild(availableEpisodesElement)
+    div.appendChild(watchedEpisodesElement)
+    div.appendChild(buttonContainer)
+    div.appendChild(removeButton)
+
+    return div
+}
+
+function appendShowElement(show, username) {
+    switch (show.Weekday) {
+        case "Monday":
+            document.getElementById("Monday").appendChild(createShowElement(show, username))
+            break
+        case "Tuesday":
+            document.getElementById("Tuesday").appendChild(createShowElement(show, username))
+            break
+        case "Wednesday":
+            document.getElementById("Wednesday").appendChild(createShowElement(show, username))
+            break
+        case "Thursday":
+            document.getElementById("Thursday").appendChild(createShowElement(show, username))
+            break
+        case "Friday":
+            document.getElementById("Friday").appendChild(createShowElement(show, username))
+            break
+        case "Saturday":
+            document.getElementById("Saturday").appendChild(createShowElement(show, username))
+            break
+        case "Sunday":
+            document.getElementById("Sunday").appendChild(createShowElement(show, username))
+    }
+}
+
 function addHelpText() {
     const helpBox = document.getElementById("helper-text-box")
 
@@ -433,60 +382,6 @@ function addHelpText() {
     wrapperDiv.appendChild(helpTextH5)
     wrapperDiv.appendChild(helpTextH52)
     helpBox.appendChild(wrapperDiv)
-}
-
-/*
-function createNewUser(email, password) {
-    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
-        let errorCode = error.code
-        let errorMessage = error.message
-        console.log(errorMessage)
-    })
-}
-*/
-async function createNewUser(email, password) {
-    try {
-        await firebase.auth().createUserWithEmailAndPassword(email, password)
-    } catch (error) {
-        console.log(error.message)
-    }
-}
-
-/*
-function loginUser(email, password) {
-    firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-        let errorCode = error.code
-        let errorMessage = error.message
-        console.log(errorMessage)
-    })
-}
-*/
-async function loginUser(email, password) {
-    try {
-        await firebase.auth().signInWithEmailAndPassword(email, password)
-        console.log("Logged in successfully!")
-    } catch (error) {
-        console.log(error.message)
-    }
-}
-
-/*
-function signOutUser() {
-    firebase.auth().signOut().then(function() {
-        setNavToLoggedOut()
-        console.log("Signed out")
-    }).catch(function(error) {
-        console.log(error)
-    })
-}
-*/
-async function signOutUser() {
-    try {
-        await firebase.auth().signOut()
-        console.log("Signed out.")
-    } catch(error) {
-        console.log(error)
-    }
 }
 
 function setNavToLoggedIn(email) {
@@ -527,4 +422,24 @@ function setNavToLoggedOut() {
     nav.appendChild(header)
     nav.appendChild(signUp)
     nav.appendChild(login)
+}
+
+//utility functions
+function clearElement(element) {
+    while (element.firstChild) {
+        element.removeChild(element.firstChild)
+    }
+}
+
+function deleteElement(element) {
+    element.parentNode.removeChild(element)
+}
+
+function getNumberOfEpisodesOut(airDateString, currentDate, totalEpisodes) {
+    const airDate = new Date(airDateString)
+    let episodes = Math.floor((currentDate.getTime() - airDate.getTime()) / 604800000) + 1
+    if (episodes < totalEpisodes) {
+        return episodes
+    }
+    return totalEpisodes
 }
