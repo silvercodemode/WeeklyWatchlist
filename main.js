@@ -136,7 +136,7 @@ function submitNewShow() {
             appendShowElement(newShowObject)
         }
     } else {
-        alert('Total Episodes must be a number.')
+        alert('Name field cannot be empty. Total Episodes must be a number.')
     }
 }
 
