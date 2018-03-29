@@ -94,15 +94,14 @@ async function displayUsersWatchlist(username) {
 function submitNewShow() {
     const totalEpisodesElement = document.getElementById('total-episodes')
     const totalEpisodes = totalEpisodesElement.value
-    if (parseInt(totalEpisodes) && totalEpisodes > 0) {
+    const nameElement = document.getElementById('show-name')
+    const name = nameElement.value
+    if (name && parseInt(totalEpisodes) && totalEpisodes > 0) {
+        nameElement.value = ''
         totalEpisodesElement.value = ''
 
-        const nameElement = document.getElementById('show-name')
         const dateSelectElement = document.getElementById('date-select')
         const timeSelectElement = document.getElementById('time-select')
-
-        const name = nameElement.value
-        nameElement.value = ''
 
         const date = new Date(`${dateSelectElement.value}T${timeSelectElement.value}`)
         dateSelectElement.value = '2018-01-01'
