@@ -92,72 +92,52 @@ async function displayUsersWatchlist(username) {
 }
 
 function submitNewShow() {
-    const nameElement = document.getElementById('show-name')
     const totalEpisodesElement = document.getElementById('total-episodes')
-
-    const dateSelectElement = document.getElementById('date-select')
-    const timeSelectElement = document.getElementById('time-select')
-    /*
-    const monthSelectElement = document.getElementById('month-select')
-    const weekdaySelectElement = document.getElementById('weekday-select')
-    const dayElement = document.getElementById('day')
-    const timeElement = document.getElementById('time')
-    const yearElement = document.getElementById('year')
-    */
-
-    const name = nameElement.value
-    nameElement.value = ''
-
     const totalEpisodes = totalEpisodesElement.value
-    totalEpisodesElement.value = ''
+    if (parseInt(totalEpisodes) && totalEpisodes > 0) {
+        totalEpisodesElement.value = ''
 
-    const date = new Date(`${dateSelectElement.value}T${timeSelectElement.value}`)
-    dateSelectElement.value = '2018-01-01'
-    timeSelectElement.value = '12:00'
-    
-    const month = convertNumericMonthToString(date.getMonth())
+        const nameElement = document.getElementById('show-name')
+        const dateSelectElement = document.getElementById('date-select')
+        const timeSelectElement = document.getElementById('time-select')
 
-    const weekday = convertNumericWeekdayToString(date.getDay())
+        const name = nameElement.value
+        nameElement.value = ''
 
-    const day = date.getDate()
+        const date = new Date(`${dateSelectElement.value}T${timeSelectElement.value}`)
+        dateSelectElement.value = '2018-01-01'
+        timeSelectElement.value = '12:00'
 
-    const time = `${date.getHours()}:${date.getMinutes}`
+        const month = convertNumericMonthToString(date.getMonth())
 
-    const year = date.getFullYear().toString()
-    /*
-    const month = monthSelectElement.options[monthSelectElement.selectedIndex].value
-    monthSelectElement.options.selectedIndex = 0
+        const weekday = convertNumericWeekdayToString(date.getDay())
 
-    const weekday = weekdaySelectElement.options[weekdaySelectElement.selectedIndex].value
-    weekdaySelectElement.options.selectedIndex = 0
+        const day = date.getDate()
 
-    const day = dayElement.value
-    dayElement.value = ''
+        const time = `${date.getHours()}:${date.getMinutes}`
 
-    const time = timeElement.value + ':00'
-    timeElement.value = ''
+        const year = date.getFullYear().toString()
 
-    const year = yearElement.value
-    yearElement.value = ''
-    */
-    
-    const newShowObject = {
-        Title: name,
-        EpisodesWatched: 0,
-        Episodes: totalEpisodes,
-        Month: month,
-        Weekday: weekday,
-        Day: day,
-        Time: time,
-        Year: year
-    }
+        const newShowObject = {
+            Title: name,
+            EpisodesWatched: 0,
+            Episodes: totalEpisodes,
+            Month: month,
+            Weekday: weekday,
+            Day: day,
+            Time: time,
+            Year: year
+        }
 
-    const user = firebase.auth().currentUser
-    if (user) {
-        storeShowInUsersWatchlist(newShowObject, user.email)
-        appendShowElement(newShowObject, user.email)
+        const user = firebase.auth().currentUser
+        if (user) {
+            storeShowInUsersWatchlist(newShowObject, user.email)
+            appendShowElement(newShowObject, user.email)
+        } else {
+            appendShowElement(newShowObject)
+        }
     } else {
-        appendShowElement(newShowObject)
+        alert('Total Episodes must be a number.')
     }
 }
 
