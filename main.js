@@ -182,36 +182,34 @@ function createLoginBox() {
     clearElement(menuSection)
 
     const signUpBox = document.createElement('div')
+    signUpBox.classList.add('sign-up-box')
 
     const signUpHeader = document.createElement('h3')
     signUpHeader.textContent = 'Login'
+    signUpBox.appendChild(signUpHeader)
 
     const emailInput = document.createElement('input')
+    emailInput.placeholder = 'Email'
+    signUpBox.appendChild(emailInput)
+
     const passwordInput = document.createElement('input')
     passwordInput.setAttribute('type', 'password')
-    const submitButton = document.createElement('button')
-    const xButton = document.createElement('button')
-
-    emailInput.placeholder = 'Email'
     passwordInput.placeholder = 'Password'
+    signUpBox.appendChild(passwordInput)
 
+    const submitButton = document.createElement('button')
     submitButton.textContent = 'Submit'
     submitButton.addEventListener('click', function() {
         loginUser(emailInput.value, passwordInput.value)
     })
+    signUpBox.appendChild(submitButton)
 
+    const xButton = document.createElement('button')
     xButton.textContent = 'x'
     xButton.addEventListener('click', function() {
         clearElement(menuSection)
     })
-
-    signUpBox.appendChild(signUpHeader)
-    signUpBox.appendChild(emailInput)
-    signUpBox.appendChild(passwordInput)
-    signUpBox.appendChild(submitButton)
     signUpBox.appendChild(xButton)
-
-    signUpBox.classList.add('sign-up-box')
 
     menuSection.appendChild(signUpBox)
 }
@@ -224,20 +222,24 @@ function createShowElement(show, username = false) {
 
     const titleElement = document.createElement('h5')
     titleElement.textContent = show.Title
+    div.appendChild(titleElement)
 
     const totalEpisodesElement = document.createElement('h6')
     totalEpisodesElement.textContent = `Episodes: ${show.Episodes}`
     const totalEpisodes = show.Episodes
+    div.appendChild(totalEpisodesElement)
 
     const availableEpisodesElement = document.createElement('h6')
     const dateString = `${show.Month} ${show.Day}, ${show.Year} ${show.Time}`
     const episodesOut = getNumberOfEpisodesOut(dateString, currentDate, show.Episodes)
     availableEpisodesElement.textContent = `Released: ${episodesOut}`
+    div.appendChild(availableEpisodesElement)
 
     const watchedEpisodesElement = document.createElement('h6')
     let episodesWatched = show.EpisodesWatched
     watchedEpisodesElement.textContent = `Watched: ${episodesWatched}`
     watchedEpisodesElement.classList.add('watched')
+    div.appendChild(watchedEpisodesElement)
 
     const buttonContainer = document.createElement('div')
     buttonContainer.classList.add('button-container')
@@ -264,6 +266,7 @@ function createShowElement(show, username = false) {
             }
         }
     })
+    buttonContainer.appendChild(addEpisodeButton)
 
     const subtractEpisodeButton = document.createElement('button')
     subtractEpisodeButton.textContent = '-'
@@ -287,9 +290,9 @@ function createShowElement(show, username = false) {
             }
         }
     })
-
-    buttonContainer.appendChild(addEpisodeButton)
     buttonContainer.appendChild(subtractEpisodeButton)
+    
+    div.appendChild(buttonContainer)
 
     const removeButton = document.createElement('button')
     removeButton.classList.add('remove-button')
@@ -308,12 +311,6 @@ function createShowElement(show, username = false) {
             div.parentNode.removeChild(div)
         }
     })
-
-    div.appendChild(titleElement)
-    div.appendChild(totalEpisodesElement)
-    div.appendChild(availableEpisodesElement)
-    div.appendChild(watchedEpisodesElement)
-    div.appendChild(buttonContainer)
     div.appendChild(removeButton)
 
     return div
