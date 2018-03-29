@@ -94,11 +94,16 @@ async function displayUsersWatchlist(username) {
 function submitNewShow() {
     const nameElement = document.getElementById('show-name')
     const totalEpisodesElement = document.getElementById('total-episodes')
+
+    const dateSelectElement = document.getElementById('date-select')
+    const timeSelectElement = document.getElementById('time-select')
+    /*
     const monthSelectElement = document.getElementById('month-select')
     const weekdaySelectElement = document.getElementById('weekday-select')
     const dayElement = document.getElementById('day')
     const timeElement = document.getElementById('time')
     const yearElement = document.getElementById('year')
+    */
 
     const name = nameElement.value
     nameElement.value = ''
@@ -106,6 +111,20 @@ function submitNewShow() {
     const totalEpisodes = totalEpisodesElement.value
     totalEpisodesElement.value = ''
 
+    const date = new Date(`${dateSelectElement.value}T${timeSelectElement.value}`)
+    dateSelectElement.value = '2018-01-01'
+    timeSelectElement.value = '12:00'
+    
+    const month = convertNumericMonthToString(date.getMonth())
+
+    const weekday = convertNumericWeekdayToString(date.getDay())
+
+    const day = date.getDate()
+
+    const time = `${date.getHours()}:${date.getMinutes}`
+
+    const year = date.getFullYear().toString()
+    /*
     const month = monthSelectElement.options[monthSelectElement.selectedIndex].value
     monthSelectElement.options.selectedIndex = 0
 
@@ -120,6 +139,7 @@ function submitNewShow() {
 
     const year = yearElement.value
     yearElement.value = ''
+    */
     
     const newShowObject = {
         Title: name,
@@ -291,7 +311,7 @@ function createShowElement(show, username = false) {
         }
     })
     buttonContainer.appendChild(subtractEpisodeButton)
-    
+
     div.appendChild(buttonContainer)
 
     const removeButton = document.createElement('button')
@@ -408,4 +428,33 @@ function getNumberOfEpisodesOut(airDateString, currentDate, totalEpisodes) {
         return episodes
     }
     return totalEpisodes
+}
+
+function convertNumericMonthToString(numericMonth) {
+    switch (numericMonth) {
+        case 0: return 'January'
+        case 1: return 'February'
+        case 2: return 'March'
+        case 3: return 'April'
+        case 4: return 'May'
+        case 5: return 'June'
+        case 6: return 'July'
+        case 7: return 'August'
+        case 8: return 'September'
+        case 9: return 'October'
+        case 10: return 'November'
+        case 11: return 'December'
+    }
+}
+
+function convertNumericWeekdayToString(numericWeekday) {
+    switch (numericWeekday) {
+        case 0: return 'Monday'
+        case 1: return 'Tuesday'
+        case 2: return 'Wednesday'
+        case 3: return 'Thursday'
+        case 4: return 'Friday'
+        case 5: return 'Saturday'
+        case 6: return 'Sunday'
+    }
 }
