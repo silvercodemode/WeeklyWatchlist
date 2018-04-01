@@ -113,7 +113,15 @@ function submitNewShow() {
 
         const day = date.getDate()
 
-        const time = `${date.getHours()}:${date.getMinutes()}`
+        let hours = date.getHours()
+        if (hours < 10) {
+            hours = `0${hours}`
+        }
+        let minutes = date.getMinutes()
+        if (minutes < 10) {
+            minutes = `0${minutes}`
+        }
+        const time = `${hours}:${minutes}:00`
 
         const year = date.getFullYear().toString()
 
