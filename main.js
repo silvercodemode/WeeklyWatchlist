@@ -113,7 +113,7 @@ function submitNewShow() {
 
         const day = date.getDate()
 
-        const time = `${date.getHours()}:${date.getMinutes}`
+        const time = `${date.getHours()}:${date.getMinutes()}`
 
         const year = date.getFullYear().toString()
 
