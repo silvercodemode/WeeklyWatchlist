@@ -15,3 +15,4 @@ If you notice any bugs feel free to report them as i'm continually making improv
 #### Todo List
 
 1. Clean up login process to indicated something is happening when waiting on login response.
+2. Add time field to show listings and arrange shows by time in day.
