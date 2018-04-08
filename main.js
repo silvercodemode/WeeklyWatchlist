@@ -240,6 +240,7 @@ function createShowElement(show, username = false) {
     titleElement.textContent = show.Title
     div.appendChild(titleElement)
 
+    const timeElementWrapper = document.createElement('div')
     const timeElement = document.createElement('h6')
     let hour = parseInt(show.Time.substring(0,2))
     if (hour < 13) {
@@ -248,8 +249,9 @@ function createShowElement(show, username = false) {
         hour -= 12
         timeElement.textContent = `${hour}${show.Time.substring(2,5)} PM`
     }
-    timeElement.classList.add('time-section')
-    div.appendChild(timeElement)
+    timeElementWrapper.appendChild(timeElement)
+    timeElementWrapper.classList.add('time-section')
+    div.appendChild(timeElementWrapper)
 
     const totalEpisodesElement = document.createElement('h6')
     totalEpisodesElement.textContent = `Episodes: ${show.Episodes}`

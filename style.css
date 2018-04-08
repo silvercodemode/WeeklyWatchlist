@@ -55,6 +55,10 @@ body {
   margin: .35em 0 .35em 0;
 }
 
+.time-section h6 {
+  text-align: center;
+}
+
 .watched {
   text-align: center;
 }
@@ -179,10 +183,6 @@ body {
   border: none;
   padding: .5em;
   margin: .5em 0 .5em 0;
-}
-
-.time-section {
-  text-align: center;
 }
 
 .submit-button {
