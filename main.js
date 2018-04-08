@@ -83,9 +83,18 @@ async function storeShowInUsersWatchlist(showObject, username) {
 async function displayUsersWatchlist(username) {
     try {
         const querySnapshot = await db.collection(username).get()
+        /*
         querySnapshot.forEach(doc => {
             appendShowElement(doc.data(), username)
         })
+        */
+       const showObject = getSortedShowObject(querySnapshot)
+
+       for (let day in showObject) {
+           showObject[day].forEach(show => {
+               appendShowElement(show,username)
+           })
+       }
     } catch (error) {
         console.error('Error accessing collection: ', error)
     }
@@ -230,6 +239,10 @@ function createShowElement(show, username = false) {
     const titleElement = document.createElement('h5')
     titleElement.textContent = show.Title
     div.appendChild(titleElement)
+
+    const timeElement = document.createElement('h6')
+    timeElement.textContent = `Time: ${show.Time}`
+    div.appendChild(timeElement)
 
     const totalEpisodesElement = document.createElement('h6')
     totalEpisodesElement.textContent = `Episodes: ${show.Episodes}`
@@ -444,4 +457,43 @@ function convertNumericWeekdayToString(numericWeekday) {
         case 5: return 'Friday'
         case 6: return 'Saturday'
     }
+}
+
+function getSortedShowObject(querySnapshot) {
+    const sortedShowObject = {
+        Monday: [],
+        Tuesday: [],
+        Wednesday: [],
+        Thursday: [],
+        Friday: [],
+        Saturday: [],
+        Sunday: []
+    }
+
+    querySnapshot.forEach(doc => {
+        const show = doc.data()
+        switch (show.Weekday) {
+            case 'Sunday':
+                sortedShowObject.Sunday.push(show)
+            case 'Monday':
+                sortedShowObject.Monday.push(show)
+            case 'Tuesday':
+                sortedShowObject.Tuesday.push(show)
+            case 'Wednesday':
+                sortedShowObject.Wednesday.push(show)
+            case 'Thursday':
+                sortedShowObject.Thursday.push(show)
+            case 'Friday':
+                sortedShowObject.Friday.push(show)
+            case 'Saturday':
+                sortedShowObject.Saturday.push(show)
+        }
+    })
+
+    for (let day in sortedShowObject) {
+        sortedShowObject[day].sort((a, b) => {
+            return parseInt(b.Time.substring(0,2)) * 100 + parseInt(b.Time.substring(3,5)) - parseInt(a.Time.substring(0,2)) * 100 + parseInt(a.Time.substring(3,5))
+        })
+    }
+    return sortedShowObject
 }
