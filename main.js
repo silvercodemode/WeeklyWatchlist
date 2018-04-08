@@ -241,7 +241,14 @@ function createShowElement(show, username = false) {
     div.appendChild(titleElement)
 
     const timeElement = document.createElement('h6')
-    timeElement.textContent = `Time: ${show.Time}`
+    let hour = parseInt(show.Time.substring(0,2))
+    if (hour < 13) {
+        timeElement.textContent = `${hour}${show.Time.substring(2,5)} AM`
+    } else {
+        hour -= 12
+        timeElement.textContent = `${hour}${show.Time.substring(2,5)} PM`
+    }
+    timeElement.classList.add('time-section')
     div.appendChild(timeElement)
 
     const totalEpisodesElement = document.createElement('h6')
@@ -495,7 +502,7 @@ function getSortedShowObject(querySnapshot) {
                 sortedShowObject.Saturday.push(show)
         }
     })
-    
+
     for (let day in sortedShowObject) {
         if (sortedShowObject[day].length > 1) {
             sortedShowObject[day].sort((a, b) => {

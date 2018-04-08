@@ -181,6 +181,10 @@ body {
   margin: .5em 0 .5em 0;
 }
 
+.time-section {
+  text-align: center;
+}
+
 .submit-button {
   background-color: #00ade2;
   border: none;
