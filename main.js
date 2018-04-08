@@ -471,29 +471,37 @@ function getSortedShowObject(querySnapshot) {
     }
 
     querySnapshot.forEach(doc => {
-        const show = doc.data()
+        let show = doc.data()
         switch (show.Weekday) {
             case 'Sunday':
                 sortedShowObject.Sunday.push(show)
+                break;
             case 'Monday':
                 sortedShowObject.Monday.push(show)
+                break;
             case 'Tuesday':
                 sortedShowObject.Tuesday.push(show)
+                break;
             case 'Wednesday':
                 sortedShowObject.Wednesday.push(show)
+                break;
             case 'Thursday':
                 sortedShowObject.Thursday.push(show)
+                break;
             case 'Friday':
                 sortedShowObject.Friday.push(show)
+                break;
             case 'Saturday':
                 sortedShowObject.Saturday.push(show)
         }
     })
 
     for (let day in sortedShowObject) {
-        sortedShowObject[day].sort((a, b) => {
-            return parseInt(b.Time.substring(0,2)) * 100 + parseInt(b.Time.substring(3,5)) - parseInt(a.Time.substring(0,2)) * 100 + parseInt(a.Time.substring(3,5))
-        })
+        if (sortedShowObject[day].length > 1) {
+            sortedShowObject[day].sort((a, b) => {
+                return parseInt(b.Time.substring(0,2)) * 100 + parseInt(b.Time.substring(3,5)) - parseInt(a.Time.substring(0,2)) * 100 + parseInt(a.Time.substring(3,5))
+            })
+        }
     }
     return sortedShowObject
 }
