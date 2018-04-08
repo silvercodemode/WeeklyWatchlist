@@ -88,13 +88,13 @@ async function displayUsersWatchlist(username) {
             appendShowElement(doc.data(), username)
         })
         */
-       const showObject = getSortedShowObject(querySnapshot)
-
-       for (let day in showObject) {
-           showObject[day].forEach(show => {
-               appendShowElement(show,username)
-           })
-       }
+        const showObject = getSortedShowObject(querySnapshot)
+        console.log(showObject)
+        for (let day in showObject) {
+            showObject[day].forEach(show => {
+                appendShowElement(show, username)
+            })
+        }
     } catch (error) {
         console.error('Error accessing collection: ', error)
     }
