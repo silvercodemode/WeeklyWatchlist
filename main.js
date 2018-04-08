@@ -243,8 +243,10 @@ function createShowElement(show, username = false) {
     const timeElementWrapper = document.createElement('div')
     const timeElement = document.createElement('h6')
     let hour = parseInt(show.Time.substring(0,2))
-    if (hour < 13) {
+    if (hour < 12) {
         timeElement.textContent = `${hour}${show.Time.substring(2,5)} AM`
+    } else if (hour = 12) {
+        timeElement.textContent = `${hour}${show.Time.substring(2,5)} PM`
     } else {
         hour -= 12
         timeElement.textContent = `${hour}${show.Time.substring(2,5)} PM`
