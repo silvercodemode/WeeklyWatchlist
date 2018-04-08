@@ -495,11 +495,11 @@ function getSortedShowObject(querySnapshot) {
                 sortedShowObject.Saturday.push(show)
         }
     })
-
+    
     for (let day in sortedShowObject) {
         if (sortedShowObject[day].length > 1) {
             sortedShowObject[day].sort((a, b) => {
-                return parseInt(b.Time.substring(0,2)) * 100 + parseInt(b.Time.substring(3,5)) - parseInt(a.Time.substring(0,2)) * 100 + parseInt(a.Time.substring(3,5))
+                return parseInt(a.Time.substring(0,2)) * 100 + parseInt(a.Time.substring(3,5)) - parseInt(b.Time.substring(0,2)) * 100 + parseInt(b.Time.substring(3,5))
             })
         }
     }
