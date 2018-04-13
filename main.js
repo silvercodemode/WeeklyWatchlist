@@ -423,6 +423,12 @@ function setNavToLoggedIn(email) {
     signOut.textContent = 'Sign Out'
     signOut.addEventListener('click', signOutUser)
     nav.appendChild(signOut)
+
+    const icon = document.createElement('a')
+    icon.textContent = '\u{1D306}'
+    icon.addEventListener('click', toggleMobileNavMenu)
+    icon.classList.add('icon')
+    nav.appendChild(icon)
 }
 
 function setNavToLoggedOut() {
@@ -452,7 +458,7 @@ function setNavToLoggedOut() {
 
 function toggleMobileNavMenu() {
     const nav = document.getElementById('nav')
-    if (nav.childElementCount == 4) { 
+    if (nav.childElementCount == 4 || nav.childElementCount == 3) { 
         const loginButton = document.createElement('h3')
         loginButton.textContent = 'Login'
         loginButton.addEventListener('click', createLoginBox)
