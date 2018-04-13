@@ -459,13 +459,17 @@ function setNavToLoggedOut() {
 function toggleMobileNavMenu() {
     const nav = document.getElementById('nav')
     let user = firebase.auth().currentUser
-    if (nav.childElementCount == 4 || nav.childElementCount == 3) {
-        if (user) {
+    if (user) {
+        if (nav.childElementCount == 3) {
             const singOutButton = document.createElement('h3')
             singOutButton.textContent = 'Sign Out'
             singOutButton.addEventListener('click', signOutUser)
             nav.appendChild(singOutButton)
         } else {
+            setNavToLoggedIn()
+        }
+    } else {
+        if (nav.childElementCount == 4) {
             const loginButton = document.createElement('h3')
             loginButton.textContent = 'Login'
             loginButton.addEventListener('click', createLoginBox)
@@ -475,10 +479,6 @@ function toggleMobileNavMenu() {
             signUpButton.textContent = 'Sign up'
             signUpButton.addEventListener('click', createSignUpBox)
             nav.appendChild(signUpButton)
-        }
-    } else {
-        if (user) {
-            setNavToLoggedIn()
         } else {
             setNavToLoggedOut()
         }
