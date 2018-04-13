@@ -164,32 +164,44 @@ function createSignUpBox() {
     const signUpBox = document.createElement('div')
     signUpBox.classList.add('sign-up-box')
 
+    const headerWrapper = document.createElement('div')
+
     const signUpHeader = document.createElement('h3')
     signUpHeader.textContent = 'Sign Up'
-    signUpBox.appendChild(signUpHeader)
+    headerWrapper.appendChild(signUpHeader)
+
+    signUpBox.appendChild(headerWrapper)
+
+    const inputWrapper = document.createElement('div')
 
     const emailInput = document.createElement('input')
     emailInput.placeholder = 'Email'
-    signUpBox.appendChild(emailInput)
+    inputWrapper.appendChild(emailInput)
 
     const passwordInput = document.createElement('input')
     passwordInput.placeholder = 'Password'
     passwordInput.setAttribute('type', 'password')
-    signUpBox.appendChild(passwordInput)
+    inputWrapper.appendChild(passwordInput)
+
+    signUpBox.appendChild(inputWrapper)
+
+    const buttonWrapper = document.createElement('div')
 
     const submitButton = document.createElement('button')
     submitButton.textContent = 'Submit'
     submitButton.addEventListener('click', function() {
         createNewUser(emailInput.value, passwordInput.value)
     })
-    signUpBox.appendChild(submitButton)
+    buttonWrapper.appendChild(submitButton)
 
     const xButton = document.createElement('button')
     xButton.textContent = 'x'
     xButton.addEventListener('click', function() {
         clearElement(menuSection)
     })
-    signUpBox.appendChild(xButton)
+    buttonWrapper.appendChild(xButton)
+
+    signUpBox.appendChild(buttonWrapper)
 
     menuSection.appendChild(signUpBox)
 }
@@ -199,33 +211,45 @@ function createLoginBox() {
 
     const signUpBox = document.createElement('div')
     signUpBox.classList.add('sign-up-box')
+    
+    const headerWrapper = document.createElement('div')
 
     const signUpHeader = document.createElement('h3')
     signUpHeader.textContent = 'Login'
-    signUpBox.appendChild(signUpHeader)
+    headerWrapper.appendChild(signUpHeader)
+
+    signUpBox.appendChild(headerWrapper)
+
+    const inputWrapper = document.createElement('div')
 
     const emailInput = document.createElement('input')
     emailInput.placeholder = 'Email'
-    signUpBox.appendChild(emailInput)
+    inputWrapper.appendChild(emailInput)
 
     const passwordInput = document.createElement('input')
     passwordInput.setAttribute('type', 'password')
     passwordInput.placeholder = 'Password'
-    signUpBox.appendChild(passwordInput)
+    inputWrapper.appendChild(passwordInput)
+
+    signUpBox.appendChild(inputWrapper)
+
+    const buttonWrapper = document.createElement('div')
 
     const submitButton = document.createElement('button')
     submitButton.textContent = 'Submit'
     submitButton.addEventListener('click', function() {
         loginUser(emailInput.value, passwordInput.value)
     })
-    signUpBox.appendChild(submitButton)
+    buttonWrapper.appendChild(submitButton)
 
     const xButton = document.createElement('button')
     xButton.textContent = 'x'
     xButton.addEventListener('click', function() {
         clearElement(menuSection)
     })
-    signUpBox.appendChild(xButton)
+    buttonWrapper.appendChild(xButton)
+
+    signUpBox.appendChild(buttonWrapper)
 
     menuSection.appendChild(signUpBox)
 }
@@ -379,13 +403,10 @@ function addHelpText() {
 
     const wrapperDiv = document.createElement('div')
 
-    const helpTextH5 = document.createElement('h5')
-    helpTextH5.textContent = 'Fill out the "Add Show" section and click Submit to add to a sample watchlist.'
-    wrapperDiv.appendChild(helpTextH5)
-
-    const helpTextH52 = document.createElement('h5')
-    helpTextH52.textContent = 'To create a permanant list click "Sign Up" to create an account and login then add shows once logged in.'
-    wrapperDiv.appendChild(helpTextH52)
+    const helpText = document.createElement('h5')
+    helpText.textContent = 'Fill out the "Add Show" section to try out. Sign up with an email and submit to save.'
+    helpText.classList.add('help-text')
+    wrapperDiv.appendChild(helpText)
 
     helpBox.appendChild(wrapperDiv)
 }
@@ -421,6 +442,34 @@ function setNavToLoggedOut() {
     login.textContent = 'Login'
     login.addEventListener('click', createLoginBox)
     nav.appendChild(login)
+
+    const icon = document.createElement('a')
+    icon.textContent = '\u{1D306}'
+    icon.addEventListener('click', toggleMobileNavMenu)
+    icon.classList.add('icon')
+    nav.appendChild(icon)
+}
+
+function toggleMobileNavMenu() {
+    const nav = document.getElementById('nav')
+    if (nav.childElementCount == 4) { 
+        const loginButton = document.createElement('h3')
+        loginButton.textContent = 'Login'
+        loginButton.addEventListener('click', createLoginBox)
+        nav.appendChild(loginButton)
+    
+        const signUpButton = document.createElement('h3')
+        signUpButton.textContent = 'Sign up'
+        signUpButton.addEventListener('click', createSignUpBox)
+        nav.appendChild(signUpButton)
+    } else {
+        let user = firebase.auth().currentUser
+        if (user) {
+            setNavToLoggedIn()
+        } else {
+            setNavToLoggedOut()
+        }
+    }
 }
 
 //utility functions

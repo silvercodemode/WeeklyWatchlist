@@ -8,13 +8,24 @@ body {
   overflow: hidden;
 }
 
+.navTop {
+  display: inline-block;
+}
+
 .topnav h2 {
-  float: left;
+  display: inline-block;
   color: #f2f2f2;
   text-align: center;
   padding: 15px 0px 0px 15px;
   margin: 0;
   text-decoration: none;
+}
+
+.topnav h3 {
+  color: #f2f2f2;
+  text-align: center;
+  font-size: 1em;
+  display: none;
 }
 
 .topnav a {
@@ -36,10 +47,46 @@ body {
   color: white;
 }
 
+.topnav .icon {
+  display: none;
+}
+
+@media screen and (max-width: 800px) {
+  .topnav h2 {
+    font-size: 1em;
+  }
+
+  .topnav h3 {
+    display: block;
+  }
+
+  .topnav h3:hover {
+    background-color: #ddd;
+    color: #144f0f;
+    cursor: pointer;
+  }
+
+  .topnav a {
+    display: none;
+  }
+
+  .topnav .icon {
+    display: inline-block;
+  }
+}
+
 .watchlist-grid-container {
   display: grid;
   grid-template-columns: minmax(100px, 13%) minmax(100px, 13%) minmax(100px, 13%) minmax(100px, 13%) minmax(100px, 13%) minmax(100px, 13%) minmax(100px, 13%);
   justify-content: space-evenly;
+}
+
+@media screen and (max-width: 800px) {
+  .watchlist-grid-container {
+    display: grid;
+    grid-template-columns: 100%;
+    justify-content: space-evenly;
+  }
 }
 
 .watchlist-grid-container h4 {
@@ -224,6 +271,7 @@ body {
   text-align: center;
   background-color: #f2f2f2;
   padding: 1em 0 1em 0;
+  flex-wrap: wrap;
 }
 
 .sign-up-box ::placeholder {
@@ -240,6 +288,10 @@ body {
   text-align: center;
   margin-left: .5em;
   margin-right: .5em;
+  margin-top: .5em;
+  margin-bottom: .5em;
+  padding-top: .5em;
+  padding-bottom: .5em;
 }
 
 .login-x-button {
@@ -251,8 +303,7 @@ body {
   color: #f2f2f2;
   border: none;
   padding: 1em 1em 1em 1em;
-  margin-left: .5em;
-  margin-right: .5em;
+  margin: .5em .5em .5em .5em;
 }
 
 #helper-text-box div {
