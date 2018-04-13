@@ -466,7 +466,7 @@ function toggleMobileNavMenu() {
             singOutButton.addEventListener('click', signOutUser)
             nav.appendChild(singOutButton)
         } else {
-            setNavToLoggedIn()
+            setNavToLoggedIn(user.email)
         }
     } else {
         if (nav.childElementCount == 4) {
