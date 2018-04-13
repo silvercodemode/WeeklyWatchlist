@@ -458,18 +458,25 @@ function setNavToLoggedOut() {
 
 function toggleMobileNavMenu() {
     const nav = document.getElementById('nav')
-    if (nav.childElementCount == 4 || nav.childElementCount == 3) { 
-        const loginButton = document.createElement('h3')
-        loginButton.textContent = 'Login'
-        loginButton.addEventListener('click', createLoginBox)
-        nav.appendChild(loginButton)
-    
-        const signUpButton = document.createElement('h3')
-        signUpButton.textContent = 'Sign up'
-        signUpButton.addEventListener('click', createSignUpBox)
-        nav.appendChild(signUpButton)
+    let user = firebase.auth().currentUser
+    if (nav.childElementCount == 4 || nav.childElementCount == 3) {
+        if (user) {
+            const singOutButton = document.createElement('h3')
+            singOutButton.textContent = 'Sign Out'
+            singOutButton.addEventListener('click', signOutUser)
+            nav.appendChild(singOutButton)
+        } else {
+            const loginButton = document.createElement('h3')
+            loginButton.textContent = 'Login'
+            loginButton.addEventListener('click', createLoginBox)
+            nav.appendChild(loginButton)
+        
+            const signUpButton = document.createElement('h3')
+            signUpButton.textContent = 'Sign up'
+            signUpButton.addEventListener('click', createSignUpBox)
+            nav.appendChild(signUpButton)
+        }
     } else {
-        let user = firebase.auth().currentUser
         if (user) {
             setNavToLoggedIn()
         } else {
