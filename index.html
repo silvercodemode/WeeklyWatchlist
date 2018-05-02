@@ -3,8 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="icon" type="image/png" href="list.png">
+  <link rel="icon" type="image/png" href="assets/list-icon-256.png">
   <title>Weekly Watchlist</title>
+  <meta name="Description" content="Create a watchlist to track weekly airing shows!">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#144f0f">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
   <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-app.js"></script>
@@ -80,15 +83,15 @@
         <input placeholder="Total Episodes" id="total-episodes" type="text" class="">
       </div>
       <div>
-        <label>Original Air Date</label>
+        <label for="date-select">Original Air Date</label>
       </div>
       <div>
         <input id="date-select" type="date" value="2018-01-01">
       </div>
       <div>
-        <label for="time">Air Time</label>
+        <label for="time-select">Air Time</label>
       </div>
-      <div class="">
+      <div>
         <input id="time-select" type="time" value="12:00">
       </div>
     </div>
