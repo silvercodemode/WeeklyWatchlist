@@ -1,3 +1,8 @@
+//register service worker
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('serviceworker.js')
+}
+
 const config = {
     apiKey: 'AIzaSyBZ2Se4cy0I0DSlcWBoj2FrB3DCxkmSHYo',
     authDomain: 'animewatchlist-3d4f5.firebaseapp.com',
