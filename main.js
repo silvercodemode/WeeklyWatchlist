@@ -12,7 +12,7 @@ const db = firebase.firestore()
 
 const currentDate = new Date()
 
-//setting some dom references that are used a lot to top scope variables
+//setting some dom references that are used a lot to global scope variables
 const mondayColumn = document.getElementById('Monday')
 const tuesdayColumn = document.getElementById('Tuesday')
 const wednesdayColumn = document.getElementById('Wednesday')
@@ -45,58 +45,29 @@ firebase.auth().onAuthStateChanged(user => {
 })
 
 //functions that call firebase
-async function createNewUser(email, password) {
-    try {
-        await firebase.auth().createUserWithEmailAndPassword(email, password)
-    } catch (error) {
-        console.log(error.message)
-    }
+function createNewUser(email, password) {
+    firebase.auth().createUserWithEmailAndPassword(email, password)
 }
 
-async function loginUser(email, password) {
-    try {
-        await firebase.auth().signInWithEmailAndPassword(email, password)
-        console.log('Logged in successfully!')
-    } catch (error) {
-        console.log(error.message)
-    }
+function loginUser(email, password) {
+    firebase.auth().signInWithEmailAndPassword(email, password)
 }
 
-async function signOutUser() {
-    try {
-        await firebase.auth().signOut()
-        console.log('Signed out.')
-    } catch(error) {
-        console.log(error)
-    }
+function signOutUser() {
+    firebase.auth().signOut()
 }
 
-async function storeShowInUsersWatchlist(showObject, username) {
-    try {
-        await db.collection(username).doc(showObject.Title).set(showObject)
-        console.log(`${showObject.Title} successfully saved!`)
-    } catch (error) {
-        console.error('Error writing document: ', error)
-    }
+function storeShowInUsersWatchlist(showObject, username) {
+    db.collection(username).doc(showObject.Title).set(showObject)
 }
 
 async function displayUsersWatchlist(username) {
-    try {
-        const querySnapshot = await db.collection(username).get()
-        /*
-        querySnapshot.forEach(doc => {
-            appendShowElement(doc.data(), username)
+    const querySnapshot = await db.collection(username).get()
+    const showObject = getSortedShowObject(querySnapshot)
+    for (let day in showObject) {
+        showObject[day].forEach(show => {
+            appendShowElement(show, username)
         })
-        */
-        const showObject = getSortedShowObject(querySnapshot)
-        console.log(showObject)
-        for (let day in showObject) {
-            showObject[day].forEach(show => {
-                appendShowElement(show, username)
-            })
-        }
-    } catch (error) {
-        console.error('Error accessing collection: ', error)
     }
 }
 
@@ -255,8 +226,6 @@ function createLoginBox() {
 }
 
 function createShowElement(show, username = false) {
-    const daySectionElement = document.getElementById(show.Weekday)
-
     const div = document.createElement('div')
     div.classList.add('show-element')
 
@@ -271,7 +240,7 @@ function createShowElement(show, username = false) {
         timeElement.textContent = `12${show.Time.substring(2,5)} AM`
     } else if (hour < 12) {
         timeElement.textContent = `${hour}${show.Time.substring(2,5)} AM`
-    } else if (hour = 12) {
+    } else if (hour == 12) {
         timeElement.textContent = `${hour}${show.Time.substring(2,5)} PM`
     } else {
         hour -= 12
@@ -283,7 +252,6 @@ function createShowElement(show, username = false) {
 
     const totalEpisodesElement = document.createElement('h6')
     totalEpisodesElement.textContent = `Episodes: ${show.Episodes}`
-    const totalEpisodes = show.Episodes
     div.appendChild(totalEpisodesElement)
 
     const availableEpisodesElement = document.createElement('h6')
@@ -307,15 +275,11 @@ function createShowElement(show, username = false) {
         if (episodesWatched < episodesOut) {
             if (firebase.auth().currentUser && username) {
                 (async () => {
-                    try {
-                        await db.collection(username).doc(show.Title).update({
-                            EpisodesWatched: episodesWatched + 1
-                        })
-                        episodesWatched++
-                        watchedEpisodesElement.textContent = `Watched: ${episodesWatched}`
-                    } catch (error) {
-                        console.error('Error updating document: ', error)
-                    }
+                    await db.collection(username).doc(show.Title).update({
+                        EpisodesWatched: episodesWatched + 1
+                    })
+                    episodesWatched++
+                    watchedEpisodesElement.textContent = `Watched: ${episodesWatched}`
                 })()
             } else {
                 episodesWatched++
@@ -331,15 +295,11 @@ function createShowElement(show, username = false) {
         if (episodesWatched > 0) {
             if (firebase.auth().currentUser && username) {
                 (async () => {
-                    try {
-                        await db.collection(username).doc(show.Title).update({
-                            EpisodesWatched: episodesWatched - 1
-                        })
-                        episodesWatched--
-                        watchedEpisodesElement.textContent = `Watched: ${episodesWatched}`
-                    } catch (error) {
-                        console.error('Error updating document: ', error)
-                    }
+                    await db.collection(username).doc(show.Title).update({
+                        EpisodesWatched: episodesWatched - 1
+                    })
+                    episodesWatched--
+                    watchedEpisodesElement.textContent = `Watched: ${episodesWatched}`
                 })()
             } else {
                 episodesWatched--
@@ -357,12 +317,8 @@ function createShowElement(show, username = false) {
     removeButton.addEventListener('click', () => {
         if (firebase.auth().currentUser && username) {
             (async () => {
-                try {
-                    await db.collection(username).doc(show.Title).delete()
-                    div.parentNode.removeChild(div)
-                } catch (error) {
-                    console.log(error)
-                }
+                await db.collection(username).doc(show.Title).delete()
+                div.parentNode.removeChild(div)
             })()
         } else {
             div.parentNode.removeChild(div)
@@ -375,26 +331,26 @@ function createShowElement(show, username = false) {
 
 function appendShowElement(show, username) {
     switch (show.Weekday) {
-        case 'Monday':
-            mondayColumn.appendChild(createShowElement(show, username))
-            break
-        case 'Tuesday':
-            tuesdayColumn.appendChild(createShowElement(show, username))
-            break
-        case 'Wednesday':
-            wednesdayColumn.appendChild(createShowElement(show, username))
-            break
-        case 'Thursday':
-            thursdayColumn.appendChild(createShowElement(show, username))
-            break
-        case 'Friday':
-            fridayColumn.appendChild(createShowElement(show, username))
-            break
-        case 'Saturday':
-            saturdayColumn.appendChild(createShowElement(show, username))
-            break
-        case 'Sunday':
-            sundayColumn.appendChild(createShowElement(show, username))
+    case 'Monday':
+        mondayColumn.appendChild(createShowElement(show, username))
+        break
+    case 'Tuesday':
+        tuesdayColumn.appendChild(createShowElement(show, username))  
+        break
+    case 'Wednesday':
+        wednesdayColumn.appendChild(createShowElement(show, username))
+        break
+    case 'Thursday':
+        thursdayColumn.appendChild(createShowElement(show, username))
+        break
+    case 'Friday':
+        fridayColumn.appendChild(createShowElement(show, username))
+        break
+    case 'Saturday':
+        saturdayColumn.appendChild(createShowElement(show, username))
+        break
+    case 'Sunday':
+        sundayColumn.appendChild(createShowElement(show, username))
     }
 }
 
@@ -492,10 +448,6 @@ function clearElement(element) {
     }
 }
 
-function deleteElement(element) {
-    element.parentNode.removeChild(element)
-}
-
 function getNumberOfEpisodesOut(airDateString, currentDate, totalEpisodes) {
     const airDate = new Date(airDateString)
     const episodes = Math.floor((currentDate.getTime() - airDate.getTime()) / 604800000) + 1
@@ -507,30 +459,30 @@ function getNumberOfEpisodesOut(airDateString, currentDate, totalEpisodes) {
 
 function convertNumericMonthToString(numericMonth) {
     switch (numericMonth) {
-        case 0: return 'January'
-        case 1: return 'February'
-        case 2: return 'March'
-        case 3: return 'April'
-        case 4: return 'May'
-        case 5: return 'June'
-        case 6: return 'July'
-        case 7: return 'August'
-        case 8: return 'September'
-        case 9: return 'October'
-        case 10: return 'November'
-        case 11: return 'December'
+    case 0: return 'January'
+    case 1: return 'February'
+    case 2: return 'March'
+    case 3: return 'April'
+    case 4: return 'May'
+    case 5: return 'June'
+    case 6: return 'July'
+    case 7: return 'August'
+    case 8: return 'September'
+    case 9: return 'October'
+    case 10: return 'November'
+    case 11: return 'December'
     }
 }
 
 function convertNumericWeekdayToString(numericWeekday) {
     switch (numericWeekday) {
-        case 0: return 'Sunday'
-        case 1: return 'Monday'
-        case 2: return 'Tuesday'
-        case 3: return 'Wednesday'
-        case 4: return 'Thursday'
-        case 5: return 'Friday'
-        case 6: return 'Saturday'
+    case 0: return 'Sunday'
+    case 1: return 'Monday'
+    case 2: return 'Tuesday'
+    case 3: return 'Wednesday'
+    case 4: return 'Thursday'
+    case 5: return 'Friday'
+    case 6: return 'Saturday'
     }
 }
 
@@ -548,26 +500,26 @@ function getSortedShowObject(querySnapshot) {
     querySnapshot.forEach(doc => {
         let show = doc.data()
         switch (show.Weekday) {
-            case 'Sunday':
-                sortedShowObject.Sunday.push(show)
-                break;
-            case 'Monday':
-                sortedShowObject.Monday.push(show)
-                break;
-            case 'Tuesday':
-                sortedShowObject.Tuesday.push(show)
-                break;
-            case 'Wednesday':
-                sortedShowObject.Wednesday.push(show)
-                break;
-            case 'Thursday':
-                sortedShowObject.Thursday.push(show)
-                break;
-            case 'Friday':
-                sortedShowObject.Friday.push(show)
-                break;
-            case 'Saturday':
-                sortedShowObject.Saturday.push(show)
+        case 'Sunday':
+            sortedShowObject.Sunday.push(show)
+            break
+        case 'Monday':
+            sortedShowObject.Monday.push(show)
+            break
+        case 'Tuesday':
+            sortedShowObject.Tuesday.push(show)
+            break
+        case 'Wednesday':
+            sortedShowObject.Wednesday.push(show)
+            break
+        case 'Thursday':
+            sortedShowObject.Thursday.push(show)
+            break
+        case 'Friday':
+            sortedShowObject.Friday.push(show)
+            break
+        case 'Saturday':
+            sortedShowObject.Saturday.push(show)
         }
     })
 
