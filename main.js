@@ -40,7 +40,7 @@ firebase.auth().onAuthStateChanged(user => {
 
     if (user) {
         const email = user.email
-        setNavToLoggedIn(email)
+        setNavToLoggedIn()
         clearElement(document.getElementById('helper-text-box'))
         displayUsersWatchlist(email)
     } else {
@@ -93,21 +93,11 @@ function submitNewShow() {
         timeSelectElement.value = '12:00'
 
         const month = convertNumericMonthToString(date.getMonth())
-
         const weekday = convertNumericWeekdayToString(date.getDay())
-
         const day = date.getDate()
-
-        let hours = date.getHours()
-        if (hours < 10) {
-            hours = `0${hours}`
-        }
-        let minutes = date.getMinutes()
-        if (minutes < 10) {
-            minutes = `0${minutes}`
-        }
+        const hours = date.getHours() > 9 ? date.getHours() : `0${date.getHours()}`
+        const minutes = date.getMinutes() > 9 ? date.getMinutes() : `0${date.getMinutes()}`
         const time = `${hours}:${minutes}:00`
-
         const year = date.getFullYear().toString()
 
         const newShowObject = {
@@ -372,12 +362,12 @@ function addHelpText() {
     helpBox.appendChild(wrapperDiv)
 }
 
-function setNavToLoggedIn(email) {
+function setNavToLoggedIn() {
     const nav = document.getElementById('nav')
     clearElement(nav)
 
     const header = document.createElement('h2')
-    header.textContent = `${email}'s Weekly Watchlist`
+    header.textContent = 'Your Weekly Watchlist'
     nav.appendChild(header)
 
     const signOut = document.createElement('a')
@@ -427,7 +417,7 @@ function toggleMobileNavMenu() {
             singOutButton.addEventListener('click', signOutUser)
             nav.appendChild(singOutButton)
         } else {
-            setNavToLoggedIn(user.email)
+            setNavToLoggedIn()
         }
     } else {
         if (nav.childElementCount == 4) {
