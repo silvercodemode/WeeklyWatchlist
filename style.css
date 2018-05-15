@@ -60,7 +60,7 @@ h5 {
 }
 
 .topnav a.active {
-  background-color: var(--secondary-green)0;
+  background-color: var(--secondary-green);
   color: white;
 }
 
@@ -75,6 +75,7 @@ h5 {
 
   .topnav h3 {
     display: block;
+    font-size: 1em;
   }
 
   .topnav h3:hover {
