@@ -376,7 +376,7 @@ function setNavToLoggedIn() {
     nav.appendChild(signOut)
 
     const icon = document.createElement('a')
-    icon.textContent = '\u{1D306}'
+    icon.textContent = '☰'
     icon.addEventListener('click', toggleMobileNavMenu)
     icon.classList.add('icon')
     nav.appendChild(icon)
@@ -401,7 +401,7 @@ function setNavToLoggedOut() {
     nav.appendChild(login)
 
     const icon = document.createElement('a')
-    icon.textContent = '\u{1D306}'
+    icon.textContent = '☰'
     icon.addEventListener('click', toggleMobileNavMenu)
     icon.classList.add('icon')
     nav.appendChild(icon)
