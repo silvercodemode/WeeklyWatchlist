@@ -335,3 +335,33 @@ h5 {
   text-align: center;
   margin: 0;
 }
+
+.spinner {
+  border: 8px solid var(--secondary-gray);
+  border-top: 8px solid var(--primary-green);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1.5s linear infinite;
+  margin: auto;
+  margin-top: 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-text {
+  color: var(--secondary-red);
+  text-align: center;
+}
+
+.error-text button {
+  background-color: var(--primary-gray);
+  border: none;
+  border-radius: 1em;
+  color: white;
+  margin: .35em 0 .35em 0 0em;
+  padding: .1em .4em .1em .4em;
+}

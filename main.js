@@ -26,6 +26,7 @@ const fridayColumn = document.getElementById('Friday')
 const saturdayColumn = document.getElementById('Saturday')
 const sundayColumn = document.getElementById('Sunday')
 const menuSection = document.getElementById('menu-section')
+const helperTextBox = document.getElementById('helper-text-box')
 
 //set listener on login status
 firebase.auth().onAuthStateChanged(user => {
@@ -41,7 +42,7 @@ firebase.auth().onAuthStateChanged(user => {
     if (user) {
         const email = user.email
         setNavToLoggedIn()
-        clearElement(document.getElementById('helper-text-box'))
+        clearElement(helperTextBox)
         displayUsersWatchlist(email)
     } else {
         setNavToLoggedOut()
@@ -50,16 +51,37 @@ firebase.auth().onAuthStateChanged(user => {
 })
 
 //functions that call firebase
-function createNewUser(email, password) {
-    firebase.auth().createUserWithEmailAndPassword(email, password)
+async function createNewUser(email, password) {
+    try {
+        await toggleLoadingSpinner(helperTextBox)
+        await firebase.auth().createUserWithEmailAndPassword(email, password)
+        toggleLoadingSpinner(helperTextBox)
+    } catch (error) {
+        await toggleLoadingSpinner(helperTextBox)
+        showErrorText(helperTextBox, error)
+    }
 }
 
-function loginUser(email, password) {
-    firebase.auth().signInWithEmailAndPassword(email, password)
+async function loginUser(email, password) {
+    try {
+        await toggleLoadingSpinner(helperTextBox)
+        await firebase.auth().signInWithEmailAndPassword(email, password)
+        toggleLoadingSpinner(helperTextBox)
+    } catch (error) {
+        await toggleLoadingSpinner(helperTextBox)
+        showErrorText(helperTextBox, error)
+    }
 }
 
-function signOutUser() {
-    firebase.auth().signOut()
+async function signOutUser() {
+    try {
+        await toggleLoadingSpinner(helperTextBox)
+        await firebase.auth().signOut()
+        toggleLoadingSpinner(helperTextBox)
+    } catch (error) {
+        await toggleLoadingSpinner(helperTextBox)
+        showErrorText(helperTextBox, error)
+    }
 }
 
 function storeShowInUsersWatchlist(showObject, username) {
@@ -67,13 +89,19 @@ function storeShowInUsersWatchlist(showObject, username) {
 }
 
 async function displayUsersWatchlist(username) {
-    const querySnapshot = await db.collection(username).get()
-    const showObject = getSortedShowObject(querySnapshot)
-    for (let day in showObject) {
-        showObject[day].forEach(show => {
-            appendShowElement(show, username)
-        })
+    toggleLoadingSpinner(helperTextBox)
+    try {
+        const querySnapshot = await db.collection(username).get()
+        const showObject = getSortedShowObject(querySnapshot)
+        for (let day in showObject) {
+            showObject[day].forEach(show => {
+                appendShowElement(show, username)
+            })
+        }
+    } catch (error) {
+        alert(error)
     }
+    toggleLoadingSpinner(helperTextBox)
 }
 
 function submitNewShow() {
@@ -155,14 +183,14 @@ function createSignUpBox() {
 
     const submitButton = document.createElement('button')
     submitButton.textContent = 'Submit'
-    submitButton.addEventListener('click', function() {
+    submitButton.addEventListener('click', () => {
         createNewUser(emailInput.value, passwordInput.value)
     })
     buttonWrapper.appendChild(submitButton)
 
     const xButton = document.createElement('button')
     xButton.textContent = 'x'
-    xButton.addEventListener('click', function() {
+    xButton.addEventListener('click', () => {
         clearElement(menuSection)
     })
     buttonWrapper.appendChild(xButton)
@@ -203,14 +231,14 @@ function createLoginBox() {
 
     const submitButton = document.createElement('button')
     submitButton.textContent = 'Submit'
-    submitButton.addEventListener('click', function() {
+    submitButton.addEventListener('click', () => {
         loginUser(emailInput.value, passwordInput.value)
     })
     buttonWrapper.appendChild(submitButton)
 
     const xButton = document.createElement('button')
     xButton.textContent = 'x'
-    xButton.addEventListener('click', function() {
+    xButton.addEventListener('click', () => {
         clearElement(menuSection)
     })
     buttonWrapper.appendChild(xButton)
@@ -434,6 +462,28 @@ function toggleMobileNavMenu() {
             setNavToLoggedOut()
         }
     }
+}
+
+async function toggleLoadingSpinner(element) {
+    if (!element.classList.contains('spinner')) {
+        clearElement(element)
+        element.classList.add('spinner')
+    } else {
+        clearElement(element)
+        element.classList.remove('spinner')
+    }
+}
+
+function showErrorText(element, errorText) {
+    const div = document.createElement('div')
+    div.classList.add('error-text')
+    const text = document.createTextNode(`${errorText} `)
+    div.appendChild(text)
+    const x = document.createElement('button')
+    x.textContent = 'x'
+    x.addEventListener('click', () => clearElement(element))
+    div.appendChild(x)
+    element.appendChild(div)
 }
 
 //utility functions

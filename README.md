@@ -14,4 +14,4 @@ If you notice any bugs feel free to report them as i'm continually making improv
 
 #### Todo List
 
-1. Clean up login process to indicated something is happening when waiting on login response.
+1. Get service worker functioning correctly.
