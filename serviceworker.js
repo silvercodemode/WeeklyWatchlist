@@ -1,5 +1,5 @@
 const cacheName = 'weeklyWatchlist'
-const baseUrl = 'mp7373.github.io/WeeklyWatchlist/'
+const baseUrl = '/WeeklyWatchlist/'
 
 self.addEventListener('install', e => {
     e.waitUntil(caches.open(cacheName)
