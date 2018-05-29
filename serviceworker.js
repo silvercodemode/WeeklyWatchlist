@@ -11,8 +11,9 @@ self.addEventListener('install', e => {
                 `${baseUrl}style.css`,
                 `${baseUrl}main.js`
             ])
-        }))
+        })
         .catch(error => console.log(error))
+    )
 })
 
 self.addEventListener('fetch', e => {
