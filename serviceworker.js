@@ -5,10 +5,10 @@ self.addEventListener('install', e => {
         .then(cache => {
             console.log('Cache opened')
             return cache.addAll([
-                '/',
-                '/index.html',
-                '/style.css',
-                '/main.js'
+                '/WeeklyWatchlist/',
+                '/WeeklyWatchlist/index.html',
+                '/WeeklyWatchlist/style.css',
+                '/WeeklyWatchlist/main.js'
             ])
         }))
         .catch(error => console.log(error))
