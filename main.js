@@ -573,7 +573,7 @@ const getNumberOfEpisodesOut =
 
 //register service worker
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/WeeeklyWatchlist/serviceworker.js')
+    navigator.serviceWorker.register('mp7373.github.io/WeeklyWatchlist/serviceworker.js')
         .then(reg => {
             console.log(`Scope is: ${reg.scope}`)
             console.log('Service worker successfully registered!')

@@ -1,14 +1,15 @@
 const cacheName = 'weeklyWatchlist'
+const baseUrl = 'mp7373.github.io/WeeklyWatchlist/'
 
 self.addEventListener('install', e => {
     e.waitUntil(caches.open(cacheName)
         .then(cache => {
             console.log('Cache opened')
             return cache.addAll([
-                '/WeeklyWatchlist/',
-                '/WeeklyWatchlist/index.html',
-                '/WeeklyWatchlist/style.css',
-                '/WeeklyWatchlist/main.js'
+                baseUrl,
+                `${baseUrl}index.html`,
+                `${baseUrl}style.css`,
+                `${baseUrl}main.js`
             ])
         }))
         .catch(error => console.log(error))
