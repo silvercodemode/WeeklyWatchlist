@@ -14,4 +14,4 @@ If you notice any bugs feel free to report them as i'm continually making improv
 
 #### Todo List
 
-1. Get service worker functioning correctly.
+1. Fix sign up/login dropdown allignment bug on IOS
