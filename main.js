@@ -573,7 +573,14 @@ const getNumberOfEpisodesOut =
 
 //register service worker
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('serviceworker.js')
+    navigator.serviceWorker.register('/serviceworker.js')
+        .then(reg => {
+            console.log(`Scope is: ${reg.scope}`)
+            console.log('Service worker successfully registered!')
+        })
+        .catch(error => {
+            console.log(`Service worker failed\nError is: ${error}`)
+        })
 }
 
 const config = {

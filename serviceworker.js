@@ -1,27 +1,23 @@
 const cacheName = 'weeklyWatchlist'
 
 self.addEventListener('install', e => {
-    e.waitUntil(caches.open(cacheName).then(cache => {
-        return cache.addAll([
-            '/',
-            '/index.html',
-            '/style.css',
-            '/main.js',
-            '/assets/list-icon-256.png'
-        ]).then(() => self.skipWaiting())
-    }))
+    e.waitUntil(caches.open(cacheName)
+        .then(cache => {
+            console.log('Cache opened')
+            return cache.addAll([
+                '/',
+                '/index.html',
+                '/style.css',
+                '/main.js'
+            ])
+        }))
+        .catch(error => console.log(error))
 })
 
-self.addEventListener('activate', e => {
-    e.waitUntil(self.clients.claim())
-})
-
-//(async () => {
 self.addEventListener('fetch', e => {
     caches.open(cacheName)
-        .then(cache => cache.match(e.request, {ignoreSearch: true}))
+        .then(cache => cache.match(e.request))
         .then(response => {
             return response || fetch(e.request)
         })
 })
-//})()
