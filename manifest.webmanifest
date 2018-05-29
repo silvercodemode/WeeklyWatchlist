@@ -8,14 +8,9 @@
       "sizes": "48x48"
     },
     {
-      "src": "assets/list-icon-128.png",
+      "src": "assets/list-icon-192.png",
       "type": "image/png",
-      "sizes": "128x128"
-    },
-    {
-      "src": "assets/list-icon-256.png",
-      "type": "image/png",
-      "sizes": "256x256"
+      "sizes": "192x192"
     },
     {
       "src": "assets/list-icon-512.png",
@@ -23,8 +18,9 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "index.html?launcher=true",
+  "start_url": "index.html",
   "orientation": "portrait",
   "display": "standalone",
-  "background_color": "#144f0f"
+  "background_color": "#144f0f",
+  "theme_color": "#144f0f"
 }
