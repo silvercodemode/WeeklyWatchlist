@@ -17,9 +17,10 @@ self.addEventListener('install', e => {
 })
 
 self.addEventListener('fetch', e => {
-    caches.open(cacheName)
-        .then(cache => cache.match(e.request))
-        .then(response => {
-            return response || fetch(e.request)
-        })
+    e.respondWith(
+        caches.match(e.request)
+            .then(response => {
+                return response || fetch(e.request)
+            })
+    )
 })
