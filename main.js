@@ -337,16 +337,15 @@ const createShowElement =
         addEpisodeButton.textContent = '+'
         addEpisodeButton.addEventListener('click', () => {
             if (episodesWatched < episodesOut) {
+                episodesWatched++
                 if (firebase.auth().currentUser && username) {
                     (async () => {
                         await db.collection(username).doc(show.Title).update({
                             EpisodesWatched: episodesWatched + 1
                         })
-                        episodesWatched++
                         watchedEpisodesElement.textContent = `Watched: ${episodesWatched}`
                     })()
                 } else {
-                    episodesWatched++
                     watchedEpisodesElement.textContent = `Watched: ${episodesWatched}`
                 }
             }
@@ -357,16 +356,15 @@ const createShowElement =
         subtractEpisodeButton.textContent = '-'
         subtractEpisodeButton.addEventListener('click', () => {
             if (episodesWatched > 0) {
+                episodesWatched--
                 if (firebase.auth().currentUser && username) {
                     (async () => {
                         await db.collection(username).doc(show.Title).update({
                             EpisodesWatched: episodesWatched - 1
                         })
-                        episodesWatched--
                         watchedEpisodesElement.textContent = `Watched: ${episodesWatched}`
                     })()
                 } else {
-                    episodesWatched--
                     watchedEpisodesElement.textContent = `Watched: ${episodesWatched}`
                 }
             }
