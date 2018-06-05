@@ -341,7 +341,7 @@ const createShowElement =
                 if (firebase.auth().currentUser && username) {
                     (async () => {
                         await db.collection(username).doc(show.Title).update({
-                            EpisodesWatched: episodesWatched + 1
+                            EpisodesWatched: episodesWatched
                         })
                         watchedEpisodesElement.textContent = `Watched: ${episodesWatched}`
                     })()
@@ -360,7 +360,7 @@ const createShowElement =
                 if (firebase.auth().currentUser && username) {
                     (async () => {
                         await db.collection(username).doc(show.Title).update({
-                            EpisodesWatched: episodesWatched - 1
+                            EpisodesWatched: episodesWatched
                         })
                         watchedEpisodesElement.textContent = `Watched: ${episodesWatched}`
                     })()
