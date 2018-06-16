@@ -1,110 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="icon" type="image/png" href="assets/list-icon-192.png">
-  <title>Weekly Watchlist</title>
-  <link rel="canonical" href="https://mp7373.github.io/WeeklyWatchlist/" />
-  <meta name="Description" content="Create a watchlist to track weekly airing shows!">
-  <link rel="manifest" href="manifest.webmanifest">
-  <meta name="theme-color" content="#144f0f">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="preload" href="style.css" as="style" onload="this.rel='stylesheet'"/>
-</head>
-<body>
-
-  <nav id ="nav" class="topnav">
-    <div class="navTop">
-      <h2>Weekly Watchlist</h2>
-      <a href"#" id="sign-up" onclick="createSignUpBox">Sign Up</a>
-      <a href="#" id="login" onclick="createLoginBox">Login</a>
-      <a href="javascript:void(0);" class="icon">☰</a>
-    </div>
-  </nav>
-
-  <div id="menu-section">
-  </div>
-
-  <div id="helper-text-box">
-  </div>
-
-  <div class="watchlist-grid-container">
-    <div class="watchlist-grid-item">
-      <h4>Monday</h4>
-      <div id="Monday" class="watchlist-day-col"></div>
-    </div>
-    <div class="watchlist-grid-item">
-      <h4>Tuesday</h4>
-      <div id="Tuesday" class="watchlist-day-col"></div>
-    </div>
-    <div class="watchlist-grid-item">
-      <h4>Wednesday</h4>
-      <div id="Wednesday" class="watchlist-day-col"></div>
-    </div>
-    <div class="watchlist-grid-item">
-      <h4>Thursday</h4>
-      <div id="Thursday" class="watchlist-day-col"></div>
-    </div>
-    <div class="watchlist-grid-item">
-      <h4>Friday</h4>
-      <div id="Friday" class="watchlist-day-col"></div>
-    </div>
-    <div class="watchlist-grid-item">
-      <h4>Saturday</h4>
-      <div id="Saturday" class="watchlist-day-col"></div>
-    </div>
-    <div class="watchlist-grid-item">
-      <h4>Sunday</h4>
-      <div id="Sunday" class="watchlist-day-col"></div>
-    </div>
-  </div>
-
-  <div class="add-show-outer">
-
-    <div id="left-space1"></div>
-    <h4 id="add-show" class="add-show-header">Add Show</h4>
-    <div id="right-space"></div>
-
-    <div id="left-space2"></div>
-    <div class="add-show-inner">
-      <div>
-        <label for="show-name">Show Name</label>
+  <head>
+    <title>Weekly Watchlist</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="Description" content="Create a watchlist to track weekly airing shows!">
+    <meta name="theme-color" content="#144f0f">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="canonical" href="https://mp7373.github.io/WeeklyWatchlist/">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" type="image/png" href="assets/list-icon-192.png">
+    <link rel="preload" href="style.css" as="style" onload="this.rel='stylesheet'"/>
+  </head>
+  <body>
+    <nav id ="nav" class="topnav">
+      <div class="navTop">
+        <h2>Weekly Watchlist</h2>
+        <a href"#" id="sign-up" onclick="createSignUpBox">Sign Up</a>
+        <a href="#" id="login" onclick="createLoginBox">Login</a>
+        <a href="javascript:void(0);" class="icon">☰</a>
       </div>
-      <div class="">
-        <input placeholder="Show Name" id="show-name" type="text" class="">
+    </nav>
+
+    <div id="menu-section">
+    </div>
+
+    <div id="helper-text-box">
+    </div>
+
+    <div class="watchlist-grid-container">
+      <div class="watchlist-grid-item">
+        <h4>Monday</h4>
+        <div id="Monday" class="watchlist-day-col"></div>
       </div>
-      <div>
-        <label for="total-episodes">Total Episodes</label>
+      <div class="watchlist-grid-item">
+        <h4>Tuesday</h4>
+        <div id="Tuesday" class="watchlist-day-col"></div>
       </div>
-      <div class="">
-        <input placeholder="Total Episodes" id="total-episodes" type="text" class="">
+      <div class="watchlist-grid-item">
+        <h4>Wednesday</h4>
+        <div id="Wednesday" class="watchlist-day-col"></div>
       </div>
-      <div>
-        <label for="date-select">Original Air Date</label>
+      <div class="watchlist-grid-item">
+        <h4>Thursday</h4>
+        <div id="Thursday" class="watchlist-day-col"></div>
       </div>
-      <div>
-        <input id="date-select" type="date" value="2018-01-01">
+      <div class="watchlist-grid-item">
+        <h4>Friday</h4>
+        <div id="Friday" class="watchlist-day-col"></div>
       </div>
-      <div>
-        <label for="time-select">Air Time</label>
+      <div class="watchlist-grid-item">
+        <h4>Saturday</h4>
+        <div id="Saturday" class="watchlist-day-col"></div>
       </div>
-      <div>
-        <input id="time-select" type="time" value="12:00">
+      <div class="watchlist-grid-item">
+        <h4>Sunday</h4>
+        <div id="Sunday" class="watchlist-day-col"></div>
       </div>
     </div>
-    <div id="right-space2"></div>
 
-    <div id="left-space3"></div>
-    <div id="submit-button-wrapper">
-      <button class="submit-button" onclick="submitNewShow()">Submit</button>
+    <div class="add-show-outer">
+      <div id="left-space1"></div>
+      <h4 id="add-show" class="add-show-header">Add Show</h4>
+      <div id="right-space1"></div>
+
+      <div id="left-space2"></div>
+      <div class="add-show-inner">
+        <div>
+          <label for="show-name">Show Name</label>
+        </div>
+        <div class="">
+          <input placeholder="Show Name" id="show-name" type="text" class="">
+        </div>
+        <div>
+          <label for="total-episodes">Total Episodes</label>
+        </div>
+        <div class="">
+          <input placeholder="Total Episodes" id="total-episodes" type="text" class="">
+        </div>
+        <div>
+          <label for="date-select">Original Air Date</label>
+        </div>
+        <div>
+          <input id="date-select" type="date" value="2018-01-01">
+        </div>
+        <div>
+          <label for="time-select">Air Time</label>
+        </div>
+        <div>
+          <input id="time-select" type="time" value="12:00">
+        </div>
+      </div>
+      <div id="right-space2"></div>
+
+      <div id="left-space3"></div>
+      <div id="submit-button-wrapper">
+        <button class="submit-button" onclick="submitNewShow()">Submit</button>
+      </div>
+      <div id="right-space3"></div>
     </div>
-    <div id="right-space3"></div>
-  </div>
 
-  <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-firestore.js"></script>
-  <script src="main.js"></script>
-</body>
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-firestore.js"></script>
+    <script src="main.js"></script>
+  </body>
 </html>
