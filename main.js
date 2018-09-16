@@ -87,7 +87,7 @@ const addHelpText =
         const wrapperDiv = document.createElement('div')
 
         const helpText = document.createElement('h5')
-        helpText.textContent = 'Fill out the "Add Show" section to try out. Sign up with an email and submit to save.'
+        helpText.textContent = 'Fill out the "Add Show" show section with a currently airing weekly show and click submit to test out. Sign up with an email, login, and fill out your list afterwards to save.'
         helpText.classList.add('help-text')
         wrapperDiv.appendChild(helpText)
 
