@@ -2,13 +2,13 @@
 
 //Functions that call firebase that request or submit data, login, or sign out
 const createNewUser = async (email, password) => {
+  toggleLoadingSpinner(helperTextBox);
   try {
-    await toggleLoadingSpinner(helperTextBox);
     await firebase.auth().createUserWithEmailAndPassword(email, password);
-    toggleLoadingSpinner(helperTextBox);
   } catch (error) {
-    await toggleLoadingSpinner(helperTextBox);
     showErrorText(helperTextBox, error);
+  } finally {
+    toggleLoadingSpinner(helperTextBox);
   }
 };
 
@@ -24,29 +24,30 @@ const displayUsersWatchlist = async username => {
     }
   } catch (error) {
     alert(error);
+  } finally {
+    toggleLoadingSpinner(helperTextBox);
   }
-  toggleLoadingSpinner(helperTextBox);
 };
 
 const loginUser = async (email, password) => {
+  toggleLoadingSpinner(helperTextBox);
   try {
-    await toggleLoadingSpinner(helperTextBox);
     await firebase.auth().signInWithEmailAndPassword(email, password);
-    toggleLoadingSpinner(helperTextBox);
   } catch (error) {
-    await toggleLoadingSpinner(helperTextBox);
     showErrorText(helperTextBox, error);
+  } finally {
+    toggleLoadingSpinner(helperTextBox);
   }
 };
 
 const signOutUser = async () => {
+  toggleLoadingSpinner(helperTextBox);
   try {
-    await toggleLoadingSpinner(helperTextBox);
     await firebase.auth().signOut();
-    toggleLoadingSpinner(helperTextBox);
   } catch (error) {
-    await toggleLoadingSpinner(helperTextBox);
     showErrorText(helperTextBox, error);
+  } finally {
+    toggleLoadingSpinner(helperTextBox);
   }
 };
 
@@ -71,7 +72,7 @@ const submitNewShow = async () => {
       alert(error);
     }
   } else {
-    alert("Name field cannot be empty. Total Episodes must be a number.");
+    showErrorText(helperTextBox,"Name field cannot be empty. Total Episodes must be a number.");
   }
 };
 
