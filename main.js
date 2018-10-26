@@ -72,7 +72,10 @@ const submitNewShow = async () => {
       alert(error);
     }
   } else {
-    showErrorText(helperTextBox,"Name field cannot be empty. Total Episodes must be a number.");
+    showErrorText(
+      helperTextBox,
+      "Name field cannot be empty. Total Episodes must be a number."
+    );
   }
 };
 
