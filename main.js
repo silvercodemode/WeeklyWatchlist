@@ -207,10 +207,10 @@ const toggleMobileNavMenu = () => {
   const user = firebase.auth().currentUser;
   if (user) {
     if (nav.childElementCount == 3) {
-      const singOutButton = document.createElement("h3");
-      singOutButton.textContent = "Sign Out";
-      singOutButton.addEventListener("click", signOutUser);
-      nav.appendChild(singOutButton);
+      const signOutButton = document.createElement("h3");
+      signOutButton.textContent = "Sign Out";
+      signOutButton.addEventListener("click", signOutUser);
+      nav.appendChild(signOutButton);
     } else {
       setNavToLoggedIn();
     }
