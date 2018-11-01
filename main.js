@@ -181,6 +181,7 @@ const setNavToLoggedOut = () => {
 };
 
 const showErrorText = (element, errorText) => {
+  clearElement(element);
   const div = document.createElement("div");
   div.classList.add("error-text");
   const text = document.createTextNode(`${errorText} `);
