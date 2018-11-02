@@ -23,7 +23,7 @@ const displayUsersWatchlist = async username => {
       });
     }
   } catch (error) {
-    alert(error);
+    showErrorText(helperTextBox, error);
   } finally {
     toggleLoadingSpinner(helperTextBox);
   }
@@ -69,7 +69,7 @@ const submitNewShow = async () => {
         appendShowElement(newShowObject);
       }
     } catch (error) {
-      alert(error);
+      showErrorText(helperTextBox, error);
     }
   } else {
     showErrorText(
