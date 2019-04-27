@@ -611,8 +611,8 @@ const getNumberOfEpisodesOut = (airDateString, currentDate, totalEpisodes) => {
 //register service worker
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker
-    .register('serviceworker.js', {
-      scope: '/'
+    .register('/WeeklyWatchlist/serviceworker.js', {
+      scope: '/WeeklyWatchlist/'
     })
     .then(reg => {
       console.log(`Scope is: ${reg.scope}`);
