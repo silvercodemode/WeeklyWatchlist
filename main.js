@@ -74,21 +74,21 @@ const submitNewShow = async () => {
   } else {
     showErrorText(
       helperTextBox,
-      "Name field cannot be empty. Total Episodes must be a number."
+      'Name field cannot be empty. Total Episodes must be a number.'
     );
   }
 };
 
 //Functions that modify the DOM and return nothing
 const addHelpText = () => {
-  const helpBox = document.getElementById("helper-text-box");
+  const helpBox = document.getElementById('helper-text-box');
 
-  const wrapperDiv = document.createElement("div");
+  const wrapperDiv = document.createElement('div');
 
-  const helpText = document.createElement("h5");
+  const helpText = document.createElement('h5');
   helpText.textContent =
     'Fill out the "Add Show" show section with a currently airing weekly show and click submit to test out. Sign up with an email, login, and fill out your list afterwards to save.';
-  helpText.classList.add("help-text");
+  helpText.classList.add('help-text');
   wrapperDiv.appendChild(helpText);
 
   helpBox.appendChild(wrapperDiv);
@@ -96,25 +96,25 @@ const addHelpText = () => {
 
 const appendShowElement = (show, username) => {
   switch (show.Weekday) {
-    case "Monday":
+    case 'Monday':
       mondayColumn.appendChild(createShowElement(show, username));
       break;
-    case "Tuesday":
+    case 'Tuesday':
       tuesdayColumn.appendChild(createShowElement(show, username));
       break;
-    case "Wednesday":
+    case 'Wednesday':
       wednesdayColumn.appendChild(createShowElement(show, username));
       break;
-    case "Thursday":
+    case 'Thursday':
       thursdayColumn.appendChild(createShowElement(show, username));
       break;
-    case "Friday":
+    case 'Friday':
       fridayColumn.appendChild(createShowElement(show, username));
       break;
-    case "Saturday":
+    case 'Saturday':
       saturdayColumn.appendChild(createShowElement(show, username));
       break;
-    case "Sunday":
+    case 'Sunday':
       sundayColumn.appendChild(createShowElement(show, username));
   }
 };
@@ -136,95 +136,95 @@ const displaySignUpMenu = () => {
 };
 
 const setNavToLoggedIn = () => {
-  const nav = document.getElementById("nav");
+  const nav = document.getElementById('nav');
   clearElement(nav);
 
-  const header = document.createElement("h2");
-  header.textContent = "Your Weekly Watchlist";
+  const header = document.createElement('h2');
+  header.textContent = 'Your Weekly Watchlist';
   nav.appendChild(header);
 
-  const signOut = document.createElement("a");
-  signOut.textContent = "Sign Out";
-  signOut.addEventListener("click", signOutUser);
+  const signOut = document.createElement('a');
+  signOut.textContent = 'Sign Out';
+  signOut.addEventListener('click', signOutUser);
   nav.appendChild(signOut);
 
-  const icon = document.createElement("a");
-  icon.textContent = "☰";
-  icon.addEventListener("click", toggleMobileNavMenu);
-  icon.classList.add("icon");
+  const icon = document.createElement('a');
+  icon.textContent = '☰';
+  icon.addEventListener('click', toggleMobileNavMenu);
+  icon.classList.add('icon');
   nav.appendChild(icon);
 };
 
 const setNavToLoggedOut = () => {
-  const nav = document.getElementById("nav");
+  const nav = document.getElementById('nav');
   clearElement(nav);
 
-  const header = document.createElement("h2");
-  header.textContent = "Weekly Watchlist";
+  const header = document.createElement('h2');
+  header.textContent = 'Weekly Watchlist';
   nav.appendChild(header);
 
-  const signUp = document.createElement("a");
-  signUp.textContent = "Sign Up";
-  signUp.addEventListener("click", displaySignUpMenu);
+  const signUp = document.createElement('a');
+  signUp.textContent = 'Sign Up';
+  signUp.addEventListener('click', displaySignUpMenu);
   nav.appendChild(signUp);
 
-  const login = document.createElement("a");
-  login.textContent = "Login";
-  login.addEventListener("click", displayLoginMenu);
+  const login = document.createElement('a');
+  login.textContent = 'Login';
+  login.addEventListener('click', displayLoginMenu);
   nav.appendChild(login);
 
-  const icon = document.createElement("a");
-  icon.textContent = "☰";
-  icon.addEventListener("click", toggleMobileNavMenu);
-  icon.classList.add("icon");
+  const icon = document.createElement('a');
+  icon.textContent = '☰';
+  icon.addEventListener('click', toggleMobileNavMenu);
+  icon.classList.add('icon');
   nav.appendChild(icon);
 };
 
 const showErrorText = (element, errorText) => {
   clearElement(element);
-  const div = document.createElement("div");
-  div.classList.add("error-text");
+  const div = document.createElement('div');
+  div.classList.add('error-text');
   const text = document.createTextNode(`${errorText} `);
   div.appendChild(text);
-  const x = document.createElement("button");
-  x.textContent = "x";
-  x.addEventListener("click", () => clearElement(element));
+  const x = document.createElement('button');
+  x.textContent = 'x';
+  x.addEventListener('click', () => clearElement(element));
   div.appendChild(x);
   element.appendChild(div);
 };
 
 const toggleLoadingSpinner = async element => {
-  if (!element.classList.contains("spinner")) {
+  if (!element.classList.contains('spinner')) {
     clearElement(element);
-    element.classList.add("spinner");
+    element.classList.add('spinner');
   } else {
     clearElement(element);
-    element.classList.remove("spinner");
+    element.classList.remove('spinner');
   }
 };
 
 const toggleMobileNavMenu = () => {
-  const nav = document.getElementById("nav");
+  const nav = document.getElementById('nav');
   const user = firebase.auth().currentUser;
   if (user) {
     if (nav.childElementCount == 3) {
-      const signOutButton = document.createElement("h3");
-      signOutButton.textContent = "Sign Out";
-      signOutButton.addEventListener("click", signOutUser);
+      const signOutButton = document.createElement('h3');
+      signOutButton.textContent = 'Sign Out';
+      signOutButton.addEventListener('click', signOutUser);
       nav.appendChild(signOutButton);
     } else {
       setNavToLoggedIn();
     }
   } else {
     if (nav.childElementCount == 4) {
-      const loginButton = document.createElement("h3");
-      loginButton.textContent = "Login";
-      loginButton.addEventListener("click", displayLoginMenu);
+      const loginButton = document.createElement('h3');
+      loginButton.textContent = 'Login';
+      loginButton.addEventListener('click', displayLoginMenu);
       nav.appendChild(loginButton);
 
-      const signUpButton = document.createElement("h3");
-      signUpButton.textContent = "Sign up";
-      signUpButton.addEventListener("click", displaySignUpMenu);
+      const signUpButton = document.createElement('h3');
+      signUpButton.textContent = 'Sign up';
+      signUpButton.addEventListener('click', displaySignUpMenu);
       nav.appendChild(signUpButton);
     } else {
       setNavToLoggedOut();
@@ -234,42 +234,42 @@ const toggleMobileNavMenu = () => {
 
 //Functions that return DOM elements
 const createLoginMenuElement = () => {
-  const loginBox = document.createElement("div");
-  loginBox.classList.add("sign-up-box");
+  const loginBox = document.createElement('div');
+  loginBox.classList.add('sign-up-box');
 
-  const headerWrapper = document.createElement("div");
+  const headerWrapper = document.createElement('div');
 
-  const signUpHeader = document.createElement("h3");
-  signUpHeader.textContent = "Login";
+  const signUpHeader = document.createElement('h3');
+  signUpHeader.textContent = 'Login';
   headerWrapper.appendChild(signUpHeader);
 
   loginBox.appendChild(headerWrapper);
 
-  const inputWrapper = document.createElement("div");
+  const inputWrapper = document.createElement('div');
 
-  const emailInput = document.createElement("input");
-  emailInput.placeholder = "Email";
+  const emailInput = document.createElement('input');
+  emailInput.placeholder = 'Email';
   inputWrapper.appendChild(emailInput);
 
-  const passwordInput = document.createElement("input");
-  passwordInput.setAttribute("type", "password");
-  passwordInput.placeholder = "Password";
+  const passwordInput = document.createElement('input');
+  passwordInput.setAttribute('type', 'password');
+  passwordInput.placeholder = 'Password';
   inputWrapper.appendChild(passwordInput);
 
   loginBox.appendChild(inputWrapper);
 
-  const buttonWrapper = document.createElement("div");
+  const buttonWrapper = document.createElement('div');
 
-  const submitButton = document.createElement("button");
-  submitButton.textContent = "Submit";
-  submitButton.addEventListener("click", () => {
+  const submitButton = document.createElement('button');
+  submitButton.textContent = 'Submit';
+  submitButton.addEventListener('click', () => {
     loginUser(emailInput.value, passwordInput.value);
   });
   buttonWrapper.appendChild(submitButton);
 
-  const xButton = document.createElement("button");
-  xButton.textContent = "x";
-  xButton.addEventListener("click", () => {
+  const xButton = document.createElement('button');
+  xButton.textContent = 'x';
+  xButton.addEventListener('click', () => {
     clearElement(menuSection);
   });
   buttonWrapper.appendChild(xButton);
@@ -280,15 +280,15 @@ const createLoginMenuElement = () => {
 };
 
 const createShowElement = (show, username = false) => {
-  const div = document.createElement("div");
-  div.classList.add("show-element");
+  const div = document.createElement('div');
+  div.classList.add('show-element');
 
-  const titleElement = document.createElement("h5");
+  const titleElement = document.createElement('h5');
   titleElement.textContent = show.Title;
   div.appendChild(titleElement);
 
-  const timeElementWrapper = document.createElement("div");
-  const timeElement = document.createElement("h6");
+  const timeElementWrapper = document.createElement('div');
+  const timeElement = document.createElement('h6');
   let hour = parseInt(show.Time.substring(0, 2));
   if (hour === 0) {
     timeElement.textContent = `12${show.Time.substring(2, 5)} AM`;
@@ -301,14 +301,14 @@ const createShowElement = (show, username = false) => {
     timeElement.textContent = `${hour}${show.Time.substring(2, 5)} PM`;
   }
   timeElementWrapper.appendChild(timeElement);
-  timeElementWrapper.classList.add("time-section");
+  timeElementWrapper.classList.add('time-section');
   div.appendChild(timeElementWrapper);
 
-  const totalEpisodesElement = document.createElement("h6");
+  const totalEpisodesElement = document.createElement('h6');
   totalEpisodesElement.textContent = `Episodes: ${show.Episodes}`;
   div.appendChild(totalEpisodesElement);
 
-  const availableEpisodesElement = document.createElement("h6");
+  const availableEpisodesElement = document.createElement('h6');
   const dateString = `${show.Month} ${show.Day}, ${show.Year} ${show.Time}`;
   const episodesOut = getNumberOfEpisodesOut(
     dateString,
@@ -318,18 +318,18 @@ const createShowElement = (show, username = false) => {
   availableEpisodesElement.textContent = `Released: ${episodesOut}`;
   div.appendChild(availableEpisodesElement);
 
-  const watchedEpisodesElement = document.createElement("h6");
+  const watchedEpisodesElement = document.createElement('h6');
   let episodesWatched = show.EpisodesWatched;
   watchedEpisodesElement.textContent = `Watched: ${episodesWatched}`;
-  watchedEpisodesElement.classList.add("watched");
+  watchedEpisodesElement.classList.add('watched');
   div.appendChild(watchedEpisodesElement);
 
-  const buttonContainer = document.createElement("div");
-  buttonContainer.classList.add("button-container");
+  const buttonContainer = document.createElement('div');
+  buttonContainer.classList.add('button-container');
 
-  const addEpisodeButton = document.createElement("button");
-  addEpisodeButton.textContent = "+";
-  addEpisodeButton.addEventListener("click", () => {
+  const addEpisodeButton = document.createElement('button');
+  addEpisodeButton.textContent = '+';
+  addEpisodeButton.addEventListener('click', () => {
     if (episodesWatched < episodesOut) {
       episodesWatched++;
       if (firebase.auth().currentUser && username) {
@@ -349,9 +349,9 @@ const createShowElement = (show, username = false) => {
   });
   buttonContainer.appendChild(addEpisodeButton);
 
-  const subtractEpisodeButton = document.createElement("button");
-  subtractEpisodeButton.textContent = "-";
-  subtractEpisodeButton.addEventListener("click", () => {
+  const subtractEpisodeButton = document.createElement('button');
+  subtractEpisodeButton.textContent = '-';
+  subtractEpisodeButton.addEventListener('click', () => {
     if (episodesWatched > 0) {
       episodesWatched--;
       if (firebase.auth().currentUser && username) {
@@ -373,10 +373,10 @@ const createShowElement = (show, username = false) => {
 
   div.appendChild(buttonContainer);
 
-  const removeButton = document.createElement("button");
-  removeButton.classList.add("remove-button");
-  removeButton.textContent = "Remove";
-  removeButton.addEventListener("click", () => {
+  const removeButton = document.createElement('button');
+  removeButton.classList.add('remove-button');
+  removeButton.textContent = 'Remove';
+  removeButton.addEventListener('click', () => {
     if (firebase.auth().currentUser && username) {
       (async () => {
         await db
@@ -395,42 +395,42 @@ const createShowElement = (show, username = false) => {
 };
 
 const createSignUpMenuElement = () => {
-  const signUpBox = document.createElement("div");
-  signUpBox.classList.add("sign-up-box");
+  const signUpBox = document.createElement('div');
+  signUpBox.classList.add('sign-up-box');
 
-  const headerWrapper = document.createElement("div");
+  const headerWrapper = document.createElement('div');
 
-  const signUpHeader = document.createElement("h3");
-  signUpHeader.textContent = "Sign Up";
+  const signUpHeader = document.createElement('h3');
+  signUpHeader.textContent = 'Sign Up';
   headerWrapper.appendChild(signUpHeader);
 
   signUpBox.appendChild(headerWrapper);
 
-  const inputWrapper = document.createElement("div");
+  const inputWrapper = document.createElement('div');
 
-  const emailInput = document.createElement("input");
-  emailInput.placeholder = "Email";
+  const emailInput = document.createElement('input');
+  emailInput.placeholder = 'Email';
   inputWrapper.appendChild(emailInput);
 
-  const passwordInput = document.createElement("input");
-  passwordInput.placeholder = "Password";
-  passwordInput.setAttribute("type", "password");
+  const passwordInput = document.createElement('input');
+  passwordInput.placeholder = 'Password';
+  passwordInput.setAttribute('type', 'password');
   inputWrapper.appendChild(passwordInput);
 
   signUpBox.appendChild(inputWrapper);
 
-  const buttonWrapper = document.createElement("div");
+  const buttonWrapper = document.createElement('div');
 
-  const submitButton = document.createElement("button");
-  submitButton.textContent = "Submit";
-  submitButton.addEventListener("click", () => {
+  const submitButton = document.createElement('button');
+  submitButton.textContent = 'Submit';
+  submitButton.addEventListener('click', () => {
     createNewUser(emailInput.value, passwordInput.value);
   });
   buttonWrapper.appendChild(submitButton);
 
-  const xButton = document.createElement("button");
-  xButton.textContent = "x";
-  xButton.addEventListener("click", () => {
+  const xButton = document.createElement('button');
+  xButton.textContent = 'x';
+  xButton.addEventListener('click', () => {
     clearElement(menuSection);
   });
   buttonWrapper.appendChild(xButton);
@@ -442,22 +442,22 @@ const createSignUpMenuElement = () => {
 
 //Functions that return basic Javascript objects
 const createShowObjectFromAddShowInputFields = () => {
-  const totalEpisodesElement = document.getElementById("total-episodes");
+  const totalEpisodesElement = document.getElementById('total-episodes');
   const totalEpisodes = totalEpisodesElement.value;
-  const nameElement = document.getElementById("show-name");
+  const nameElement = document.getElementById('show-name');
   const name = nameElement.value;
   if (name && parseInt(totalEpisodes) && totalEpisodes > 0) {
-    nameElement.value = "";
-    totalEpisodesElement.value = "";
+    nameElement.value = '';
+    totalEpisodesElement.value = '';
 
-    const dateSelectElement = document.getElementById("date-select");
-    const timeSelectElement = document.getElementById("time-select");
+    const dateSelectElement = document.getElementById('date-select');
+    const timeSelectElement = document.getElementById('time-select');
 
     const date = new Date(
       `${dateSelectElement.value}T${timeSelectElement.value}`
     );
-    dateSelectElement.value = "2018-01-01";
-    timeSelectElement.value = "12:00";
+    dateSelectElement.value = '2018-01-01';
+    timeSelectElement.value = '12:00';
 
     const month = convertNumericMonthToString(date.getMonth());
     const weekday = convertNumericWeekdayToString(date.getDay());
@@ -495,25 +495,25 @@ const getSortedShowObjectFromQuery = querySnapshot => {
   querySnapshot.forEach(doc => {
     const show = doc.data();
     switch (show.Weekday) {
-      case "Sunday":
+      case 'Sunday':
         sortedShowObject.Sunday.push(show);
         break;
-      case "Monday":
+      case 'Monday':
         sortedShowObject.Monday.push(show);
         break;
-      case "Tuesday":
+      case 'Tuesday':
         sortedShowObject.Tuesday.push(show);
         break;
-      case "Wednesday":
+      case 'Wednesday':
         sortedShowObject.Wednesday.push(show);
         break;
-      case "Thursday":
+      case 'Thursday':
         sortedShowObject.Thursday.push(show);
         break;
-      case "Friday":
+      case 'Friday':
         sortedShowObject.Friday.push(show);
         break;
-      case "Saturday":
+      case 'Saturday':
         sortedShowObject.Saturday.push(show);
     }
   });
@@ -537,48 +537,48 @@ const getSortedShowObjectFromQuery = querySnapshot => {
 const convertNumericMonthToString = numericMonth => {
   switch (numericMonth) {
     case 0:
-      return "January";
+      return 'January';
     case 1:
-      return "February";
+      return 'February';
     case 2:
-      return "March";
+      return 'March';
     case 3:
-      return "April";
+      return 'April';
     case 4:
-      return "May";
+      return 'May';
     case 5:
-      return "June";
+      return 'June';
     case 6:
-      return "July";
+      return 'July';
     case 7:
-      return "August";
+      return 'August';
     case 8:
-      return "September";
+      return 'September';
     case 9:
-      return "October";
+      return 'October';
     case 10:
-      return "November";
+      return 'November';
     case 11:
-      return "December";
+      return 'December';
   }
 };
 
 const convertNumericWeekdayToString = numericWeekday => {
   switch (numericWeekday) {
     case 0:
-      return "Sunday";
+      return 'Sunday';
     case 1:
-      return "Monday";
+      return 'Monday';
     case 2:
-      return "Tuesday";
+      return 'Tuesday';
     case 3:
-      return "Wednesday";
+      return 'Wednesday';
     case 4:
-      return "Thursday";
+      return 'Thursday';
     case 5:
-      return "Friday";
+      return 'Friday';
     case 6:
-      return "Saturday";
+      return 'Saturday';
   }
 };
 
@@ -595,27 +595,62 @@ const getNumberOfEpisodesOut = (airDateString, currentDate, totalEpisodes) => {
 /* END FUNCTION ASSIGNMENTS */
 
 //register service worker
-if ("serviceWorker" in navigator) {
+if ('serviceWorker' in navigator) {
   navigator.serviceWorker
-    .register("/WeeklyWatchlist/serviceworker.js", {
-      scope: "/WeeklyWatchlist/"
+    .register('/WeeklyWatchlist/serviceworker.js', {
+      scope: '/WeeklyWatchlist/'
     })
     .then(reg => {
       console.log(`Scope is: ${reg.scope}`);
-      console.log("Service worker successfully registered!");
+      console.log('Service worker successfully registered!');
     })
     .catch(error => {
       console.log(`Service worker failed\nError is: ${error}`);
     });
 }
 
+//Add to homescreen
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', e => {
+  // Prevent Chrome 67 and earlier from automatically showing the prompt
+  e.preventDefault();
+  // Stash the event so it can be triggered later.
+  deferredPrompt = e;
+});
+
+window.addEventListener('beforeinstallprompt', e => {
+  // Prevent Chrome 67 and earlier from automatically showing the prompt
+  e.preventDefault();
+  // Stash the event so it can be triggered later.
+  deferredPrompt = e;
+  // Update UI notify the user they can add to home screen
+  btnAdd.style.display = 'block';
+});
+
+btnAdd.addEventListener('click', e => {
+  // hide our user interface that shows our A2HS button
+  btnAdd.style.display = 'none';
+  // Show the prompt
+  deferredPrompt.prompt();
+  // Wait for the user to respond to the prompt
+  deferredPrompt.userChoice.then(choiceResult => {
+    if (choiceResult.outcome === 'accepted') {
+      console.log('User accepted the A2HS prompt');
+    } else {
+      console.log('User dismissed the A2HS prompt');
+    }
+    deferredPrompt = null;
+  });
+});
+
 const config = {
-  apiKey: "AIzaSyBZ2Se4cy0I0DSlcWBoj2FrB3DCxkmSHYo",
-  authDomain: "animewatchlist-3d4f5.firebaseapp.com",
-  databaseURL: "https://animewatchlist-3d4f5.firebaseio.com",
-  projectId: "animewatchlist-3d4f5",
-  storageBucket: "animewatchlist-3d4f5.appspot.com",
-  messagingSenderId: "63655969703"
+  apiKey: 'AIzaSyBZ2Se4cy0I0DSlcWBoj2FrB3DCxkmSHYo',
+  authDomain: 'animewatchlist-3d4f5.firebaseapp.com',
+  databaseURL: 'https://animewatchlist-3d4f5.firebaseio.com',
+  projectId: 'animewatchlist-3d4f5',
+  storageBucket: 'animewatchlist-3d4f5.appspot.com',
+  messagingSenderId: '63655969703'
 };
 
 firebase.initializeApp(config);
@@ -624,13 +659,13 @@ const db = firebase.firestore();
 const currentDate = new Date();
 
 //setting some dom references that are used a lot to global scope variables
-const mondayColumn = document.getElementById("Monday");
-const tuesdayColumn = document.getElementById("Tuesday");
-const wednesdayColumn = document.getElementById("Wednesday");
-const thursdayColumn = document.getElementById("Thursday");
-const fridayColumn = document.getElementById("Friday");
-const saturdayColumn = document.getElementById("Saturday");
-const sundayColumn = document.getElementById("Sunday");
+const mondayColumn = document.getElementById('Monday');
+const tuesdayColumn = document.getElementById('Tuesday');
+const wednesdayColumn = document.getElementById('Wednesday');
+const thursdayColumn = document.getElementById('Thursday');
+const fridayColumn = document.getElementById('Friday');
+const saturdayColumn = document.getElementById('Saturday');
+const sundayColumn = document.getElementById('Sunday');
 const weekdayColumns = [
   mondayColumn,
   tuesdayColumn,
@@ -640,8 +675,8 @@ const weekdayColumns = [
   saturdayColumn,
   sundayColumn
 ];
-const menuSection = document.getElementById("menu-section");
-const helperTextBox = document.getElementById("helper-text-box");
+const menuSection = document.getElementById('menu-section');
+const helperTextBox = document.getElementById('helper-text-box');
 
 //set listener on login status
 firebase.auth().onAuthStateChanged(user => {
