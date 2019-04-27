@@ -5,6 +5,7 @@ const createNewUser = async (email, password) => {
   toggleLoadingSpinner(helperTextBox);
   try {
     await firebase.auth().createUserWithEmailAndPassword(email, password);
+    await loginUser(email, password);
   } catch (error) {
     showErrorText(helperTextBox, error);
   } finally {
@@ -92,6 +93,19 @@ const addHelpText = () => {
   wrapperDiv.appendChild(helpText);
 
   helpBox.appendChild(wrapperDiv);
+};
+
+const addInstallButton = () => {
+  if (
+    deferredPrompt !== undefined &&
+    !window.matchMedia('(display-mode: standalone)').matches
+  ) {
+    const installButton = document.createElement('button');
+    installButton.textContent = 'Install App';
+    installButton.classList.add('submit-button');
+    installButton.addEventListener('click', promptUserToAddToHomepage);
+    installButtonBox.appendChild(installButton);
+  }
 };
 
 const appendShowElement = (show, username) => {
@@ -597,8 +611,8 @@ const getNumberOfEpisodesOut = (airDateString, currentDate, totalEpisodes) => {
 //register service worker
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker
-    .register('/WeeklyWatchlist/serviceworker.js', {
-      scope: '/WeeklyWatchlist/'
+    .register('serviceworker.js', {
+      scope: '/'
     })
     .then(reg => {
       console.log(`Scope is: ${reg.scope}`);
@@ -613,21 +627,21 @@ if ('serviceWorker' in navigator) {
 let deferredPrompt;
 
 window.addEventListener('beforeinstallprompt', e => {
+  console.log('add to home page ready');
   // Prevent Chrome 67 and earlier from automatically showing the prompt
   e.preventDefault();
   // Stash the event so it can be triggered later.
   deferredPrompt = e;
 });
 
-window.addEventListener('beforeinstallprompt', e => {
-  // Prevent Chrome 67 and earlier from automatically showing the prompt
-  e.preventDefault();
-  // Stash the event so it can be triggered later.
-  deferredPrompt = e;
-});
+// window.addEventListener('beforeinstallprompt', e => {
+//   // Prevent Chrome 67 and earlier from automatically showing the prompt
+//   e.preventDefault();
+//   // Stash the event so it can be triggered later.
+//   deferredPrompt = e;
+// });
 const body = document.querySelector('body');
-const promptUserToAddToHomepage = e => {
-  alert(1);
+const promptUserToAddToHomepage = () => {
   // Show the prompt
   if (deferredPrompt) {
     deferredPrompt.prompt();
@@ -643,7 +657,7 @@ const promptUserToAddToHomepage = e => {
   }
   body.removeEventListener('click', promptUserToAddToHomepage);
 };
-body.addEventListener('click', promptUserToAddToHomepage);
+//body.addEventListener('click', promptUserToAddToHomepage);
 
 const config = {
   apiKey: 'AIzaSyBZ2Se4cy0I0DSlcWBoj2FrB3DCxkmSHYo',
@@ -678,6 +692,7 @@ const weekdayColumns = [
 ];
 const menuSection = document.getElementById('menu-section');
 const helperTextBox = document.getElementById('helper-text-box');
+const installButtonBox = document.getElementById('install-button-box');
 
 //set listener on login status
 firebase.auth().onAuthStateChanged(user => {
@@ -688,7 +703,9 @@ firebase.auth().onAuthStateChanged(user => {
     const email = user.email;
     setNavToLoggedIn();
     displayUsersWatchlist(email);
+    addInstallButton();
   } else {
+    clearElement(installButtonBox);
     setNavToLoggedOut();
     addHelpText();
   }

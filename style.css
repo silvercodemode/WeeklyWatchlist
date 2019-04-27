@@ -1,10 +1,10 @@
 :root {
   --primary-green: #144f0f;
-  --secondary-green: #4CAF50;
+  --secondary-green: #4caf50;
   --primary-red: #d63c00;
   --secondary-red: #ff4800;
   --primary-blue: #006080;
-  --secondary-blue: #0082AD;
+  --secondary-blue: #0082ad;
   --light-text: #f2f2f2;
   --primary-gray: #afafaf;
   --secondary-gray: #cccccc;
@@ -12,7 +12,7 @@
 }
 
 body {
-  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
   margin: 0;
 }
 
@@ -96,7 +96,9 @@ h5 {
 
 .watchlist-grid-container {
   display: grid;
-  grid-template-columns: minmax(100px, 13%) minmax(100px, 13%) minmax(100px, 13%) minmax(100px, 13%) minmax(100px, 13%) minmax(100px, 13%) minmax(100px, 13%);
+  grid-template-columns:
+    minmax(100px, 13%) minmax(100px, 13%) minmax(100px, 13%)
+    minmax(100px, 13%) minmax(100px, 13%) minmax(100px, 13%) minmax(100px, 13%);
   justify-content: space-evenly;
 }
 
@@ -113,12 +115,12 @@ h5 {
 }
 
 .show-element h5 {
-  margin: .1em 0 1em 0;
+  margin: 0.1em 0 1em 0;
 }
 
 .show-element h6 {
   text-align: left;
-  margin: .35em 0 .35em 0;
+  margin: 0.35em 0 0.35em 0;
 }
 
 .time-section h6 {
@@ -141,8 +143,8 @@ h5 {
   border-radius: 1em;
   text-align: center;
   color: white;
-  margin: .35em 0 .35em 0;
-  padding: .1em .4em .1em .4em;
+  margin: 0.35em 0 0.35em 0;
+  padding: 0.1em 0.4em 0.1em 0.4em;
 }
 
 .button-container button:hover {
@@ -152,10 +154,10 @@ h5 {
 
 .remove-button {
   background-color: var(--primary-red);
-  padding: .65em .65em .65em .65em;
-  margin: .35em auto .35em auto;
+  padding: 0.65em 0.65em 0.65em 0.65em;
+  margin: 0.35em auto 0.35em auto;
   border: none;
-  border-radius: .25em;
+  border-radius: 0.25em;
   text-align: center;
   color: white;
 }
@@ -167,12 +169,12 @@ h5 {
 
 .watchlist-grid-item {
   justify-self: center;
-  grid-row-gap: .75em;
+  grid-row-gap: 0.75em;
 }
 
 .watchlist-grid-item h4 {
   text-align: center;
-  margin-bottom: .5em;
+  margin-bottom: 0.5em;
 }
 
 .watchlist-day-col {
@@ -203,10 +205,10 @@ h5 {
   display: grid;
   grid-template-columns: minmax(110px, 50%) minmax(110px, 50%);
   grid-column-gap: 10%;
-  grid-row-gap: .5em;
+  grid-row-gap: 0.5em;
   justify-content: space-between;
   justify-self: center;
-  font-size: .8em;
+  font-size: 0.8em;
 }
 
 ::placeholder {
@@ -219,20 +221,20 @@ h5 {
   border-right: none;
   border-left: none;
   border-bottom: 1px solid var(--primary-blue);
-  padding: .5em .5em .5em .5em;
+  padding: 0.5em 0.5em 0.5em 0.5em;
   color: var(--primary-blue);
 }
 
 .add-show-inner input:active {
   border: 1px solid var(--secondary-blue);
   outline: none;
-  padding: .5em .5em .5em .5em;
+  padding: 0.5em 0.5em 0.5em 0.5em;
 }
 
 .add-show-inner input:focus {
   border: 1px solid var(--secondary-blue);
   outline: none;
-  padding: .5em .5em .5em .5em;
+  padding: 0.5em 0.5em 0.5em 0.5em;
 }
 
 .add-show-inner select {
@@ -243,24 +245,24 @@ h5 {
   justify-self: center;
   font-size: 1.2em;
   color: var(--primary-blue);
-  padding: .5em 0 .5em 0;
+  padding: 0.5em 0 0.5em 0;
 }
 
 .show-element {
   text-align: center;
   border: none;
-  padding: .5em;
-  margin: .5em 0 .5em 0;
+  padding: 0.5em;
+  margin: 0.5em 0 0.5em 0;
 }
 
 .submit-button {
   background-color: var(--primary-blue);
   border: none;
-  padding: .65em .65em .65em .65em;
-  border-radius: .25em;
+  padding: 0.65em 0.65em 0.65em 0.65em;
+  border-radius: 0.25em;
   text-align: center;
   color: white;
-  margin: 1em 0 .5em 0;
+  margin: 1em 0 0.5em 0;
 }
 
 .submit-button:hover {
@@ -270,12 +272,12 @@ h5 {
 
 .blue-select {
   background-color: var(--primary-blue);
-  
-  border-radius: .25em;
+
+  border-radius: 0.25em;
 }
 
 .blue-select select {
-  margin-top: .1em;
+  margin-top: 0.1em;
   color: white;
   background: transparent;
   border: none;
@@ -302,17 +304,17 @@ h5 {
 
 .sign-up-box h3 {
   color: var(--primary-green);
-  margin: 0 .5em 0 .5em;
+  margin: 0 0.5em 0 0.5em;
 }
 
 .sign-up-box input {
   text-align: center;
-  margin-left: .5em;
-  margin-right: .5em;
-  margin-top: .5em;
-  margin-bottom: .5em;
-  padding-top: .5em;
-  padding-bottom: .5em;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
 }
 
 .login-x-button {
@@ -324,7 +326,7 @@ h5 {
   color: var(--light-text);
   border: none;
   padding: 1em 1em 1em 1em;
-  margin: .5em .5em .5em .5em;
+  margin: 0.5em 0.5em 0.5em 0.5em;
 }
 
 #helper-text-box div {
@@ -349,8 +351,12 @@ h5 {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .error-text {
@@ -363,6 +369,10 @@ h5 {
   border: none;
   border-radius: 1em;
   color: white;
-  margin: .35em 0 .35em 0 0em;
-  padding: .1em .4em .1em .4em;
+  margin: 0.35em 0 0.35em 0 0em;
+  padding: 0.1em 0.4em 0.1em 0.4em;
+}
+
+#install-button-box {
+  margin: 1% 0 0 2%;
 }
