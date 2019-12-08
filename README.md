@@ -7,7 +7,7 @@ I'm using Firebase Cloud Firestore as my data persistence.
 You can create an account using an email address to save your list to be viewed later. Any valid email address should work you aren't required to confirm it.
 
 ## Link
-I have the app deployed on git pages [here.](https://mp7373.github.io/WeeklyWatchlist/)
+I have the app deployed at [weeklywatchlist.app](https://weeklywatchlist.app)
 
 If you notice any bugs feel free to report them as i'm continually making improvements.
 
