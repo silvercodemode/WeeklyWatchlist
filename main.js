@@ -246,6 +246,13 @@ const toggleMobileNavMenu = () => {
   }
 };
 
+const resetAddShowDate = () => {
+  const now = new Date();
+  document.querySelector(
+    '#date-select'
+  ).value = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+};
+
 //Functions that return DOM elements
 const createLoginMenuElement = () => {
   const loginBox = document.createElement('div');
@@ -470,7 +477,7 @@ const createShowObjectFromAddShowInputFields = () => {
     const date = new Date(
       `${dateSelectElement.value}T${timeSelectElement.value}`
     );
-    dateSelectElement.value = '2018-01-01';
+    resetAddShowDate();
     timeSelectElement.value = '12:00';
 
     const month = convertNumericMonthToString(date.getMonth());
@@ -683,3 +690,6 @@ firebase.auth().onAuthStateChanged((user) => {
     addHelpText();
   }
 });
+
+// set add show date to today
+resetAddShowDate();

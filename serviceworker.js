@@ -1,4 +1,4 @@
-const cacheName = 'weeklywatchlist-cache';
+const cacheName = 'weeklywatchlist-cache-v1';
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
