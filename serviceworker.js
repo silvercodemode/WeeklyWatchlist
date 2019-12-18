@@ -1,15 +1,9 @@
 const cacheName = 'weeklywatchlist-cache';
-const baseUrl = '/weeklywatchlist.app/';
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
     caches.open(cacheName).then((cache) => {
-      return cache.addAll([
-        baseUrl,
-        `${baseUrl}index.html`,
-        `${baseUrl}style.css`,
-        `${baseUrl}main.js`
-      ]);
+      return cache.addAll(['/', '/index.html', '/style.css', '/main.js']);
     })
   );
 });

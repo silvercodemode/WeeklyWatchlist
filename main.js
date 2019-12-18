@@ -610,9 +610,7 @@ const getNumberOfEpisodesOut = (airDateString, currentDate, totalEpisodes) => {
 
 //register service worker
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/WeeklyWatchlist/serviceworker.js', {
-    scope: '/WeeklyWatchlist/'
-  });
+  navigator.serviceWorker.register('/serviceworker.js');
 }
 
 //Add to homescreen
