@@ -13,13 +13,13 @@ const createNewUser = async (email, password) => {
   }
 };
 
-const displayUsersWatchlist = async username => {
+const displayUsersWatchlist = async (username) => {
   toggleLoadingSpinner(helperTextBox);
   try {
     const querySnapshot = await db.collection(username).get();
     const showsObject = getSortedShowObjectFromQuery(querySnapshot);
     for (let day in showsObject) {
-      showsObject[day].forEach(show => {
+      showsObject[day].forEach((show) => {
         appendShowElement(show, username);
       });
     }
@@ -133,7 +133,7 @@ const appendShowElement = (show, username) => {
   }
 };
 
-const clearElement = element => {
+const clearElement = (element) => {
   while (element.firstChild) {
     element.removeChild(element.firstChild);
   }
@@ -207,7 +207,7 @@ const showErrorText = (element, errorText) => {
   element.appendChild(div);
 };
 
-const toggleLoadingSpinner = async element => {
+const toggleLoadingSpinner = async (element) => {
   if (!element.classList.contains('spinner')) {
     clearElement(element);
     element.classList.add('spinner');
@@ -495,7 +495,7 @@ const createShowObjectFromAddShowInputFields = () => {
   }
 };
 
-const getSortedShowObjectFromQuery = querySnapshot => {
+const getSortedShowObjectFromQuery = (querySnapshot) => {
   const sortedShowObject = {
     Monday: [],
     Tuesday: [],
@@ -506,7 +506,7 @@ const getSortedShowObjectFromQuery = querySnapshot => {
     Sunday: []
   };
 
-  querySnapshot.forEach(doc => {
+  querySnapshot.forEach((doc) => {
     const show = doc.data();
     switch (show.Weekday) {
       case 'Sunday':
@@ -548,7 +548,7 @@ const getSortedShowObjectFromQuery = querySnapshot => {
 };
 
 //Functions that return Javascript primative types
-const convertNumericMonthToString = numericMonth => {
+const convertNumericMonthToString = (numericMonth) => {
   switch (numericMonth) {
     case 0:
       return 'January';
@@ -577,7 +577,7 @@ const convertNumericMonthToString = numericMonth => {
   }
 };
 
-const convertNumericWeekdayToString = numericWeekday => {
+const convertNumericWeekdayToString = (numericWeekday) => {
   switch (numericWeekday) {
     case 0:
       return 'Sunday';
@@ -610,54 +610,29 @@ const getNumberOfEpisodesOut = (airDateString, currentDate, totalEpisodes) => {
 
 //register service worker
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker
-    .register('/WeeklyWatchlist/serviceworker.js', {
-      scope: '/WeeklyWatchlist/'
-    })
-    .then(reg => {
-      console.log(`Scope is: ${reg.scope}`);
-      console.log('Service worker successfully registered!');
-    })
-    .catch(error => {
-      console.log(`Service worker failed\nError is: ${error}`);
-    });
+  navigator.serviceWorker.register('/WeeklyWatchlist/serviceworker.js', {
+    scope: '/WeeklyWatchlist/'
+  });
 }
 
 //Add to homescreen
 let deferredPrompt;
 
-window.addEventListener('beforeinstallprompt', e => {
-  console.log('add to home page ready');
-  // Prevent Chrome 67 and earlier from automatically showing the prompt
+window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
-  // Stash the event so it can be triggered later.
   deferredPrompt = e;
 });
 
-// window.addEventListener('beforeinstallprompt', e => {
-//   // Prevent Chrome 67 and earlier from automatically showing the prompt
-//   e.preventDefault();
-//   // Stash the event so it can be triggered later.
-//   deferredPrompt = e;
-// });
 const body = document.querySelector('body');
 const promptUserToAddToHomepage = () => {
-  // Show the prompt
   if (deferredPrompt) {
     deferredPrompt.prompt();
-    // Wait for the user to respond to the prompt
-    deferredPrompt.userChoice.then(choiceResult => {
-      if (choiceResult.outcome === 'accepted') {
-        console.log('User accepted the A2HS prompt');
-      } else {
-        console.log('User dismissed the A2HS prompt');
-      }
+    deferredPrompt.userChoice.then((choiceResult) => {
       deferredPrompt = null;
     });
   }
   body.removeEventListener('click', promptUserToAddToHomepage);
 };
-//body.addEventListener('click', promptUserToAddToHomepage);
 
 const config = {
   apiKey: 'AIzaSyBZ2Se4cy0I0DSlcWBoj2FrB3DCxkmSHYo',
@@ -695,8 +670,8 @@ const helperTextBox = document.getElementById('helper-text-box');
 const installButtonBox = document.getElementById('install-button-box');
 
 //set listener on login status
-firebase.auth().onAuthStateChanged(user => {
-  weekdayColumns.forEach(e => clearElement(e));
+firebase.auth().onAuthStateChanged((user) => {
+  weekdayColumns.forEach((e) => clearElement(e));
   clearElement(helperTextBox);
   clearElement(menuSection);
   if (user) {
